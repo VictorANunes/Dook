@@ -1,0 +1,225 @@
+import 'package:dook/services/firestore_service.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dook/screens/cadastro.dart';
+
+class LoginScreen extends StatefulWidget {
+  @override
+  Login createState() => Login();
+}
+
+class Login extends State {
+  @override
+  final _auth = FirebaseAuth.instance;
+  final email = TextEditingController();
+  final senha = TextEditingController();
+  bool mostrarsenha = false;
+
+  void telaCadastro() {
+    Navigator.push(
+        //Mudar para Tela de Cadastro
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => CadastroScreen()));
+  }
+
+  void _loginAuth() async {
+    try {
+      final loginUser = _auth.signInWithEmailAndPassword(
+          email: email.text, password: senha.text);
+      if (loginUser != null) {
+        print("Logado!");
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        padding: EdgeInsets.only(
+          top: 40,
+          left: 40,
+          right: 40,
+        ),
+        child: ListView(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.topCenter,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      '',
+                    ),
+                  ),
+                  Expanded(
+                    //Texto Entrar
+                    child: Text(
+                      'Entrar',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        //fontFamily: 'Inter',
+                        fontSize: 35,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    //Botao Cadastrar
+                    child: TextButton(
+                      child: Text(
+                        'Cadastrar',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromRGBO(47, 128, 237, 1.0),
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        alignment: Alignment.centerRight,
+                      ),
+                      onPressed: telaCadastro,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            TextFormField(
+              //Input Email
+              controller: email,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.yellow)),
+                labelText: "Email",
+                labelStyle: TextStyle(
+                  color: Colors.black38,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            TextFormField(
+              //Input Senha
+              controller: senha,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(7),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                labelText: "Senha",
+                labelStyle: TextStyle(
+                  color: Colors.black38,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18,
+                ),
+                suffix: GestureDetector(
+                  onTap: () {
+                    //Atualizar ao Clicar
+                    setState(() {
+                      mostrarsenha = !mostrarsenha;
+                    });
+                  },
+                  child: TextButton(
+                    //Botao Mostrar no Input de Senha
+                    child: Text(
+                      //false = Mostrar e true = Esconder
+                      mostrarsenha == false ? 'Mostrar' : 'Esconder',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color.fromRGBO(47, 128, 237, 1.0),
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      alignment: Alignment.topCenter,
+                    ),
+                  ),
+                ),
+              ),
+              //determinar o obscure de acordo com a variavel mostrarsenha]
+              //obscure true esonde a senha e false mostra
+              obscureText: mostrarsenha == false ? true : false,
+            ),
+            SizedBox(
+              height: 100,
+            ),
+            ElevatedButton(
+              //Botão Entrar
+              onPressed: () async {
+                FirestoreService service = new FirestoreService();
+                await service.signInwithGoogle();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromRGBO(242, 201, 76, 1.0),
+                minimumSize: Size(88, 50),
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
+              ),
+              child: Text(
+                'Entrar com Google',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              //Botão Entrar
+              onPressed: () {
+                _loginAuth();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromRGBO(242, 201, 76, 1.0),
+                minimumSize: Size(88, 50),
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
+              ),
+              child: Text(
+                'Entrar',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextButton(
+              //Botao pra recuperar senha
+              child: Text(
+                'Esqueceu sua Senha?',
+                style: TextStyle(
+                  color: Color.fromRGBO(47, 128, 237, 1.0),
+                  fontSize: 16,
+                ),
+              ),
+              //onPressed: recuperarSenha,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
