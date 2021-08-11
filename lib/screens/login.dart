@@ -1,7 +1,7 @@
-import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/screens/cadastro.dart';
+import 'package:dook/screens/recsenha.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,6 +13,7 @@ class Login extends State {
   final _auth = FirebaseAuth.instance;
   final email = TextEditingController();
   final senha = TextEditingController();
+  var erro = '';
   bool mostrarsenha = false;
 
   void telaCadastro() {
@@ -22,16 +23,21 @@ class Login extends State {
         MaterialPageRoute(builder: (BuildContext context) => CadastroScreen()));
   }
 
+  void telaRecSenha() {
+    Navigator.push(
+        //Mudar para Tela de Cadastro
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => RecSenhaScreen()));
+  }
+
   void _loginAuth() async {
-    try {
-      final loginUser = _auth.signInWithEmailAndPassword(
-          email: email.text, password: senha.text);
-      if (loginUser != null) {
-        print("Logado!");
-      }
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
+    _auth
+        .signInWithEmailAndPassword(email: email.text, password: senha.text)
+        .catchError((e) {
+      setState(() {
+        erro = 'Email ou Senha estão incorretos!';
+      });
+    });
   }
 
   Widget build(BuildContext context) {
@@ -153,41 +159,25 @@ class Login extends State {
               obscureText: mostrarsenha == false ? true : false,
             ),
             SizedBox(
-              height: 100,
+              height: 10,
+            ),
+            Text('$erro',
+                style: TextStyle(
+                  //fontFamily: 'Inter',
+                  fontSize: 17,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                )),
+            SizedBox(
+              height: 40,
             ),
             ElevatedButton(
               //Botão Entrar
               onPressed: () async {
-                FirestoreService service = new FirestoreService();
-                await service.signInwithGoogle();
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(242, 201, 76, 1.0),
-                minimumSize: Size(88, 50),
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                ),
-              ),
-              child: Text(
-                'Entrar com Google',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              //Botão Entrar
-              onPressed: () {
                 _loginAuth();
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(242, 201, 76, 1.0),
+                primary: Colors.deepPurple[600],
                 minimumSize: Size(88, 50),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 shape: const RoundedRectangleBorder(
@@ -199,7 +189,6 @@ class Login extends State {
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -215,7 +204,7 @@ class Login extends State {
                   fontSize: 16,
                 ),
               ),
-              //onPressed: recuperarSenha,
+              onPressed: telaRecSenha,
             ),
           ],
         ),
