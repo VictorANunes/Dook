@@ -7,6 +7,13 @@ class CadastroScreen extends StatefulWidget {
 }
 
 class Cadastro extends State {
+  bool mostrarsenha = false;
+  bool mostrarsenha2 = false;
+  final nome = TextEditingController();
+  final email = TextEditingController();
+  final senha = TextEditingController();
+  final rsenha = TextEditingController();
+
   void telaLogin() {
     Navigator.push(
         //Mudar para Tela de Cadastro
@@ -20,25 +27,38 @@ class Cadastro extends State {
         color: Colors.white,
         padding: EdgeInsets.only(
           top: 40,
-          left: 40,
-          right: 40,
+          left: 25,
+          right: 25,
         ),
         child: ListView(children: <Widget>[
           Container(
             alignment: Alignment.topCenter,
             child: Row(children: <Widget>[
-              Expanded(child: Text('')),
-              Expanded(
-                  child: Text('Cadastro',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 28,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ))),
-              Expanded(
-                //Botao Cadastrar
+              Container(
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.clear_rounded,
+                    size: 30,
+                  ),
+                  alignment: Alignment.centerLeft,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                width: 90,
+              ),
+              Container(
+                child: Text('Cadastro',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontSize: 38,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    )),
+                width: 200,
+              ),
+              Container(
                 child: TextButton(
                   child: Text(
                     'Entrar',
@@ -54,8 +74,164 @@ class Cadastro extends State {
                   ),
                   onPressed: telaLogin,
                 ),
+                width: 90,
               ),
             ]),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          TextFormField(
+            //Input Nome
+            controller: nome,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.yellow)),
+              labelText: "Nome",
+              labelStyle: TextStyle(
+                color: Colors.black38,
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          TextFormField(
+            //Input Email
+            controller: email,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.yellow)),
+              labelText: "Email",
+              labelStyle: TextStyle(
+                color: Colors.black38,
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          TextFormField(
+            //Input Senha
+            controller: senha,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(7),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              labelText: "Senha",
+              labelStyle: TextStyle(
+                color: Colors.black38,
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              ),
+              suffix: GestureDetector(
+                onTap: () {
+                  //Atualizar ao Clicar
+                  setState(() {
+                    mostrarsenha = !mostrarsenha;
+                  });
+                },
+                child: TextButton(
+                  //Botao Mostrar no Input de Senha
+                  child: Text(
+                    //false = Mostrar e true = Esconder
+                    mostrarsenha == false ? 'Mostrar' : 'Esconder',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromRGBO(47, 128, 237, 1.0),
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+              ),
+            ),
+            //determinar o obscure de acordo com a variavel mostrarsenha]
+            //obscure true esonde a senha e false mostra
+            obscureText: mostrarsenha == false ? true : false,
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          TextFormField(
+            //Input Senha
+            controller: rsenha,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(7),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              labelText: "Repetir Senha",
+              labelStyle: TextStyle(
+                color: Colors.black38,
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              ),
+              suffix: GestureDetector(
+                onTap: () {
+                  //Atualizar ao Clicar
+                  setState(() {
+                    mostrarsenha2 = !mostrarsenha2;
+                  });
+                },
+                child: TextButton(
+                  //Botao Mostrar no Input de Senha
+                  child: Text(
+                    //false = Mostrar e true = Esconder
+                    mostrarsenha2 == false ? 'Mostrar' : 'Esconder',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromRGBO(47, 128, 237, 1.0),
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+              ),
+            ),
+            //determinar o obscure de acordo com a variavel mostrarsenha]
+            //obscure true esonde a senha e false mostra
+            obscureText: mostrarsenha2 == false ? true : false,
+          ),
+          SizedBox(
+            height: 290,
+          ),
+          ElevatedButton(
+            //Botão Entrar
+            onPressed: () {
+              print(nome.text);
+              print(email.text);
+              print(senha.text);
+              print(rsenha.text);
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.deepPurple[600],
+              minimumSize: Size(88, 50),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+            ),
+            child: Text(
+              'Próximo',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
           ),
         ]),
       ),

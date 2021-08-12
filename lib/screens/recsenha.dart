@@ -43,8 +43,8 @@ class RecSenha extends State {
         color: Colors.white,
         padding: EdgeInsets.only(
           top: 40,
-          left: 20,
-          right: 40,
+          left: 5,
+          right: 25,
         ),
         child: ListView(children: <Widget>[
           Container(
@@ -159,33 +159,38 @@ class RecSenha extends State {
           SizedBox(
             height: 35,
           ),
-          ElevatedButton(
-            //Botão Entrar
-            onPressed: () async {
-              final _auth = FirebaseAuth.instance;
-              _auth
-                  .sendPasswordResetEmail(email: email.text)
-                  .then((value) => createAlert(context))
-                  .catchError((e) {
-                setState(() {
-                  erro = 'Verifique se o e-mail está correto!';
-                });
-              });
-              print(email.text);
-            },
-            style: ElevatedButton.styleFrom(
-              primary: Colors.deepPurple[600],
-              minimumSize: Size(88, 50),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-              ),
+          Container(
+            padding: EdgeInsets.only(
+              left: 20,
             ),
-            child: Text(
-              'Confirmar',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
+            child: ElevatedButton(
+              //Botão Entrar
+              onPressed: () async {
+                final _auth = FirebaseAuth.instance;
+                _auth
+                    .sendPasswordResetEmail(email: email.text)
+                    .then((value) => createAlert(context))
+                    .catchError((e) {
+                  setState(() {
+                    erro = 'Verifique se o e-mail está correto!';
+                  });
+                });
+                print(email.text);
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple[600],
+                minimumSize: Size(88, 50),
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
+              ),
+              child: Text(
+                'Confirmar',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

@@ -46,8 +46,8 @@ class Login extends State {
         color: Colors.white,
         padding: EdgeInsets.only(
           top: 40,
-          left: 40,
-          right: 40,
+          left: 25,
+          right: 25,
         ),
         child: ListView(
           children: <Widget>[
