@@ -9,7 +9,6 @@ class UserProvider with ChangeNotifier {
 
   //Get
   String get nome => _nome;
-  int get idade => _idade;
 
   //Set
   changeNome(String value) {
@@ -17,14 +16,8 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  changeIdade(String value) {
-    _idade = int.parse(value);
-    notifyListeners();
-  }
-
   saveUser() {
-    var newUser = Users(nome: nome, idade: idade);
-    print("$nome, $idade");
+    var newUser = Users(nome: nome);
     firestoreService.saveUser(newUser);
   }
 

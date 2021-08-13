@@ -1,5 +1,6 @@
 import 'package:dook/screens/login.dart';
 import 'package:flutter/material.dart';
+import 'package:dook/screens/cadastro/cadastro_2.dart';
 
 class CadastroScreen extends StatefulWidget {
   @override
@@ -79,17 +80,28 @@ class Cadastro extends State {
             ]),
           ),
           SizedBox(
-            height: 40,
+            height: 30,
+          ),
+          Text(
+            'Nome',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 5,
           ),
           TextFormField(
-            //Input Nome
             controller: nome,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(color: Colors.yellow)),
-              labelText: "Nome",
+              labelText: "Nome Completo",
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
@@ -100,15 +112,26 @@ class Cadastro extends State {
           SizedBox(
             height: 15,
           ),
+          Text(
+            'Email',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
           TextFormField(
-            //Input Email
             controller: email,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(color: Colors.yellow)),
-              labelText: "Email",
+              labelText: "exemplo@gmail.com",
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
@@ -119,8 +142,19 @@ class Cadastro extends State {
           SizedBox(
             height: 15,
           ),
+          Text(
+            'Senha',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
           TextFormField(
-            //Input Senha
             controller: senha,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
@@ -164,8 +198,19 @@ class Cadastro extends State {
           SizedBox(
             height: 15,
           ),
+          Text(
+            'Repetir Senha',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
           TextFormField(
-            //Input Senha
             controller: rsenha,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
@@ -207,15 +252,14 @@ class Cadastro extends State {
             obscureText: mostrarsenha2 == false ? true : false,
           ),
           SizedBox(
-            height: 290,
+            height: 200,
           ),
           ElevatedButton(
-            //Botão Entrar
             onPressed: () {
-              print(nome.text);
-              print(email.text);
-              print(senha.text);
-              print(rsenha.text);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => CadastroScreen2()));
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.deepPurple[600],

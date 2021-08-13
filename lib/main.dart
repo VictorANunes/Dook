@@ -31,9 +31,9 @@ class LoginApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UserProvider()),
-          StreamProvider(
-            create: (context) => firestoreService.getUsers('userteste'),
-          ),
+          //StreamProvider(
+          //  create: (context) => firestoreService.getUsers('userteste'),
+          //),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -53,8 +53,8 @@ class MenuApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UserProvider()),
-          StreamProvider(
-              create: (context) => firestoreService.getUsers('userteste')),
+          //StreamProvider(
+          //    create: (context) => firestoreService.getUsers('userteste')),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

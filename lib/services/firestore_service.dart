@@ -11,14 +11,14 @@ class FirestoreService extends ChangeNotifier {
 
   //USERS
   Future<void> saveUser(Users user) {
-    return _db.collection('userteste').doc('teste3').set(user.toMap());
+    return _db.collection('userteste').doc(user.email).set(user.toMap());
   }
 
-  Stream<List<Users>> getUsers(String tabela) {
+/*  Stream<List<Users>> getUsers(String tabela) {
     return _db.collection(tabela).snapshots().map((snapshot) => snapshot.docs
         .map((document) => Users.fromFirestore(document.data()))
         .toList());
-  }
+  }*/
 
   Future<void> removeUser(String id) {
     return _db.collection('userteste').doc(id).delete();

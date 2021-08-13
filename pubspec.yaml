@@ -32,6 +32,8 @@ dependencies:
   firebase_auth: ^3.0.1
   provider: ^5.0.0
   google_sign_in: "^4.5.1"
+  mask_shifter: ^0.1.0
+  toggle_switch: ^1.2.0
 
 dev_dependencies:
   flutter_test:
