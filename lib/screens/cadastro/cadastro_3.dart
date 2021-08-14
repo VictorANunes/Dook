@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mask_shifter/mask_shifter.dart';
+import 'package:dook/screens/cadastro/cadastro_4.dart';
 
 class CadastroScreen3 extends StatefulWidget {
   @override
@@ -272,7 +273,7 @@ class Cadastro3 extends State {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => CadastroScreen3()));
+                        builder: (BuildContext context) => CadastroScreen4()));
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple[600],
