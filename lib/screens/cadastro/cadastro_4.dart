@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dook/screens/cadastro/cadastro_3.dart';
+import 'package:dook/screens/cadastro/cadastro_5.dart';
 
 class CadastroScreen4 extends StatefulWidget {
   @override
@@ -267,6 +267,49 @@ class Cadastro4 extends State {
                 fontSize: 18,
               ),
             ),
+          ),
+          SizedBox(
+            height: 270,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => CadastroScreen5()));
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.deepPurple[600],
+              minimumSize: Size(88, 50),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+            ),
+            child: Text(
+              'Próximo',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          TextButton(
+            child: Text(
+              'Escolher Depois',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 17,
+                color: Color.fromRGBO(47, 128, 237, 1.0),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => CadastroScreen5()));
+            },
           ),
         ]),
       ),
