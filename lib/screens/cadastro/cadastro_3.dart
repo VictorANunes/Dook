@@ -55,7 +55,7 @@ class Cadastro3 extends State {
               height: 30,
             ),
             Text(
-              'CEP',
+              'CEP *',
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 18,
@@ -89,7 +89,7 @@ class Cadastro3 extends State {
               height: 15,
             ),
             Text(
-              'Rua',
+              'Rua *',
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 18,
@@ -119,7 +119,7 @@ class Cadastro3 extends State {
               height: 15,
             ),
             Text(
-              'Bairro                                            Numero',
+              'Bairro *                                          Numero *',
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 18,
@@ -207,7 +207,7 @@ class Cadastro3 extends State {
               height: 15,
             ),
             Text(
-              'Estado                                           UF',
+              'Estado *                                         UF *',
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 18,

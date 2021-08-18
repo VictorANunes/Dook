@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mask_shifter/mask_shifter.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:dook/screens/cadastro/cadastro_3.dart';
+import 'package:brasil_fields/brasil_fields.dart';
+import 'package:get/get.dart';
 
 class CadastroScreen2 extends StatefulWidget {
   @override
@@ -10,6 +13,14 @@ class CadastroScreen2 extends StatefulWidget {
 
 class Cadastro2 extends State {
   bool value = false;
+  var aviso = '';
+  final cpf = TextEditingController();
+  final data_nasc = TextEditingController();
+  final telefone = TextEditingController();
+  final sexoText = TextEditingController();
+  var sexoSwitch = 'Masculino';
+  bool sexoCheck = false;
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -56,7 +67,7 @@ class Cadastro2 extends State {
             height: 30,
           ),
           Text(
-            'CPF',
+            'CPF *',
             style: TextStyle(
               fontFamily: 'Inter',
               fontSize: 18,
@@ -68,10 +79,10 @@ class Cadastro2 extends State {
             height: 5,
           ),
           TextFormField(
-            //controller: nome,
+            controller: cpf,
             inputFormatters: [
-              MaskedTextInputFormatterShifter(
-                  maskONE: "XXX.XXX.XXX-XX", maskTWO: "XXX.XXX.XXX-XX"),
+              FilteringTextInputFormatter.digitsOnly,
+              CpfInputFormatter(),
             ],
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
@@ -90,7 +101,7 @@ class Cadastro2 extends State {
             height: 15,
           ),
           Text(
-            'Data de Nascimento',
+            'Data de Nascimento *',
             style: TextStyle(
               fontFamily: 'Inter',
               fontSize: 18,
@@ -102,10 +113,10 @@ class Cadastro2 extends State {
             height: 5,
           ),
           TextFormField(
-            //controller: nome,
+            controller: data_nasc,
             inputFormatters: [
-              MaskedTextInputFormatterShifter(
-                  maskONE: "XX/XX/XXXX", maskTWO: "XX/XX/XXXX"),
+              FilteringTextInputFormatter.digitsOnly,
+              DataInputFormatter(),
             ],
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
@@ -167,8 +178,10 @@ class Cadastro2 extends State {
             borderColor: [Colors.grey[400]],
             onToggle: (index) {
               if (index == 0) {
+                sexoSwitch = 'Masculino';
                 print("Masculino");
               } else {
+                sexoSwitch = 'Feminino';
                 print("Feminino");
               }
             },
@@ -189,7 +202,7 @@ class Cadastro2 extends State {
             height: 5,
           ),
           TextFormField(
-            //controller: nome,
+            controller: sexoText,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -212,6 +225,7 @@ class Cadastro2 extends State {
                 onChanged: (bool value) {
                   setState(() {
                     this.value = value;
+                    sexoCheck = value;
                   });
                 },
               ),
@@ -230,7 +244,7 @@ class Cadastro2 extends State {
             height: 15,
           ),
           Text(
-            'Telefone',
+            'Telefone *',
             style: TextStyle(
               fontFamily: 'Inter',
               fontSize: 18,
@@ -242,7 +256,7 @@ class Cadastro2 extends State {
             height: 5,
           ),
           TextFormField(
-            //controller: nome,
+            controller: telefone,
             inputFormatters: [
               MaskedTextInputFormatterShifter(
                   maskONE: "(XX)XXXXX-XXXX", maskTWO: "(XX)XXXXX-XXXX"),
@@ -261,14 +275,55 @@ class Cadastro2 extends State {
             ),
           ),
           SizedBox(
-            height: 65,
+            height: 10,
+          ),
+          Text(
+            '$aviso',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 18,
+              color: Colors.red,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 33,
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => CadastroScreen3()));
+              var _sexo = '';
+              var mensagem = '';
+              if (data_nasc.text != '' &&
+                  telefone.text != '' &&
+                  cpf.text != '') {
+                if (GetUtils.isCpf(cpf.text)) {
+                  if (sexoCheck == false) {
+                    if (sexoText.text == '') {
+                      print(sexoSwitch);
+                      _sexo = sexoSwitch;
+                    } else {
+                      _sexo = sexoText.text;
+                      print(sexoText.text);
+                    }
+                  } else {
+                    _sexo = '';
+                    print(sexoCheck);
+                  }
+                  //enviar dados
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              CadastroScreen3()));
+                } else {
+                  mensagem = 'Insira um CPF válido!';
+                }
+              } else {
+                mensagem = '* Preencha os campos obrigatórios!';
+              }
+              setState(() {
+                aviso = mensagem;
+              });
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.deepPurple[600],

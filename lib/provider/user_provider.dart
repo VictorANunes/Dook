@@ -5,14 +5,27 @@ import 'package:flutter/material.dart';
 class UserProvider with ChangeNotifier {
   final firestoreService = FirestoreService();
   String _nome;
-  int _idade;
+  String _email;
+  String _senha;
 
   //Get
   String get nome => _nome;
+  String get email => _email;
+  String get senha => _senha;
 
   //Set
   changeNome(String value) {
     _nome = value;
+    notifyListeners();
+  }
+
+  changeEmail(String value) {
+    _email = value;
+    notifyListeners();
+  }
+
+  changeSenha(String value) {
+    _senha = value;
     notifyListeners();
   }
 

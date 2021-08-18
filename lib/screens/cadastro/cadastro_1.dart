@@ -1,6 +1,11 @@
+import 'package:dook/provider/user_provider.dart';
 import 'package:dook/screens/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:dook/screens/cadastro/cadastro_2.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:get/get.dart';
 
 class CadastroScreen extends StatefulWidget {
   @override
@@ -8,6 +13,7 @@ class CadastroScreen extends StatefulWidget {
 }
 
 class Cadastro extends State {
+  var aviso = '';
   bool mostrarsenha = false;
   bool mostrarsenha2 = false;
   final nome = TextEditingController();
@@ -83,7 +89,7 @@ class Cadastro extends State {
             height: 30,
           ),
           Text(
-            'Nome',
+            'Nome *',
             style: TextStyle(
               fontFamily: 'Inter',
               fontSize: 18,
@@ -113,7 +119,7 @@ class Cadastro extends State {
             height: 15,
           ),
           Text(
-            'Email',
+            'Email *',
             style: TextStyle(
               fontFamily: 'Inter',
               fontSize: 18,
@@ -143,7 +149,7 @@ class Cadastro extends State {
             height: 15,
           ),
           Text(
-            'Senha',
+            'Senha *',
             style: TextStyle(
               fontFamily: 'Inter',
               fontSize: 18,
@@ -199,7 +205,7 @@ class Cadastro extends State {
             height: 15,
           ),
           Text(
-            'Repetir Senha',
+            'Repetir Senha *',
             style: TextStyle(
               fontFamily: 'Inter',
               fontSize: 18,
@@ -252,14 +258,76 @@ class Cadastro extends State {
             obscureText: mostrarsenha2 == false ? true : false,
           ),
           SizedBox(
-            height: 200,
+            height: 10,
+          ),
+          Text(
+            '$aviso',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 18,
+              color: Colors.red,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 165,
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => CadastroScreen2()));
+            onPressed: () async {
+              final _auth = FirebaseAuth.instance;
+              UserProvider user = new UserProvider();
+              var mensagem = '';
+              if (nome.text != '' && email.text != '' && senha.text != '') {
+                final bool emailTest = EmailValidator.validate(email.text);
+                if (GetUtils.isEmail(email.text) == false) {
+                  mensagem = 'Insira um email válido!';
+                } else {
+                  if (senha.text.length >= 8) {
+                    if (senha.text == rsenha.text) {
+                      print(email.text);
+                      var em = email.text;
+                      try {
+                        UserCredential userCredential = await FirebaseAuth
+                            .instance
+                            .signInWithEmailAndPassword(
+                                email: "$em", password: " ");
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          print(e.code);
+                          user.changeNome(nome.text);
+                          user.changeEmail(email.text);
+                          user.changeSenha(senha.text);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      CadastroScreen2()));
+                        } else if (e.code == 'wrong-password') {
+                          mensagem = "Este email já está cadastrado!";
+                          print(e.code);
+                        }
+                      }
+                      try {
+                        UserCredential userCredential =
+                            await _auth.signInWithEmailAndPassword(
+                                email: email.text, password: ' ');
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'wrong-password') {
+                        } else if (e.code == 'user-not-found') {}
+                      }
+                    } else {
+                      mensagem = 'As senhas não conferem!';
+                    }
+                  } else {
+                    mensagem = 'A senha deve possuir no minimo 8 caracteres!';
+                  }
+                }
+              } else {
+                mensagem = '* Preencha os campos obrigatórios!';
+              }
+              setState(() {
+                aviso = mensagem;
+              });
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.deepPurple[600],

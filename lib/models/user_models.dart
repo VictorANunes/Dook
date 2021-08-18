@@ -2,9 +2,8 @@ class Users {
   final String nome;
   final String email;
   final String senha;
-  final String rsenha;
 
-  Users({this.nome, this.email, this.senha, this.rsenha});
+  Users({this.nome, this.email, this.senha});
 
   Map<String, dynamic> toMap() {
     return {'nome': nome};
