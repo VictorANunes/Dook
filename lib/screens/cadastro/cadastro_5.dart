@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:dook/provider/user_provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:dook/screens/login.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 class CadastroScreen5 extends StatefulWidget {
   UserProvider user;
@@ -12,8 +17,22 @@ class CadastroScreen5 extends StatefulWidget {
 class Cadastro5 extends State {
   UserProvider user;
   Cadastro5({this.user});
+  File _image;
+  String _url =
+      'https://www.chocolatebayou.org/wp-content/uploads/No-Image-Person-1536x1536.jpeg';
   @override
   Widget build(BuildContext context) {
+    final ImagePicker imagePicker = ImagePicker();
+    Future getImage() async {
+      var image = await imagePicker.pickImage(source: ImageSource.gallery);
+
+      setState(() {
+        _image = File(image.path);
+      });
+    }
+
+    Future uploadImage() async {}
+
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -73,16 +92,12 @@ class Cadastro5 extends State {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.add_outlined,
-                      size: 40,
-                      color: Colors.grey[600],
+                    image: DecorationImage(
+                      fit: BoxFit.scaleDown,
+                      image: (_image != null)
+                          ? FileImage(_image)
+                          : NetworkImage(_url),
                     ),
-                    onPressed: () {
-                      print("adicionar imagem");
-                    },
                   ),
                 ),
               ),
@@ -101,14 +116,29 @@ class Cadastro5 extends State {
                 ),
               ),
               onPressed: () {
-                print("adicionar imagem");
+                getImage();
               },
             ),
             SizedBox(
               height: 185,
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                String fileName = basename(_image.path);
+                print(fileName);
+                await FirebaseStorage.instance
+                    .ref()
+                    .child(fileName)
+                    .putFile(_image);
+                String url = await FirebaseStorage.instance
+                    .ref()
+                    .child(fileName)
+                    .getDownloadURL();
+                setState(() {
+                  _url = url;
+                  print(_url);
+                });
+                user.changeUrl(_url);
                 user.saveUser();
                 Navigator.push(
                   context,
@@ -143,6 +173,9 @@ class Cadastro5 extends State {
                 ),
               ),
               onPressed: () {
+                String url =
+                    'https://www.chocolatebayou.org/wp-content/uploads/No-Image-Person-1536x1536.jpeg';
+                user.changeUrl(url);
                 user.saveUser();
                 Navigator.push(
                     context,

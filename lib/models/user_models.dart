@@ -13,6 +13,7 @@ class Users {
   final String complemento;
   final String estado;
   final String uf;
+  final String url;
 
   Users(
       {this.nome,
@@ -28,13 +29,15 @@ class Users {
       this.numero,
       this.complemento,
       this.estado,
-      this.uf});
+      this.uf,
+      this.url});
 
   Map<String, dynamic> toMap() {
     return {
       'cpf': cpf,
       'nome': nome,
       'sexo': sexo,
+      'foto': url,
       'endereco': {
         'cep': cep,
         'rua': rua,

@@ -18,6 +18,7 @@ class UserProvider with ChangeNotifier {
   String _complemento;
   String _estado;
   String _uf;
+  String _url;
 
   //Get
   String get nome => _nome;
@@ -34,6 +35,7 @@ class UserProvider with ChangeNotifier {
   String get complemento => _complemento;
   String get estado => _estado;
   String get uf => _uf;
+  String get url => _url;
 
   //Set
   changeNome(String value) {
@@ -106,6 +108,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  changeUrl(String value) {
+    _url = value;
+    notifyListeners();
+  }
+
   saveUser() {
     var newUser = Users(
       nome: nome,
@@ -122,6 +129,7 @@ class UserProvider with ChangeNotifier {
       complemento: complemento,
       estado: estado,
       uf: uf,
+      url: url,
     );
     firestoreService.saveUser(newUser);
   }

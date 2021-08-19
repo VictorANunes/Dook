@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class Home extends State {
   Widget build(BuildContext context) {
-    final users = Provider.of<List<Users>>(context);
+    //final users = Provider.of<List<Users>>(context);
 
     return Scaffold(
       body: Container(

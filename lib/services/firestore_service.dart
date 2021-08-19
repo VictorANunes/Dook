@@ -10,7 +10,9 @@ class FirestoreService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //USERS
-  Future<void> saveUser(Users user) {
+  Future<void> saveUser(Users user) async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: user.email, password: user.senha);
     return _db.collection('Usuario').doc(user.email).set(user.toMap());
   }
 
