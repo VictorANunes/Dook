@@ -1,12 +1,18 @@
+import 'package:dook/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:dook/screens/login.dart';
 
 class CadastroScreen5 extends StatefulWidget {
+  UserProvider user;
+  CadastroScreen5({this.user});
   @override
-  Cadastro5 createState() => Cadastro5();
+  Cadastro5 createState() => Cadastro5(user: user);
 }
 
 class Cadastro5 extends State {
+  UserProvider user;
+  Cadastro5({this.user});
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -103,6 +109,7 @@ class Cadastro5 extends State {
             ),
             ElevatedButton(
               onPressed: () {
+                user.saveUser();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -136,6 +143,7 @@ class Cadastro5 extends State {
                 ),
               ),
               onPressed: () {
+                user.saveUser();
                 Navigator.push(
                     context,
                     MaterialPageRoute(

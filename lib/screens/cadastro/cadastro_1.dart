@@ -284,7 +284,6 @@ class Cadastro extends State {
                 } else {
                   if (senha.text.length >= 8) {
                     if (senha.text == rsenha.text) {
-                      print(email.text);
                       var em = email.text;
                       try {
                         UserCredential userCredential = await FirebaseAuth
@@ -293,7 +292,7 @@ class Cadastro extends State {
                                 email: "$em", password: " ");
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
-                          print(e.code);
+                          //print(e.code);
                           user.changeNome(nome.text);
                           user.changeEmail(email.text);
                           user.changeSenha(senha.text);
@@ -301,10 +300,10 @@ class Cadastro extends State {
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      CadastroScreen2()));
+                                      CadastroScreen2(user: user)));
                         } else if (e.code == 'wrong-password') {
                           mensagem = "Este email já está cadastrado!";
-                          print(e.code);
+                          //print(e.code);
                         }
                       }
                       try {

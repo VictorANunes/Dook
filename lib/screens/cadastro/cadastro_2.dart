@@ -1,3 +1,4 @@
+import 'package:dook/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_shifter/mask_shifter.dart';
@@ -7,11 +8,16 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:get/get.dart';
 
 class CadastroScreen2 extends StatefulWidget {
+  UserProvider user;
+  CadastroScreen2({this.user});
   @override
-  Cadastro2 createState() => Cadastro2();
+  Cadastro2 createState() => Cadastro2(user: user);
 }
 
 class Cadastro2 extends State {
+  UserProvider user;
+  Cadastro2({this.user});
+  @override
   bool value = false;
   var aviso = '';
   final cpf = TextEditingController();
@@ -291,6 +297,7 @@ class Cadastro2 extends State {
           ),
           ElevatedButton(
             onPressed: () {
+              //UserProvider user = new UserProvider();
               var _sexo = '';
               var mensagem = '';
               if (data_nasc.text != '' &&
@@ -310,11 +317,15 @@ class Cadastro2 extends State {
                     print(sexoCheck);
                   }
                   //enviar dados
+                  user.changeCpf(cpf.text);
+                  user.changeDataNasc(data_nasc.text);
+                  user.changeSexo(_sexo);
+                  user.changeTelefone(telefone.text);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              CadastroScreen3()));
+                              CadastroScreen3(user: user)));
                 } else {
                   mensagem = 'Insira um CPF válido!';
                 }

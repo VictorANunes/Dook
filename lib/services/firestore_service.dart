@@ -11,7 +11,7 @@ class FirestoreService extends ChangeNotifier {
 
   //USERS
   Future<void> saveUser(Users user) {
-    return _db.collection('userteste').doc(user.email).set(user.toMap());
+    return _db.collection('Usuario').doc(user.email).set(user.toMap());
   }
 
 /*  Stream<List<Users>> getUsers(String tabela) {

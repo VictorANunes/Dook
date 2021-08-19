@@ -1,13 +1,27 @@
+import 'package:dook/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_shifter/mask_shifter.dart';
 import 'package:dook/screens/cadastro/cadastro_4.dart';
 
 class CadastroScreen3 extends StatefulWidget {
+  UserProvider user;
+  CadastroScreen3({this.user});
   @override
-  Cadastro3 createState() => Cadastro3();
+  Cadastro3 createState() => Cadastro3(user: user);
 }
 
 class Cadastro3 extends State {
+  UserProvider user;
+  Cadastro3({this.user});
+  @override
+  String aviso = '';
+  final cep = TextEditingController();
+  final rua = TextEditingController();
+  final bairro = TextEditingController();
+  final numero = TextEditingController();
+  final complemento = TextEditingController();
+  final estado = TextEditingController();
+  final uf = TextEditingController();
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -67,7 +81,7 @@ class Cadastro3 extends State {
               height: 5,
             ),
             TextFormField(
-              //controller: nome,
+              controller: cep,
               inputFormatters: [
                 MaskedTextInputFormatterShifter(
                     maskONE: "XXXXX-XXX", maskTWO: "XXXXX-XXX"),
@@ -101,7 +115,7 @@ class Cadastro3 extends State {
               height: 5,
             ),
             TextFormField(
-              //controller: nome,
+              controller: rua,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -135,7 +149,7 @@ class Cadastro3 extends State {
                 Container(
                   width: 230,
                   child: TextFormField(
-                    //controller: nome,
+                    controller: bairro,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -156,7 +170,7 @@ class Cadastro3 extends State {
                 Container(
                   width: 135,
                   child: TextFormField(
-                    //controller: nome,
+                    controller: numero,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -189,7 +203,7 @@ class Cadastro3 extends State {
               height: 5,
             ),
             TextFormField(
-              //controller: nome,
+              controller: complemento,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -223,7 +237,7 @@ class Cadastro3 extends State {
                 Container(
                   width: 230,
                   child: TextFormField(
-                    //controller: nome,
+                    controller: estado,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -248,7 +262,7 @@ class Cadastro3 extends State {
                       MaskedTextInputFormatterShifter(
                           maskONE: "XX", maskTWO: "XX"),
                     ],
-                    //controller: nome,
+                    controller: uf,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -266,14 +280,55 @@ class Cadastro3 extends State {
               ],
             ),
             SizedBox(
-              height: 100,
+              height: 10,
+            ),
+            Text(
+              '$aviso',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 18,
+                color: Colors.red,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(
+              height: 70,
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => CadastroScreen4()));
+                String mensagem = '';
+                if (cep.text != '' &&
+                    rua.text != '' &&
+                    bairro.text != '' &&
+                    numero.text != '' &&
+                    estado.text != '' &&
+                    uf.text != '') {
+                  if (cep.text.length == 9) {
+                    if (uf.text.length == 2) {
+                      user.changeCep(cep.text);
+                      user.changeRua(rua.text);
+                      user.changeBairro(bairro.text);
+                      user.changeNumero(numero.text);
+                      user.changeComplemento(complemento.text);
+                      user.changeEstado(estado.text);
+                      user.changeUf(uf.text);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  CadastroScreen4(user: user)));
+                    } else {
+                      mensagem = 'Insira um UF válido';
+                    }
+                  } else {
+                    mensagem = 'Insira um Cep válido!';
+                  }
+                } else {
+                  mensagem = '* Preencha os campos obrigatórios!';
+                }
+                setState(() {
+                  aviso = mensagem;
+                });
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple[600],

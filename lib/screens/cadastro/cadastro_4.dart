@@ -1,12 +1,18 @@
+import 'package:dook/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:dook/screens/cadastro/cadastro_5.dart';
 
 class CadastroScreen4 extends StatefulWidget {
+  UserProvider user;
+  CadastroScreen4({this.user});
   @override
-  Cadastro4 createState() => Cadastro4();
+  Cadastro4 createState() => Cadastro4(user: user);
 }
 
 class Cadastro4 extends State {
+  UserProvider user;
+  Cadastro4({this.user});
+  @override
   bool value = false;
   Widget build(BuildContext context) {
     return Scaffold(
@@ -276,7 +282,8 @@ class Cadastro4 extends State {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => CadastroScreen5()));
+                      builder: (BuildContext context) =>
+                          CadastroScreen5(user: user)));
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.deepPurple[600],
@@ -308,7 +315,8 @@ class Cadastro4 extends State {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => CadastroScreen5()));
+                      builder: (BuildContext context) =>
+                          CadastroScreen5(user: user)));
             },
           ),
         ]),
