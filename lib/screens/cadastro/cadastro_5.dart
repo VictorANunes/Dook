@@ -31,8 +31,6 @@ class Cadastro5 extends State {
       });
     }
 
-    Future uploadImage() async {}
-
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -124,22 +122,23 @@ class Cadastro5 extends State {
             ),
             ElevatedButton(
               onPressed: () async {
-                String fileName = basename(_image.path);
-                print(fileName);
-                await FirebaseStorage.instance
-                    .ref()
-                    .child(fileName)
-                    .putFile(_image);
-                String url = await FirebaseStorage.instance
-                    .ref()
-                    .child(fileName)
-                    .getDownloadURL();
-                setState(() {
-                  _url = url;
-                  print(_url);
-                });
-                user.changeUrl(_url);
-                user.saveUser();
+                if (_image != null) {
+                  String fileName = basename(_image.path); //arrumar
+                  await FirebaseStorage.instance
+                      .ref()
+                      .child(fileName)
+                      .putFile(_image);
+                  String url = await FirebaseStorage.instance
+                      .ref()
+                      .child(fileName)
+                      .getDownloadURL();
+                  setState(() {
+                    _url = url;
+                    print(_url);
+                  });
+                  user.changeUrl(_url);
+                  user.saveUser();
+                }
                 Navigator.push(
                   context,
                   MaterialPageRoute(

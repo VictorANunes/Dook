@@ -14,7 +14,52 @@ class Cadastro4 extends State {
   Cadastro4({this.user});
   @override
   bool value = false;
+  List<Widget> dynamicList = [];
+  List<String> livros = [];
+  int qtdLivros = 0;
+  final livro = TextEditingController();
   Widget build(BuildContext context) {
+    void addLivro() {
+      var livrotexto = livro.text;
+      if (dynamicList.length >= 5) {
+        return;
+      } else {
+        setState(() {
+          qtdLivros = qtdLivros + 1;
+          livros.add(livro.text);
+        });
+      }
+      dynamicList.add(Container(
+        child: Row(children: <Widget>[
+          Container(
+            width: 330,
+            child: Text(
+              '${livrotexto}',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 19,
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5),
+            child: IconButton(
+                alignment: Alignment.centerRight,
+                icon: Icon(Icons.clear_rounded),
+                color: Colors.red,
+                onPressed: () {
+                  setState(() {
+                    dynamicList.removeAt(qtdLivros - 1);
+                    qtdLivros = qtdLivros - 1;
+                  });
+                }),
+          ),
+        ]),
+      ));
+    }
+
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -57,7 +102,7 @@ class Cadastro4 extends State {
             ]),
           ),
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           Text(
             'Gêneros de Interesse',
@@ -238,7 +283,7 @@ class Cadastro4 extends State {
             ],
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Text(
             'Livros de Interesse',
@@ -254,7 +299,7 @@ class Cadastro4 extends State {
             height: 15,
           ),
           TextFormField(
-            //controller: nome,
+            controller: livro,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -264,7 +309,7 @@ class Cadastro4 extends State {
               suffixIcon: IconButton(
                 icon: Icon(Icons.add_outlined),
                 onPressed: () {
-                  print("add");
+                  addLivro();
                 },
               ),
               labelStyle: TextStyle(
@@ -275,7 +320,33 @@ class Cadastro4 extends State {
             ),
           ),
           SizedBox(
-            height: 270,
+            height: 5,
+          ),
+          Text(
+            '${qtdLivros}/5',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 16,
+              color: Colors.black,
+              fontWeight: FontWeight.normal,
+            ),
+            textAlign: TextAlign.right,
+          ),
+          Container(
+            height: 265,
+            child: Column(children: [
+              //Parte que percorre a lista e cria Widgets Dinamicamente
+              (dynamicList != null)
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: dynamicList.length,
+                      itemBuilder: (_, index) => dynamicList[index],
+                    )
+                  : Text(""),
+            ]),
+          ),
+          SizedBox(
+            height: 3,
           ),
           ElevatedButton(
             onPressed: () {
