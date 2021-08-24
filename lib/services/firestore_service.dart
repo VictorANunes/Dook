@@ -13,7 +13,11 @@ class FirestoreService extends ChangeNotifier {
   Future<void> saveUser(Users user) async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: user.email, password: user.senha);
-    return _db.collection('Usuario').doc(user.email).set(user.toMap());
+    try {
+      _db.collection('Usuario').doc(user.email).set(user.toMap());
+    } catch (e) {
+      print(e);
+    }
   }
 
 /*  Stream<List<Users>> getUsers(String tabela) {

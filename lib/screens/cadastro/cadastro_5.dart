@@ -1,11 +1,6 @@
-import 'dart:io';
-
 import 'package:dook/provider/user_provider.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:dook/screens/login.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+import 'package:dook/screens/cadastro/cadastro_6.dart';
 
 class CadastroScreen5 extends StatefulWidget {
   UserProvider user;
@@ -17,18 +12,30 @@ class CadastroScreen5 extends StatefulWidget {
 class Cadastro5 extends State {
   UserProvider user;
   Cadastro5({this.user});
-  File _image;
-  String _url =
-      'https://www.chocolatebayou.org/wp-content/uploads/No-Image-Person-1536x1536.jpeg';
   @override
+  bool value = false;
+  List<String> livros = [];
+  int qtdLivros = 0;
+  final livro = TextEditingController();
   Widget build(BuildContext context) {
-    final ImagePicker imagePicker = ImagePicker();
-    Future getImage() async {
-      var image = await imagePicker.pickImage(source: ImageSource.gallery);
-
-      setState(() {
-        _image = File(image.path);
-      });
+    void addLivro() {
+      var livrotexto = livro.text;
+      if (livros.length >= 5) {
+        return;
+      } else {
+        setState(() {
+          var cont = 0;
+          for (var i = 0; i < livros.length; i++) {
+            if (livrotexto == livros[i]) {
+              cont = cont + 1;
+            }
+          }
+          if (cont == 0) {
+            qtdLivros = qtdLivros + 1;
+            livros.add(livrotexto);
+          }
+        });
+      }
     }
 
     return Scaffold(
@@ -39,151 +46,180 @@ class Cadastro5 extends State {
           left: 25,
           right: 25,
         ),
-        child: ListView(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.topCenter,
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_rounded),
-                      alignment: Alignment.centerLeft,
-                      onPressed: () {
-                        Navigator.of(context).pop();
+        child: ListView(children: <Widget>[
+          Container(
+            alignment: Alignment.topCenter,
+            child: Row(children: <Widget>[
+              Container(
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    size: 30,
+                  ),
+                  alignment: Alignment.centerLeft,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                width: 90,
+              ),
+              Container(
+                child: Text('Cadastro',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontSize: 38,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    )),
+                width: 200,
+              ),
+              Container(
+                width: 90,
+              ),
+            ]),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Livros de Interesse',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          TextFormField(
+            controller: livro,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.yellow)),
+              labelText: "Digite...",
+              suffixIcon: IconButton(
+                icon: Icon(Icons.add_outlined),
+                onPressed: () {
+                  addLivro();
+                },
+              ),
+              labelStyle: TextStyle(
+                color: Colors.black38,
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            '${qtdLivros}/5',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 16,
+              color: Colors.black,
+              fontWeight: FontWeight.normal,
+            ),
+            textAlign: TextAlign.right,
+          ),
+          Container(
+            height: 450,
+            child: Column(children: [
+              //Parte que percorre a lista e cria Widgets Dinamicamente
+              (livros != null)
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: livros.length,
+                      itemBuilder: (context, index) {
+                        final item = livros[index];
+                        return Container(
+                          child: Row(children: <Widget>[
+                            Container(
+                              width: 330,
+                              child: Text(
+                                '${item}',
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 19,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(top: 2),
+                              child: IconButton(
+                                  alignment: Alignment.centerRight,
+                                  icon: Icon(Icons.delete),
+                                  color: Colors.red,
+                                  onPressed: () {
+                                    setState(() {
+                                      livros.removeAt(index);
+                                      qtdLivros = qtdLivros - 1;
+                                    });
+                                  }),
+                            ),
+                          ]),
+                        );
                       },
-                    ),
-                    width: 90,
-                  ),
-                  Container(
-                    child: Text(
-                      'Cadastro',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 38,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    width: 200,
-                  ),
-                  Container(
-                    width: 90,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 100,
-            ),
-            Container(
-              width: 250,
-              height: 250,
-              decoration: BoxDecoration(
-                color: Colors.grey[600],
-                shape: BoxShape.circle,
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(2),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    image: DecorationImage(
-                      fit: BoxFit.scaleDown,
-                      image: (_image != null)
-                          ? FileImage(_image)
-                          : NetworkImage(_url),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextButton(
-              child: Text(
-                'Adicionar Foto',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 17,
-                  color: Color.fromRGBO(47, 128, 237, 1.0),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onPressed: () {
-                getImage();
-              },
-            ),
-            SizedBox(
-              height: 185,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                if (_image != null) {
-                  String fileName = basename(_image.path); //arrumar
-                  await FirebaseStorage.instance
-                      .ref()
-                      .child(fileName)
-                      .putFile(_image);
-                  String url = await FirebaseStorage.instance
-                      .ref()
-                      .child(fileName)
-                      .getDownloadURL();
-                  setState(() {
-                    _url = url;
-                    print(_url);
-                  });
-                  user.changeUrl(_url);
-                  user.saveUser();
-                }
-                Navigator.push(
+                    )
+                  : Text(""),
+            ]),
+          ),
+          SizedBox(
+            height: 3,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              user.changeLivrosInt(livros);
+              Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => LoginScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurple[600],
-                minimumSize: Size(88, 50),
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                ),
-              ),
-              child: Text(
-                'Próximo',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                ),
+                      builder: (BuildContext context) =>
+                          CadastroScreen6(user: user)));
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.deepPurple[600],
+              minimumSize: Size(88, 50),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
               ),
             ),
-            TextButton(
-              child: Text(
-                'Adicionar Depois',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 17,
-                  color: Color.fromRGBO(47, 128, 237, 1.0),
-                  fontWeight: FontWeight.w500,
-                ),
+            child: Text(
+              'Próximo',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
               ),
-              onPressed: () {
-                String url =
-                    'https://www.chocolatebayou.org/wp-content/uploads/No-Image-Person-1536x1536.jpeg';
-                user.changeUrl(url);
-                user.saveUser();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => LoginScreen()));
-              },
             ),
-          ],
-        ),
+          ),
+          TextButton(
+            child: Text(
+              'Escolher Depois',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 17,
+                color: Color.fromRGBO(47, 128, 237, 1.0),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          CadastroScreen6(user: user)));
+            },
+          ),
+        ]),
       ),
     );
   }
