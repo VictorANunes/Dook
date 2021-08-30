@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/screens/cadastro/cadastro_1.dart';
 import 'package:dook/screens/recsenha.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -45,9 +46,9 @@ class Login extends State {
       body: Container(
         color: Colors.white,
         padding: EdgeInsets.only(
-          top: 40,
-          left: 25,
-          right: 25,
+          top: 45.r,
+          left: 25.r,
+          right: 25.r,
         ),
         child: ListView(
           children: <Widget>[
@@ -66,8 +67,7 @@ class Login extends State {
                       'Entrar',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        //fontFamily: 'Inter',
-                        fontSize: 35,
+                        fontSize: 35.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -80,7 +80,7 @@ class Login extends State {
                         'Cadastrar',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           color: Color.fromRGBO(47, 128, 237, 1.0),
                           fontWeight: FontWeight.normal,
                         ),
@@ -95,13 +95,19 @@ class Login extends State {
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 40.h,
             ),
             TextFormField(
               //Input Email
               controller: email,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(
+                  top: 20.r,
+                  bottom: 20.r,
+                  left: 15.r,
+                  right: 15.r,
+                ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(color: Colors.yellow)),
@@ -109,26 +115,31 @@ class Login extends State {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  fontSize: 18.sp,
                 ),
               ),
             ),
             SizedBox(
-              height: 15,
+              height: 15.h,
             ),
             TextFormField(
               //Input Senha
               controller: senha,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(7),
+                contentPadding: EdgeInsets.only(
+                  top: 5.r,
+                  bottom: 5.r,
+                  left: 15.r,
+                  right: 15.r,
+                ),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 labelText: "Senha",
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  fontSize: 18.sp,
                 ),
                 suffix: GestureDetector(
                   onTap: () {
@@ -143,7 +154,7 @@ class Login extends State {
                       //false = Mostrar e true = Esconder
                       mostrarsenha == false ? 'Mostrar' : 'Esconder',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         color: Color.fromRGBO(47, 128, 237, 1.0),
                         fontWeight: FontWeight.normal,
                       ),
@@ -159,17 +170,17 @@ class Login extends State {
               obscureText: mostrarsenha == false ? true : false,
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Text('$erro',
                 style: TextStyle(
                   //fontFamily: 'Inter',
-                  fontSize: 17,
+                  fontSize: 17.sp,
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
                 )),
             SizedBox(
-              height: 40,
+              height: 40.h,
             ),
             ElevatedButton(
               //Botão Entrar
@@ -178,8 +189,7 @@ class Login extends State {
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple[600],
-                minimumSize: Size(88, 50),
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                minimumSize: Size(88.h, 55.h),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                 ),
@@ -187,13 +197,13 @@ class Login extends State {
               child: Text(
                 'Entrar',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   color: Colors.white,
                 ),
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             TextButton(
               //Botao pra recuperar senha
@@ -201,7 +211,7 @@ class Login extends State {
                 'Esqueceu sua Senha?',
                 style: TextStyle(
                   color: Color.fromRGBO(47, 128, 237, 1.0),
-                  fontSize: 16,
+                  fontSize: 16.sp,
                 ),
               ),
               onPressed: telaRecSenha,

@@ -1,6 +1,7 @@
 import 'package:dook/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:dook/screens/cadastro/cadastro_6.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CadastroScreen5 extends StatefulWidget {
   UserProvider user;
@@ -42,9 +43,9 @@ class Cadastro5 extends State {
       body: Container(
         color: Colors.white,
         padding: EdgeInsets.only(
-          top: 40,
-          left: 25,
-          right: 25,
+          top: 40.h,
+          left: 25.h,
+          right: 25.h,
         ),
         child: ListView(children: <Widget>[
           Container(
@@ -52,53 +53,56 @@ class Cadastro5 extends State {
             child: Row(children: <Widget>[
               Container(
                 child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 30,
-                  ),
+                  icon: const Icon(Icons.arrow_back_ios_rounded),
                   alignment: Alignment.centerLeft,
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
-                width: 90,
+                width: 90.w,
               ),
               Container(
                 child: Text('Cadastro',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 38,
+                      fontSize: 38.sp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     )),
-                width: 200,
+                width: 200.w,
               ),
               Container(
-                width: 90,
+                width: 90.w,
               ),
             ]),
           ),
           SizedBox(
-            height: 20,
+            height: 20.h,
           ),
           Text(
             'Livros de Interesse',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18,
+              fontSize: 18.sp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: 15,
+            height: 15.h,
           ),
           TextFormField(
             controller: livro,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(
+                top: 20.r,
+                bottom: 20.r,
+                left: 15.r,
+                right: 15.r,
+              ),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(color: Colors.yellow)),
@@ -112,25 +116,25 @@ class Cadastro5 extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                fontSize: 18.sp,
               ),
             ),
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           Text(
             '${qtdLivros}/5',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 16,
+              fontSize: 16.sp,
               color: Colors.black,
               fontWeight: FontWeight.normal,
             ),
             textAlign: TextAlign.right,
           ),
           Container(
-            height: 450,
+            height: 450.h,
             child: Column(children: [
               //Parte que percorre a lista e cria Widgets Dinamicamente
               (livros != null)
@@ -142,19 +146,19 @@ class Cadastro5 extends State {
                         return Container(
                           child: Row(children: <Widget>[
                             Container(
-                              width: 330,
+                              width: 330.w,
                               child: Text(
                                 '${item}',
                                 style: TextStyle(
                                   fontFamily: 'Inter',
-                                  fontSize: 19,
+                                  fontSize: 19.sp,
                                   color: Colors.black,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.only(top: 2),
+                              padding: EdgeInsets.only(top: 2.r),
                               child: IconButton(
                                   alignment: Alignment.centerRight,
                                   icon: Icon(Icons.delete),
@@ -174,7 +178,7 @@ class Cadastro5 extends State {
             ]),
           ),
           SizedBox(
-            height: 3,
+            height: 3.h,
           ),
           ElevatedButton(
             onPressed: () {
@@ -187,8 +191,7 @@ class Cadastro5 extends State {
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.deepPurple[600],
-              minimumSize: Size(88, 50),
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              minimumSize: Size(88.h, 50.h),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
               ),
@@ -196,7 +199,7 @@ class Cadastro5 extends State {
             child: Text(
               'Próximo',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: Colors.white,
               ),
             ),
@@ -206,7 +209,7 @@ class Cadastro5 extends State {
               'Escolher Depois',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 17,
+                fontSize: 17.sp,
                 color: Color.fromRGBO(47, 128, 237, 1.0),
                 fontWeight: FontWeight.w500,
               ),

@@ -6,6 +6,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:dook/screens/cadastro/cadastro_3.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CadastroScreen2 extends StatefulWidget {
   UserProvider user;
@@ -32,9 +33,9 @@ class Cadastro2 extends State {
       body: Container(
         color: Colors.white,
         padding: EdgeInsets.only(
-          top: 40,
-          left: 25,
-          right: 25,
+          top: 40.r,
+          left: 25.r,
+          right: 25.r,
         ),
         child: ListView(children: <Widget>[
           Container(
@@ -44,45 +45,44 @@ class Cadastro2 extends State {
                 child: IconButton(
                   icon: const Icon(
                     Icons.arrow_back_ios_rounded,
-                    size: 30,
                   ),
                   alignment: Alignment.centerLeft,
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
-                width: 90,
+                width: 90.w,
               ),
               Container(
                 child: Text('Cadastro',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 38,
+                      fontSize: 38.sp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     )),
-                width: 200,
+                width: 200.w,
               ),
               Container(
-                width: 90,
+                width: 90.w,
               ),
             ]),
           ),
           SizedBox(
-            height: 30,
+            height: 30.h,
           ),
           Text(
             'CPF *',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18,
+              fontSize: 18.sp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           TextFormField(
             controller: cpf,
@@ -92,6 +92,12 @@ class Cadastro2 extends State {
             ],
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(
+                top: 20.r,
+                bottom: 20.r,
+                left: 15.r,
+                right: 15.r,
+              ),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(color: Colors.yellow)),
@@ -99,24 +105,24 @@ class Cadastro2 extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                fontSize: 18.sp,
               ),
             ),
           ),
           SizedBox(
-            height: 15,
+            height: 15.h,
           ),
           Text(
             'Data de Nascimento *',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18,
+              fontSize: 18.sp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           TextFormField(
             controller: data_nasc,
@@ -126,6 +132,12 @@ class Cadastro2 extends State {
             ],
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(
+                top: 20.r,
+                bottom: 20.r,
+                left: 15.r,
+                right: 15.r,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -133,28 +145,28 @@ class Cadastro2 extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                fontSize: 18.sp,
               ),
             ),
           ),
           SizedBox(
-            height: 15,
+            height: 15.h,
           ),
           Text(
             'Sexo',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18,
+              fontSize: 18.sp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           ToggleSwitch(
-            minWidth: 189.0,
-            minHeight: 55,
+            minWidth: 189.w,
+            minHeight: 55.h,
             initialLabelIndex: 0,
             cornerRadius: 20.0,
             activeFgColor: Colors.grey[300],
@@ -165,13 +177,13 @@ class Cadastro2 extends State {
             customTextStyles: [
               TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.w400,
               ),
               TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.w400,
               )
@@ -193,24 +205,30 @@ class Cadastro2 extends State {
             },
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           Text(
             'Outro:',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18,
+              fontSize: 18.sp,
               color: Colors.black,
               fontWeight: FontWeight.w400,
             ),
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           TextFormField(
             controller: sexoText,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(
+                top: 20.r,
+                bottom: 20.r,
+                left: 15.r,
+                right: 15.r,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -218,7 +236,7 @@ class Cadastro2 extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                fontSize: 18.sp,
               ),
             ),
           ),
@@ -239,7 +257,7 @@ class Cadastro2 extends State {
                 'Prefiro não informar.',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 17,
+                  fontSize: 17.sp,
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -247,19 +265,19 @@ class Cadastro2 extends State {
             ],
           ),
           SizedBox(
-            height: 15,
+            height: 15.h,
           ),
           Text(
             'Telefone *',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18,
+              fontSize: 18.sp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           TextFormField(
             controller: telefone,
@@ -269,6 +287,12 @@ class Cadastro2 extends State {
             ],
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(
+                top: 20.r,
+                bottom: 20.r,
+                left: 15.r,
+                right: 15.r,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -276,24 +300,24 @@ class Cadastro2 extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                fontSize: 18.sp,
               ),
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 10.h,
           ),
           Text(
             '$aviso',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18,
+              fontSize: 18.sp,
               color: Colors.red,
               fontWeight: FontWeight.w500,
             ),
           ),
           SizedBox(
-            height: 33,
+            height: 33.h,
           ),
           ElevatedButton(
             onPressed: () {
@@ -338,8 +362,7 @@ class Cadastro2 extends State {
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.deepPurple[600],
-              minimumSize: Size(88, 50),
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              minimumSize: Size(88.h, 50.h),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
               ),
@@ -347,7 +370,7 @@ class Cadastro2 extends State {
             child: Text(
               'Próximo',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: Colors.white,
               ),
             ),

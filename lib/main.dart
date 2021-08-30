@@ -6,6 +6,7 @@ import 'package:dook/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,8 +28,9 @@ class LoginApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firestoreService = FirestoreService();
-
-    return MultiProvider(
+    return ScreenUtilInit(
+      designSize: Size(432, 816),
+      builder: () => MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UserProvider()),
           //StreamProvider(
@@ -42,7 +44,9 @@ class LoginApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           home: LoginScreen(),
-        ));
+        ),
+      ),
+    );
   }
 }
 
@@ -50,11 +54,14 @@ class MenuApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firestoreService = FirestoreService();
-    return MultiProvider(
+    return ScreenUtilInit(
+      designSize: Size(432, 816),
+      builder: () => MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UserProvider()),
           //StreamProvider(
-          //    create: (context) => firestoreService.getUsers('userteste')),
+          //  create: (context) => firestoreService.getUsers('userteste'),
+          //),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -63,6 +70,8 @@ class MenuApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           home: HomeScreen(),
-        ));
+        ),
+      ),
+    );
   }
 }

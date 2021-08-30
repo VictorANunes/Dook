@@ -1,11 +1,11 @@
-import 'dart:io';
-
 import 'package:dook/provider/user_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:dook/screens/login.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'dart:io';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CadastroScreen6 extends StatefulWidget {
   UserProvider user;
@@ -35,9 +35,9 @@ class Cadastro6 extends State {
       body: Container(
         color: Colors.white,
         padding: EdgeInsets.only(
-          top: 40,
-          left: 25,
-          right: 25,
+          top: 40.r,
+          left: 25.r,
+          right: 25.r,
         ),
         child: ListView(
           children: <Widget>[
@@ -53,7 +53,7 @@ class Cadastro6 extends State {
                         Navigator.of(context).pop();
                       },
                     ),
-                    width: 90,
+                    width: 90.w,
                   ),
                   Container(
                     child: Text(
@@ -61,31 +61,31 @@ class Cadastro6 extends State {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 38,
+                        fontSize: 38.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    width: 200,
+                    width: 200.w,
                   ),
                   Container(
-                    width: 90,
+                    width: 90.w,
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 100,
+              height: 100.h,
             ),
             Container(
-              width: 250,
-              height: 250,
+              width: 250.w,
+              height: 250.h,
               decoration: BoxDecoration(
                 color: Colors.grey[600],
                 shape: BoxShape.circle,
               ),
               child: Padding(
-                padding: EdgeInsets.all(2),
+                padding: EdgeInsets.all(2.r),
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -101,14 +101,14 @@ class Cadastro6 extends State {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             TextButton(
               child: Text(
                 'Adicionar Foto',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 17.sp,
                   color: Color.fromRGBO(47, 128, 237, 1.0),
                   fontWeight: FontWeight.w500,
                 ),
@@ -118,7 +118,7 @@ class Cadastro6 extends State {
               },
             ),
             SizedBox(
-              height: 185,
+              height: 185.h,
             ),
             ElevatedButton(
               onPressed: () async {
@@ -153,8 +153,7 @@ class Cadastro6 extends State {
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple[600],
-                minimumSize: Size(88, 50),
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                minimumSize: Size(88.h, 50.h),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                 ),
@@ -162,7 +161,7 @@ class Cadastro6 extends State {
               child: Text(
                 'Próximo',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   color: Colors.white,
                 ),
               ),
@@ -172,7 +171,7 @@ class Cadastro6 extends State {
                 'Adicionar Depois',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 17.sp,
                   color: Color.fromRGBO(47, 128, 237, 1.0),
                   fontWeight: FontWeight.w500,
                 ),
@@ -182,10 +181,10 @@ class Cadastro6 extends State {
                     'https://www.chocolatebayou.org/wp-content/uploads/No-Image-Person-1536x1536.jpeg';
                 user.changeUrl(url);
                 user.saveUser();
-                /*Navigator.push(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => LoginScreen()));*/
+                        builder: (BuildContext context) => LoginScreen()));
               },
             ),
           ],

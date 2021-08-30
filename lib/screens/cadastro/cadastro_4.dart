@@ -1,6 +1,7 @@
 import 'package:dook/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:dook/screens/cadastro/cadastro_5.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CadastroScreen4 extends StatefulWidget {
   UserProvider user;
@@ -19,11 +20,45 @@ class Cadastro4 extends State {
   List<String> generos = [
     'Ação',
     'Aventura',
-    'Romance',
     'Terror',
     'Infantil',
-    'Educação'
+    'Educação',
+    'Material Acadêmico',
+    'Infanto-Juvenil',
+    'Romance',
+    'Romance Biográfico',
+    'Romance Epistolar',
+    'Romance Histórico',
+    'Romance Psicólogo',
+    'Drama',
+    'Novela',
+    'Conto',
+    'Crônica',
+    'Ensaio',
+    'Poesia',
+    'Carta',
+    'Biografia',
+    'Memórias',
+    'Drama',
+    'Graphic Novel',
+    'História em Quadrinhos (HQ)',
+    'Lad-Lit',
+    'Literatura fantástica',
+    'Literatura Infantil',
+    'Literatura Infanto-juvenil',
+    'New Adult',
+    'Realismo Mágico',
+    'Terror',
+    'Thriller ou suspense',
+    'Conspiração',
+    'Época',
+    'Jurídico',
+    'Médico',
+    'Policial',
+    'Psicológico',
+    'Romântico',
   ];
+
   @override
   Widget build(BuildContext context) {
     void addGenero() {
@@ -49,9 +84,9 @@ class Cadastro4 extends State {
       body: Container(
         color: Colors.white,
         padding: EdgeInsets.only(
-          top: 40,
-          left: 25,
-          right: 25,
+          top: 40.r,
+          left: 25.r,
+          right: 25.r,
         ),
         child: ListView(
           children: <Widget>[
@@ -62,49 +97,54 @@ class Cadastro4 extends State {
                   child: IconButton(
                     icon: const Icon(
                       Icons.arrow_back_ios_rounded,
-                      size: 30,
                     ),
                     alignment: Alignment.centerLeft,
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
-                  width: 90,
+                  width: 90.w,
                 ),
                 Container(
                   child: Text('Cadastro',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 38,
+                        fontSize: 38.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       )),
-                  width: 200,
+                  width: 200.w,
                 ),
                 Container(
-                  width: 90,
+                  width: 90.w,
                 ),
               ]),
             ),
             SizedBox(
-              height: 20,
+              height: 20.h,
             ),
             Text(
               'Gêneros de Interesse',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: 15,
+              height: 15.h,
             ),
             DropdownButtonFormField(
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(
+                  top: 20.r,
+                  bottom: 20.r,
+                  left: 15.r,
+                  right: 15.r,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -125,23 +165,23 @@ class Cadastro4 extends State {
                   .toList(),
             ),
             SizedBox(
-              height: 5,
+              height: 5.h,
             ),
             Text(
               '${qtdGen}/5',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 16,
+                fontSize: 16.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.normal,
               ),
               textAlign: TextAlign.right,
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Container(
-              height: 400,
+              height: 400.h,
               child: Column(children: [
                 //Parte que percorre a lista e cria Widgets Dinamicamente
                 (generosInt != null)
@@ -150,55 +190,22 @@ class Cadastro4 extends State {
                         itemCount: generosInt.length,
                         itemBuilder: (context, index) {
                           final item = generosInt[index];
-                          return /*Dismissible(
-                            key: Key(item),
-                            onDismissed: (direction) {
-                              setState(() {
-                                generosInt.removeAt(index);
-                                qtdGen = qtdGen - 1;
-                              });
-                              // Exibe o snackbar
-                              Scaffold.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("$item foi removido"),
-                                ),
-                              );
-                            },
-                            background: Container(
-                              color: Colors.red,
-                              child: Align(
-                                alignment: Alignment(-0.9, 0),
-                                child: Icon(Icons.delete, color: Colors.white),
-                              ),
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                '${item}',
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 19,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ),
-                          );*/
-                              Container(
+                          return Container(
                             child: Row(children: <Widget>[
                               Container(
-                                width: 330,
+                                width: 330.w,
                                 child: Text(
                                   '${item}',
                                   style: TextStyle(
                                     fontFamily: 'Inter',
-                                    fontSize: 19,
+                                    fontSize: 19.sp,
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.only(top: 2),
+                                padding: EdgeInsets.only(top: 2.r),
                                 child: IconButton(
                                     alignment: Alignment.centerRight,
                                     icon: Icon(Icons.delete),
@@ -218,7 +225,7 @@ class Cadastro4 extends State {
               ]),
             ),
             SizedBox(
-              height: 40,
+              height: 40.h,
             ),
             ElevatedButton(
               onPressed: () {
@@ -240,8 +247,7 @@ class Cadastro4 extends State {
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple[600],
-                minimumSize: Size(88, 50),
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                minimumSize: Size(88.h, 50.h),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                 ),
@@ -249,7 +255,7 @@ class Cadastro4 extends State {
               child: Text(
                 'Próximo',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   color: Colors.white,
                 ),
               ),
@@ -259,7 +265,7 @@ class Cadastro4 extends State {
                 'Escolher Depois',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 17.sp,
                   color: Color.fromRGBO(47, 128, 237, 1.0),
                   fontWeight: FontWeight.w500,
                 ),
