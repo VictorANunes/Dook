@@ -1,8 +1,8 @@
 import 'package:dook/provider/user_provider.dart';
+import 'package:dook/screens/menu_inferior.dart';
 import 'package:flutter/material.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:dook/screens/login.dart';
-import 'package:dook/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,7 +69,7 @@ class MenuApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: HomeScreen(),
+          home: MenuInferiorScreen(),
         ),
       ),
     );
