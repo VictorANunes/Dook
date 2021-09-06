@@ -9,8 +9,256 @@ class MenuScreen extends StatefulWidget {
 class Menu extends State {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text('Menu Screen'),
+    return ScreenUtilInit(
+      designSize: Size(432, 816),
+      builder: () => MaterialApp(
+        home: Scaffold(
+          //CORPO DA TELA
+          body: Container(
+            child: ListView(
+              children: <Widget>[
+                MenuPerfil(),
+                MenuLista(),
+                SizedBox(
+                  height: 178.h,
+                ),
+                Divider(
+                  height: 0,
+                  thickness: 2,
+                  indent: 0,
+                  endIndent: 0,
+                ),
+                MenuSair(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MenuPerfil extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+        top: 40.r,
+        left: 25.r,
+        right: 25.r,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.deepPurple[600],
+      ),
+      alignment: Alignment.topCenter,
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                color: Colors.white,
+                onPressed: () {
+                  /*Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TelaInicio()),
+                  );*/
+                },
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 30),
+              ),
+              Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35.sp,
+                ),
+              ),
+              IconButton(
+                color: Colors.white,
+                onPressed: () {
+                  /*Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Configuracoes()),
+                  );*/
+                },
+                icon: Icon(Icons.settings, size: 30),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.all(15.0),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(' '),
+              Container(
+                width: 170.w,
+                height: 170.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey[600],
+                  shape: BoxShape.circle,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(2),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      image: DecorationImage(
+                        fit: BoxFit.scaleDown,
+                        image: NetworkImage(
+                            'https://www.chocolatebayou.org/wp-content/uploads/No-Image-Person-1536x1536.jpeg'),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Text(' '),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(' '),
+              Text(
+                'Ver Perfil',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.sp,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              Text(' '),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MenuLista extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+        top: 27.r,
+        left: 25.r,
+        right: 25.r,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                alignment: Alignment.centerLeft,
+              ),
+              onPressed: () {
+                /*Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MeusAnuncios()),
+                );*/
+              },
+              child: Text(
+                'Meus Anúncios',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 30.sp,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                alignment: Alignment.centerLeft,
+              ),
+              onPressed: () {
+                /*Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CriarAnuncio()),
+                );*/
+              },
+              child: Text(
+                'Criar Anúncio',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 30.sp,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                alignment: Alignment.centerLeft,
+              ),
+              onPressed: () {
+                /*Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MeusInteresses()),
+                );*/
+              },
+              child: Text(
+                'Meus Interesses',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 30.sp,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MenuSair extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+        top: 10.r,
+        left: 25.r,
+        right: 25.r,
+      ),
+      child: Row(
+        children: <Widget>[
+          IconButton(
+            color: Colors.red,
+            onPressed: () {},
+            icon: Icon(Icons.exit_to_app, size: 40),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              right: 10.r,
+            ),
+          ),
+          Text(
+            'Sair',
+            style: TextStyle(
+              fontSize: 30.sp,
+              color: Colors.red,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
