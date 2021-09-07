@@ -16,13 +16,18 @@ class MenuInferior extends State {
     InteresseScreen(),
     AcervoScreen(),
     ChatScreen(),
-    MenuScreen()
   ];
 
   void mudarTela(int index) {
     setState(() {
       _indiceAtual = index;
-      print(_indiceAtual);
+      if (_indiceAtual == 3) {
+        _indiceAtual = 0;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MenuScreen()),
+        );
+      }
     });
   }
 

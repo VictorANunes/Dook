@@ -1,3 +1,5 @@
+import 'package:dook/screens/menu_inferior.dart';
+import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,6 +14,7 @@ class Menu extends State {
     return ScreenUtilInit(
       designSize: Size(432, 816),
       builder: () => MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
           //CORPO DA TELA
           body: Container(
@@ -59,10 +62,11 @@ class MenuPerfil extends StatelessWidget {
               IconButton(
                 color: Colors.white,
                 onPressed: () {
-                  /*Navigator.push(
+                  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => TelaInicio()),
-                  );*/
+                    MaterialPageRoute(
+                        builder: (context) => MenuInferiorScreen()),
+                  );
                 },
                 icon: Icon(Icons.arrow_back_ios_rounded, size: 30),
               ),
@@ -234,29 +238,42 @@ class MenuSair extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: 10.r,
+        top: 12.r,
         left: 25.r,
         right: 25.r,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           IconButton(
             color: Colors.red,
-            onPressed: () {},
+            onPressed: () {
+              FirestoreService firestore = new FirestoreService();
+              firestore.SignOut();
+            },
             icon: Icon(Icons.exit_to_app, size: 40),
           ),
           Padding(
             padding: EdgeInsets.only(
-              right: 10.r,
+              right: 5.r,
             ),
           ),
-          Text(
-            'Sair',
-            style: TextStyle(
-              fontSize: 30.sp,
-              color: Colors.red,
+          Container(
+            padding: EdgeInsets.only(top: 7.r),
+            child: TextButton(
+              child: Text(
+                'Sair',
+                style: TextStyle(
+                  fontSize: 30.sp,
+                  color: Colors.red,
+                ),
+              ),
+              onPressed: () {
+                FirestoreService firestore = new FirestoreService();
+                firestore.SignOut();
+              },
             ),
-          )
+          ),
         ],
       ),
     );
