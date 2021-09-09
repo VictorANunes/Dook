@@ -59,6 +59,8 @@ class Users {
       'nome': nome,
       'sexo': sexo,
       'foto': url,
+      'datanasc': datanasc,
+      'telefone': telefone,
       'endereco': {
         'cep': cep,
         'rua': rua,

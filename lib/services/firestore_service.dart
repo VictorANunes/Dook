@@ -56,16 +56,36 @@ class FirestoreService extends ChangeNotifier {
 
   void pegarDados(email) {
     UserProvider usuario = UserProvider();
+    List<String> generos = [];
+    List<String> livros = [];
     final result =
         _db.collection('Usuario').doc(email).snapshots(); //no doc colocar email
     result.forEach((element) {
       usuario.changeNome(element['nome']);
+      usuario.changeCpf(element['cpf']);
+      usuario.changeEmail(email);
+      usuario.changeDataNasc(element['datanasc']);
+      usuario.changeSexo(element['sexo']);
+      usuario.changeTelefone(element['telefone']);
+      usuario.changeCep(element['endereco']['cep']);
+      usuario.changeRua(element['endereco']['rua']);
+      usuario.changeBairro(element['endereco']['bairro']);
+      usuario.changeNumero(element['endereco']['numero']);
+      usuario.changeComplemento(element['endereco']['complemento']);
+      usuario.changeEstado(element['endereco']['estado']);
+      usuario.changeUf(element['endereco']['uf']);
+      usuario.changeUrl(element['foto']);
+
+      for (int i = 1; i <= 5; i++) {
+        generos.add(element['generosInteresse']['generos$i']);
+        livros.add(element['livrosInteresse']['livros$i']);
+      }
+
+      usuario.changeGenerosInt(generos);
+      usuario.changeLivrosInt(livros);
+
       print(usuario.nome);
-      print(element['cpf']);
-      print(element['generosInteresse']['generos1']);
-      print(element['livrosInteresse']['livros1']);
     });
-    print(email);
   }
 
   //LOGIN GOOGLE
