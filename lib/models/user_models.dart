@@ -87,6 +87,30 @@ class Users {
     };
   }
 
-/*  Users.fromFirestore(Map<String, dynamic> firestore)
-      : nome = firestore['nome']*/
+  Users.fromFirestore(Map<String, dynamic> firestore)
+      : email = firestore['email'],
+        senha = firestore['senha'],
+        nome = firestore['nome'],
+        cpf = firestore['cpf'],
+        datanasc = firestore['datanasc'],
+        sexo = firestore['sexo'],
+        telefone = firestore['telefone'],
+        cep = firestore['endereco']['cep'],
+        rua = firestore['endereco']['rua'],
+        bairro = firestore['endereco']['bairro'],
+        numero = firestore['endereco']['numero'],
+        complemento = firestore['endereco']['complemento'],
+        estado = firestore['endereco']['estado'],
+        uf = firestore['endereco']['uf'],
+        url = firestore['foto'],
+        generos1 = firestore['generosInteresse']['generos1'],
+        generos2 = firestore['generosInteresse']['generos2'],
+        generos3 = firestore['generosInteresse']['generos3'],
+        generos4 = firestore['generosInteresse']['generos4'],
+        generos5 = firestore['generosInteresse']['generos5'],
+        livros1 = firestore['livrosInteresse']['livros1'],
+        livros2 = firestore['livrosInteresse']['livros2'],
+        livros3 = firestore['livrosInteresse']['livros3'],
+        livros4 = firestore['livrosInteresse']['livros4'],
+        livros5 = firestore['livrosInteresse']['livros5'];
 }

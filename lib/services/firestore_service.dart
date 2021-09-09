@@ -22,11 +22,11 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
-/*  Stream<List<Users>> getUsers(String tabela) {
-    return _db.collection(tabela).snapshots().map((snapshot) => snapshot.docs
+  Stream<List<Users>> getDataUser(email) {
+    return _db.collection('Usuario').snapshots().map((snapshot) => snapshot.docs
         .map((document) => Users.fromFirestore(document.data()))
         .toList());
-  }*/
+  }
 
   Future<void> removeUser(String id) {
     return _db.collection('userteste').doc(id).delete();
@@ -54,38 +54,15 @@ class FirestoreService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pegarDados(email) {
-    UserProvider usuario = UserProvider();
-    List<String> generos = [];
-    List<String> livros = [];
-    final result =
-        _db.collection('Usuario').doc(email).snapshots(); //no doc colocar email
-    result.forEach((element) {
-      usuario.changeNome(element['nome']);
-      usuario.changeCpf(element['cpf']);
-      usuario.changeEmail(email);
-      usuario.changeDataNasc(element['datanasc']);
-      usuario.changeSexo(element['sexo']);
-      usuario.changeTelefone(element['telefone']);
-      usuario.changeCep(element['endereco']['cep']);
-      usuario.changeRua(element['endereco']['rua']);
-      usuario.changeBairro(element['endereco']['bairro']);
-      usuario.changeNumero(element['endereco']['numero']);
-      usuario.changeComplemento(element['endereco']['complemento']);
-      usuario.changeEstado(element['endereco']['estado']);
-      usuario.changeUf(element['endereco']['uf']);
-      usuario.changeUrl(element['foto']);
+  Stream<DocumentSnapshot<Map<String, dynamic>>> pegarDados() {
+    var currentUser = FirebaseAuth.instance.currentUser;
+    var email;
+    if (currentUser != null) {
+      email = currentUser.email;
+    }
+    final result = _db.collection('Usuario').doc(email).snapshots();
 
-      for (int i = 1; i <= 5; i++) {
-        generos.add(element['generosInteresse']['generos$i']);
-        livros.add(element['livrosInteresse']['livros$i']);
-      }
-
-      usuario.changeGenerosInt(generos);
-      usuario.changeLivrosInt(livros);
-
-      print(usuario.nome);
-    });
+    return result;
   }
 
   //LOGIN GOOGLE

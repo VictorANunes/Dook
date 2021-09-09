@@ -35,10 +35,7 @@ class Login extends State {
   void _loginAuth() async {
     _auth
         .signInWithEmailAndPassword(email: email.text, password: senha.text)
-        .then((user) {
-      FirestoreService firestore = new FirestoreService();
-      firestore.pegarDados(email.text);
-    }).catchError((e) {
+        .catchError((e) {
       setState(() {
         erro = 'Email ou Senha estão incorretos!';
       });
