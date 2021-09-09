@@ -1,3 +1,4 @@
+import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/screens/cadastro/cadastro_1.dart';
@@ -34,7 +35,10 @@ class Login extends State {
   void _loginAuth() async {
     _auth
         .signInWithEmailAndPassword(email: email.text, password: senha.text)
-        .catchError((e) {
+        .then((user) {
+      FirestoreService firestore = new FirestoreService();
+      firestore.pegarDados(email.text);
+    }).catchError((e) {
       setState(() {
         erro = 'Email ou Senha estão incorretos!';
       });

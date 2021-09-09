@@ -55,7 +55,7 @@ class MenuInferior extends State {
             unselectedFontSize: 15,
             showUnselectedLabels: true,
             showSelectedLabels: true,
-            elevation: 15,
+            elevation: 5,
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_rounded),

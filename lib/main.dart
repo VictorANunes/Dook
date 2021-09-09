@@ -11,7 +11,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  var currentUser = FirebaseAuth.instance.currentUser;
+  FirestoreService firestore = new FirestoreService();
+  var email;
 
+  if (currentUser != null) {
+    email = currentUser.email;
+    firestore.pegarDados(email);
+  }
   //mostra se usuario ta logado
   FirebaseAuth.instance.authStateChanges().listen((User user) {
     if (user == null) {

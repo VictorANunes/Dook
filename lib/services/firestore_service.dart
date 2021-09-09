@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dook/provider/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/models/user_models.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -50,6 +52,20 @@ class FirestoreService extends ChangeNotifier {
   Future<void> SignOut() async {
     await _auth.signOut();
     notifyListeners();
+  }
+
+  void pegarDados(email) {
+    UserProvider usuario = UserProvider();
+    final result =
+        _db.collection('Usuario').doc(email).snapshots(); //no doc colocar email
+    result.forEach((element) {
+      usuario.changeNome(element['nome']);
+      print(usuario.nome);
+      print(element['cpf']);
+      print(element['generosInteresse']['generos1']);
+      print(element['livrosInteresse']['livros1']);
+    });
+    print(email);
   }
 
   //LOGIN GOOGLE
