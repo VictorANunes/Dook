@@ -17,10 +17,14 @@ class Interesse extends State {
     FirestoreService firestore = new FirestoreService();
     return Scaffold(
       body: Container(
+        padding: EdgeInsets.only(
+          top: 17.r,
+          left: 19.r,
+          right: 20.r,
+        ),
         child: ListView(
           children: <Widget>[
-            //MenuPerfil(),
-            //MenuLista(),
+            IntCabecalho(),
             SizedBox(
               height: 200.h,
             ),
@@ -40,6 +44,74 @@ class Interesse extends State {
           ],
           //MenuSair(),
         ),
+      ),
+    );
+  }
+}
+
+class IntCabecalho extends StatelessWidget {
+  @override
+  final pesquisa = TextEditingController();
+  FocusNode fieldNode = FocusNode();
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 340.w,
+            child: TextFormField(
+              focusNode: fieldNode,
+              cursorColor: Colors.deepPurple[600],
+              controller: pesquisa,
+              decoration: InputDecoration(
+                hasFloatingPlaceholder: false,
+                contentPadding: EdgeInsets.only(
+                  top: 15.r,
+                  bottom: 15.r,
+                  left: 15.r,
+                  right: 15.r,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: BorderSide(color: Colors.deepPurple[600])),
+                labelText: "Pesquisar",
+                labelStyle: TextStyle(
+                  color: Colors.black38,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16.sp,
+                ),
+                suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.search_rounded,
+                      color: Colors.deepPurple[600],
+                    ),
+                    onPressed: () {
+                      print(pesquisa.text);
+                    }),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 7.w,
+          ),
+          Container(
+            width: 40.w,
+            padding: EdgeInsets.only(bottom: 13.r),
+            child: IconButton(
+              icon: Icon(
+                //Icons.notifications_none,
+                //color: Colors.black45,
+                Icons.notifications,
+                color: Colors.deepPurple[600],
+                size: 42,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ],
       ),
     );
   }

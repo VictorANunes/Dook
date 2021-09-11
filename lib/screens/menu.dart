@@ -23,7 +23,7 @@ class Menu extends State {
                 MenuPerfil(),
                 MenuLista(),
                 SizedBox(
-                  height: 200.h,
+                  height: 213.h,
                 ),
                 Divider(
                   height: 0,
@@ -46,7 +46,7 @@ class MenuPerfil extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: 40.r,
+        top: 25.r,
         left: 25.r,
         right: 25.r,
       ),
