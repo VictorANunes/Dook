@@ -43,6 +43,7 @@ class Menu extends State {
 
 class MenuPerfil extends StatelessWidget {
   @override
+  FirestoreService firestore = new FirestoreService();
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
@@ -97,28 +98,59 @@ class MenuPerfil extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(' '),
-              Container(
-                width: 170.w,
-                height: 170.h,
-                decoration: BoxDecoration(
-                  color: Colors.grey[600],
-                  shape: BoxShape.circle,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(2),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      image: DecorationImage(
-                        fit: BoxFit.scaleDown,
-                        image: NetworkImage(
-                            'https://www.chocolatebayou.org/wp-content/uploads/No-Image-Person-1536x1536.jpeg'),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              StreamBuilder(
+                  stream: firestore.pegarDados(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return new Center(child: new CircularProgressIndicator());
+                    }
+                    if (snapshot.hasData) {
+                      return Container(
+                        width: 170.w,
+                        height: 170.h,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[600],
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(2),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(snapshot.data['foto']),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Container(
+                        width: 170.w,
+                        height: 170.h,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[600],
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(2),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                    'https://www.chocolatebayou.org/wp-content/uploads/No-Image-Person-1536x1536.jpeg'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  }),
               Text(' '),
             ],
           ),

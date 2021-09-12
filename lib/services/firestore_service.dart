@@ -61,7 +61,6 @@ class FirestoreService extends ChangeNotifier {
       email = currentUser.email;
     }
     final result = _db.collection('Usuario').doc(email).snapshots();
-
     return result;
   }
 

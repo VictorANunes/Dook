@@ -1,10 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dook/provider/user_provider.dart';
-import 'package:dook/models/user_models.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class InteresseScreen extends StatefulWidget {
   @override
@@ -18,7 +14,7 @@ class Interesse extends State {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(
-          top: 17.r,
+          top: 18.r,
           left: 19.r,
           right: 20.r,
         ),
@@ -26,9 +22,10 @@ class Interesse extends State {
           children: <Widget>[
             IntCabecalho(),
             SizedBox(
-              height: 200.h,
+              height: 20.h,
             ),
-            StreamBuilder<DocumentSnapshot>(
+            IntGenerosInteresse(),
+            /*StreamBuilder<DocumentSnapshot>(
                 stream: firestore.pegarDados(),
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -40,7 +37,7 @@ class Interesse extends State {
                   } else {
                     return Text('vazio');
                   }
-                }),
+                }),*/
           ],
           //MenuSair(),
         ),
@@ -84,6 +81,7 @@ class IntCabecalho extends StatelessWidget {
                   fontSize: 16.sp,
                 ),
                 suffixIcon: IconButton(
+                    //ou prefix
                     icon: Icon(
                       Icons.search_rounded,
                       color: Colors.deepPurple[600],
@@ -99,16 +97,94 @@ class IntCabecalho extends StatelessWidget {
           ),
           Container(
             width: 40.w,
-            padding: EdgeInsets.only(bottom: 13.r),
+            padding: EdgeInsets.only(bottom: 10.r),
             child: IconButton(
               icon: Icon(
                 //Icons.notifications_none,
                 //color: Colors.black45,
                 Icons.notifications,
                 color: Colors.deepPurple[600],
-                size: 42,
+                size: 40,
               ),
               onPressed: () {},
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class IntGenerosInteresse extends StatelessWidget {
+  Widget build(BuildContext contexto) {
+    return Container(
+      //color: Colors.yellow,
+      width: 340.w,
+      height: 235.h,
+      child: ListView(
+        children: <Widget>[
+          Text(
+            'Livros que Podem te Interessar',
+            style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w500),
+          ),
+          SizedBox(
+            height: 15.h,
+          ),
+          Container(
+            width: 340.w,
+            height: 185.h,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  height: 135.h,
+                  width: 135.w,
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://livrariascuritiba.vteximg.com.br/arquivos/ids/1663114-1000-1000/LV417866.jpg?v=636815454000200000'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          // color: Colors.blue,
+                          height: 50.h,
+                          child: Text(
+                            'Harry Potter',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Container(
+                  height: 135.h,
+                  width: 135.w,
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://images-na.ssl-images-amazon.com/images/I/61hH5E8xHZL.jpg'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          height: 50.h,
+                          child: Text(
+                            'Percy Jackson',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
