@@ -92,7 +92,7 @@ class MenuPerfil extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(15.0),
+            padding: EdgeInsets.all(15.0.r),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,7 +135,7 @@ class MenuPerfil extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(2),
+                          padding: EdgeInsets.all(2.r),
                           child: Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -155,7 +155,7 @@ class MenuPerfil extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -173,7 +173,7 @@ class MenuPerfil extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
           ),
         ],
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dook/screens/interesse.dart';
 import 'package:dook/screens/acervo.dart';
 import 'package:dook/screens/chat.dart';

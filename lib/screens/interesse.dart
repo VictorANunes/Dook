@@ -25,6 +25,8 @@ class Interesse extends State {
               height: 20.h,
             ),
             IntGenerosInteresse(),
+            IntListaDesejos(),
+            IntMeusAnuncios(),
             /*StreamBuilder<DocumentSnapshot>(
                 stream: firestore.pegarDados(),
                 builder: (BuildContext context,
@@ -39,7 +41,6 @@ class Interesse extends State {
                   }
                 }),*/
           ],
-          //MenuSair(),
         ),
       ),
     );
@@ -118,10 +119,9 @@ class IntCabecalho extends StatelessWidget {
 class IntGenerosInteresse extends StatelessWidget {
   Widget build(BuildContext contexto) {
     return Container(
-      //color: Colors.yellow,
       width: 340.w,
-      height: 235.h,
-      child: ListView(
+      height: 245.h,
+      child: Column(
         children: <Widget>[
           Text(
             'Livros que Podem te Interessar',
@@ -131,15 +131,13 @@ class IntGenerosInteresse extends StatelessWidget {
             height: 15.h,
           ),
           Container(
-            width: 340.w,
-            height: 185.h,
+            height: 195.h,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
                 Container(
-                  height: 135.h,
                   width: 135.w,
-                  child: ListView(
+                  child: Column(
                     children: <Widget>[
                       Container(
                         height: 135.h,
@@ -165,7 +163,179 @@ class IntGenerosInteresse extends StatelessWidget {
                 Container(
                   height: 135.h,
                   width: 135.w,
-                  child: ListView(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://images-na.ssl-images-amazon.com/images/I/61hH5E8xHZL.jpg'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          height: 50.h,
+                          child: Text(
+                            'Percy Jackson',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class IntListaDesejos extends StatelessWidget {
+  Widget build(BuildContext contexto) {
+    return Container(
+      width: 340.w,
+      height: 265.h,
+      child: Column(
+        children: <Widget>[
+          Row(children: <Widget>[
+            Container(
+              width: 345.w,
+              child: Text(
+                'Lista de Desejos',
+                style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w500),
+              ),
+            ),
+            Container(
+              child: IconButton(
+                icon: Icon(Icons.add_circle_outline_rounded,
+                    color: Colors.black, size: 32),
+              ),
+            ),
+          ]),
+          SizedBox(
+            height: 15.h,
+          ),
+          Container(
+            height: 195.h,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  width: 135.w,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://livrariascuritiba.vteximg.com.br/arquivos/ids/1663114-1000-1000/LV417866.jpg?v=636815454000200000'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          // color: Colors.blue,
+                          height: 50.h,
+                          child: Text(
+                            'Harry Potter',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Container(
+                  height: 135.h,
+                  width: 135.w,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://images-na.ssl-images-amazon.com/images/I/61hH5E8xHZL.jpg'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          height: 50.h,
+                          child: Text(
+                            'Percy Jackson',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class IntMeusAnuncios extends StatelessWidget {
+  Widget build(BuildContext contexto) {
+    return Container(
+      width: 340.w,
+      height: 265.h,
+      child: Column(
+        children: <Widget>[
+          Row(children: <Widget>[
+            Container(
+              width: 345.w,
+              child: Text(
+                'Meus Anúncios',
+                style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w500),
+              ),
+            ),
+            Container(
+              child: IconButton(
+                icon: Icon(Icons.add_circle_outline_rounded,
+                    color: Colors.black, size: 32),
+              ),
+            ),
+          ]),
+          SizedBox(
+            height: 15.h,
+          ),
+          Container(
+            height: 195.h,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  width: 135.w,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://livrariascuritiba.vteximg.com.br/arquivos/ids/1663114-1000-1000/LV417866.jpg?v=636815454000200000'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          // color: Colors.blue,
+                          height: 50.h,
+                          child: Text(
+                            'Harry Potter',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Container(
+                  height: 135.h,
+                  width: 135.w,
+                  child: Column(
                     children: <Widget>[
                       Container(
                         height: 135.h,
