@@ -1,6 +1,7 @@
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dook/screens/pesquisa.dart';
 
 class InteresseScreen extends StatefulWidget {
   @override
@@ -50,7 +51,6 @@ class Interesse extends State {
 class IntCabecalho extends StatelessWidget {
   @override
   final pesquisa = TextEditingController();
-  FocusNode fieldNode = FocusNode();
   Widget build(BuildContext context) {
     return Container(
       child: Row(
@@ -58,7 +58,6 @@ class IntCabecalho extends StatelessWidget {
           Container(
             width: 340.w,
             child: TextFormField(
-              focusNode: fieldNode,
               cursorColor: Colors.deepPurple[600],
               controller: pesquisa,
               decoration: InputDecoration(
@@ -88,7 +87,11 @@ class IntCabecalho extends StatelessWidget {
                       color: Colors.deepPurple[600],
                     ),
                     onPressed: () {
-                      print(pesquisa.text);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  PesquisaScreen()));
                     }),
               ),
             ),

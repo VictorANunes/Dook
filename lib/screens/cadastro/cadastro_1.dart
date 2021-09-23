@@ -30,8 +30,6 @@ class Cadastro extends State {
   }
 
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    print(size);
     return SafeArea(
       child: Scaffold(
         body: Container(

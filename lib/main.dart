@@ -46,7 +46,7 @@ class LoginApp extends StatelessWidget {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.deepPurple[600],
+            primaryColor: Colors.deepPurple[600],
           ),
           home: LoginScreen(),
         ),
