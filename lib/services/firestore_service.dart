@@ -64,8 +64,16 @@ class FirestoreService extends ChangeNotifier {
     return result;
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> resultadoPesquisa(texto) {
+    final result = _db
+        .collection('Obra')
+        .where('titulo', isGreaterThanOrEqualTo: texto)
+        .snapshots();
+    return result;
+  }
+
   //LOGIN GOOGLE
-  Future<String> signInwithGoogle() async {
+  /*Future<String> signInwithGoogle() async {
     try {
       final GoogleSignInAccount googleSignInAccount =
           await _googleSignIn.signIn();
@@ -85,5 +93,5 @@ class FirestoreService extends ChangeNotifier {
   Future<void> signOutFromGoogle() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
-  }
+  }*/
 }
