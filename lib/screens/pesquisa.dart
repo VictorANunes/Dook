@@ -6,20 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PesquisaScreen extends StatefulWidget {
+  String pesquisa;
+  PesquisaScreen({this.pesquisa});
   @override
-  Pesquisa createState() => Pesquisa();
+  Pesquisa createState() => Pesquisa(textoo: pesquisa);
 }
 
 class Pesquisa extends State {
-  final pesquisa = TextEditingController();
   String textoo;
-  FirestoreService firebase = new FirestoreService();
-  Widget query = new Text('vazio');
+  Pesquisa({this.textoo});
+  final pesquisa = TextEditingController();
   Widget build(BuildContext context) {
+    FirestoreService firebase = new FirestoreService();
+    Widget query = new Center(child: new CircularProgressIndicator());
     return Scaffold(
       body: Container(
-        width: 500,
-        height: 300,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(
           top: 35.r,
           left: 25.r,
@@ -60,29 +63,40 @@ class Pesquisa extends State {
                   ),
                   onChanged: (texto) {
                     setState(() {
-                      textoo = texto;
+                      textoo = texto.toLowerCase();
                     });
                   },
+                ),
+                SizedBox(
+                  height: 10.h,
                 ),
                 StreamBuilder(
                     stream: firebase.resultadoPesquisa(textoo),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return new Center();
-                      }
                       if (snapshot.hasData) {
                         return Center(
-                            child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
-                          itemCount: snapshot.data.docs.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Text(snapshot.data.docs[index]['titulo']);
-                          },
-                        ));
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            itemCount: snapshot.data.docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                title: Text(snapshot.data.docs[index]['titulo'],
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                    )),
+                                subtitle:
+                                    Text(snapshot.data.docs[index]['autor'],
+                                        style: TextStyle(
+                                          fontSize: 15.sp,
+                                        )),
+                              );
+                            },
+                          ),
+                        );
                       } else {
-                        return Text('vazio');
+                        return Text('');
                       }
                     })
               ],
@@ -108,16 +122,6 @@ class PesquisaCabecalho extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  /*GetBook getBook = new GetBook();
-                  Book book =
-                      await getBook.getData('9788501044457'); //colocar ISBN
-                  print(book.titulo);
-                  print(book.isbn);
-                  print(book.editora);
-                  print(book.autor);
-                  print(book.edicao);
-                  print(book.dataPubli);
-                  print(book.categoria);*/
                 },
               ),
               width: 90.w,

@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dook/provider/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/models/user_models.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -34,7 +32,6 @@ class FirestoreService extends ChangeNotifier {
 
   //LOGIN
   Future<bool> LoginStatus() {
-    //await Firebase.initializeApp();
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
         print("oi");
@@ -67,9 +64,39 @@ class FirestoreService extends ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>> resultadoPesquisa(texto) {
     final result = _db
         .collection('Obra')
-        .where('titulo', isGreaterThanOrEqualTo: texto)
+        .where('pesqList', arrayContains: texto)
+        .limit(15)
         .snapshots();
     return result;
+  }
+
+  void pesquisaList(String titulo, String editora, String autor) {
+    String s = "";
+    String s2 = "";
+    if (titulo != null) {
+      s = s + titulo + ",";
+      s2 = s2 + titulo + " ";
+    }
+    if (autor != null) {
+      s = s + autor;
+      s2 = s2 + autor;
+    }
+
+    List<String> splitList = s.split(",") + s2.split(" ");
+    List<String> pesqList = [];
+
+    for (int i = 0; i < splitList.length; i++) {
+      for (int j = 0; j < splitList[i].length + 1; j++) {
+        pesqList.add(splitList[i].substring(0, j).toLowerCase());
+      }
+    }
+
+    _db.collection('Obra').doc().set({
+      'titulo': titulo,
+      'editora': editora,
+      'autor': autor,
+      'pesqList': pesqList
+    });
   }
 
   //LOGIN GOOGLE

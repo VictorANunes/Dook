@@ -87,11 +87,15 @@ class IntCabecalho extends StatelessWidget {
                       color: Colors.deepPurple[600],
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  PesquisaScreen()));
+                      if (pesquisa.text != "") {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    PesquisaScreen(
+                                        pesquisa:
+                                            pesquisa.text.toLowerCase())));
+                      }
                     }),
               ),
             ),
