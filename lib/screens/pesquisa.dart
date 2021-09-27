@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dook/models/book_models.dart';
+import 'package:dook/screens/resultado.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:dook/services/get_book.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +83,16 @@ class Pesquisa extends State {
                             itemCount: snapshot.data.docs.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              ResultadoScreen(
+                                                  isbn: snapshot
+                                                      .data.docs[index].id)));
+                                  print(snapshot.data.docs[index].id);
+                                },
                                 title: Text(snapshot.data.docs[index]['titulo'],
                                     style: TextStyle(
                                       fontSize: 20.sp,

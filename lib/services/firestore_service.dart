@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/models/user_models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:convert';
 
 class FirestoreService extends ChangeNotifier {
   FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -97,6 +98,12 @@ class FirestoreService extends ChangeNotifier {
       'autor': autor,
       'pesqList': pesqList
     });
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> pesquisaExemplar(isbn) {
+    final result =
+        _db.collection('Exemplar').where('isbn', isEqualTo: isbn).snapshots();
+    return result;
   }
 
   //LOGIN GOOGLE
