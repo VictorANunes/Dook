@@ -16,7 +16,7 @@ class UserProvider with ChangeNotifier {
   String _bairro;
   String _numero;
   String _complemento;
-  String _estado;
+  String _cidade;
   String _uf;
   String _url;
   String _generos1 = '';
@@ -43,7 +43,7 @@ class UserProvider with ChangeNotifier {
   String get bairro => _bairro;
   String get numero => _numero;
   String get complemento => _complemento;
-  String get estado => _estado;
+  String get cidade => _cidade;
   String get uf => _uf;
   String get url => _url;
   String get generos1 => _generos1;
@@ -118,8 +118,8 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  changeEstado(String value) {
-    _estado = value;
+  changeCidade(String value) {
+    _cidade = value;
     notifyListeners();
   }
 
@@ -193,7 +193,7 @@ class UserProvider with ChangeNotifier {
       bairro: bairro,
       numero: numero,
       complemento: complemento,
-      estado: estado,
+      cidade: cidade,
       uf: uf,
       url: url,
       generos1: generos1,

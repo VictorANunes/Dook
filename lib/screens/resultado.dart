@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dook/services/firestore_service.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
@@ -21,11 +22,14 @@ class Resultado extends State {
         padding: EdgeInsets.only(
           top: 35.r,
           left: 25.r,
-          right: 25.r,
+          right: 15.r,
         ),
         child: ListView(
           children: <Widget>[
             ResultadoCabecalho(),
+            SizedBox(
+              height: 30.h,
+            ),
             ResultadoCorpo(isbn: isbn),
           ],
         ),
@@ -108,23 +112,72 @@ class ResultadoCorpo extends StatelessWidget {
                   return ListTile(
                     onTap: () {
                       //mudar para tela de anuncio
-                      print('foi');
+                      print(snapshot.data.docs[index].id);
                     },
-                    title: Text('media - $mediaRound',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                        )),
-                    subtitle: Text('oi',
-                        style: TextStyle(
-                          fontSize: 15.sp,
-                        )),
+                    title: StreamBuilder(
+                      stream:
+                          firestore.getObra(snapshot.data.docs[index]['isbn']),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> obra) {
+                        if (obra.hasData) {
+                          return Text(obra.data['titulo'],
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                              ));
+                        } else {
+                          return Text('');
+                        }
+                      },
+                    ),
+                    subtitle: StreamBuilder(
+                      stream: firestore
+                          .getUsuario(snapshot.data.docs[index]['criador']),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> usuario) {
+                        if (usuario.hasData) {
+                          return Text(
+                              usuario.data['endereco']['cidade'] +
+                                  " - " +
+                                  usuario.data['endereco']['uf'],
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                              ));
+                        } else {
+                          return Text('');
+                        }
+                      },
+                    ),
+                    leading: Container(
+                      width: 50.w,
+                      height: 60.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              snapshot.data.docs[index]['fotos']['capa']),
+                        ),
+                      ),
+                    ),
+                    trailing: Container(
+                      child: RatingBarIndicator(
+                        rating: media,
+                        itemBuilder: (context, index) => Icon(
+                          Icons.star,
+                          color: Colors.deepPurple[600],
+                        ),
+                        itemCount: 5,
+                        itemSize: 19.0,
+                        direction: Axis.horizontal,
+                      ),
+                    ),
                   );
                 },
               ),
             );
           } else {
             return Center(
-              child: Text('vazio'),
+              child: Text(''),
             );
           }
         },

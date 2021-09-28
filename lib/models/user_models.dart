@@ -11,7 +11,7 @@ class Users {
   final String bairro;
   final String numero;
   final String complemento;
-  final String estado;
+  final String cidade;
   final String uf;
   final String url;
   final String generos1;
@@ -38,7 +38,7 @@ class Users {
     this.bairro,
     this.numero,
     this.complemento,
-    this.estado,
+    this.cidade,
     this.uf,
     this.url,
     this.generos1,
@@ -67,7 +67,7 @@ class Users {
         'bairro': bairro,
         'numero': numero,
         'complemento': complemento,
-        'estado': estado,
+        'cidade': cidade,
         'uf': uf
       },
       'generosInteresse': {
@@ -100,7 +100,7 @@ class Users {
         bairro = firestore['endereco']['bairro'],
         numero = firestore['endereco']['numero'],
         complemento = firestore['endereco']['complemento'],
-        estado = firestore['endereco']['estado'],
+        cidade = firestore['endereco']['cidade'],
         uf = firestore['endereco']['uf'],
         url = firestore['foto'],
         generos1 = firestore['generosInteresse']['generos1'],

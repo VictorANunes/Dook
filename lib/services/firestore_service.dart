@@ -106,6 +106,16 @@ class FirestoreService extends ChangeNotifier {
     return result;
   }
 
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUsuario(email) {
+    var result = _db.collection('Usuario').doc(email).snapshots();
+    return result;
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getObra(isbn) {
+    var result = _db.collection('Obra').doc(isbn).snapshots();
+    return result;
+  }
+
   //LOGIN GOOGLE
   /*Future<String> signInwithGoogle() async {
     try {
