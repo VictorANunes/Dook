@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dook/models/obra_models.dart';
+import 'package:dook/models/user_models.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -109,18 +111,18 @@ class ResultadoCorpo extends StatelessWidget {
                       5;
 
                   int mediaRound = media.round();
+                  var obra = firestore.getObra(isbn);
                   return ListTile(
-                    onTap: () {
+                    onTap: () async {
                       //mudar para tela de anuncio
                       print(snapshot.data.docs[index].id);
                     },
                     title: StreamBuilder(
-                      stream:
-                          firestore.getObra(snapshot.data.docs[index]['isbn']),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> obra) {
+                      stream: obra,
+                      builder:
+                          (BuildContext context, AsyncSnapshot<Obra> obra) {
                         if (obra.hasData) {
-                          return Text(obra.data['titulo'],
+                          return Text(obra.data.titulo,
                               style: TextStyle(
                                 fontSize: 20.sp,
                               ));
@@ -132,13 +134,11 @@ class ResultadoCorpo extends StatelessWidget {
                     subtitle: StreamBuilder(
                       stream: firestore
                           .getUsuario(snapshot.data.docs[index]['criador']),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> usuario) {
+                      builder:
+                          (BuildContext context, AsyncSnapshot<Users> usuario) {
                         if (usuario.hasData) {
                           return Text(
-                              usuario.data['endereco']['cidade'] +
-                                  " - " +
-                                  usuario.data['endereco']['uf'],
+                              usuario.data.cidade + " - " + usuario.data.uf,
                               style: TextStyle(
                                 fontSize: 14.sp,
                               ));

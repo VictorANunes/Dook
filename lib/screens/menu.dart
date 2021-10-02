@@ -1,4 +1,6 @@
+import 'package:dook/models/user_models.dart';
 import 'package:dook/screens/menu_inferior.dart';
+import 'package:dook/screens/perfil/meuperfil.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,8 +101,9 @@ class MenuPerfil extends StatelessWidget {
             children: <Widget>[
               Text(' '),
               StreamBuilder(
-                  stream: firestore.pegarDados(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  stream: firestore.getDadosUsuario(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<Users> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return new Center(child: new CircularProgressIndicator());
                     }
@@ -109,7 +112,7 @@ class MenuPerfil extends StatelessWidget {
                         width: 170.w,
                         height: 170.h,
                         decoration: BoxDecoration(
-                          color: Colors.grey[600],
+                          color: Colors.white,
                           shape: BoxShape.circle,
                         ),
                         child: Padding(
@@ -120,7 +123,7 @@ class MenuPerfil extends StatelessWidget {
                               color: Colors.white,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage(snapshot.data['foto']),
+                                image: NetworkImage(snapshot.data.url),
                               ),
                             ),
                           ),
@@ -155,25 +158,32 @@ class MenuPerfil extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(8.0.r),
+            padding: EdgeInsets.all(3.0.r),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(' '),
-              Text(
-                'Ver Perfil',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.sp,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MeuPerfilScreen()));
+                  },
+                  child: Text(
+                    'Ver Perfil',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                      decoration: TextDecoration.underline,
+                    ),
+                  )),
               Text(' '),
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(8.0.r),
+            padding: EdgeInsets.all(4.0.r),
           ),
         ],
       ),

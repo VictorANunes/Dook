@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dook/models/obra_models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/models/user_models.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,17 @@ class FirestoreService extends ChangeNotifier {
   FirebaseFirestore _db = FirebaseFirestore.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  String getEmail() {
+    var currentUser = FirebaseAuth.instance.currentUser;
+    var email;
+    if (currentUser != null) {
+      email = currentUser.email;
+    } else {
+      email = null;
+    }
+    return email;
+  }
 
   //USERS
   Future<void> saveUser(Users user) async {
@@ -52,13 +64,13 @@ class FirestoreService extends ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> pegarDados() {
-    var currentUser = FirebaseAuth.instance.currentUser;
-    var email;
-    if (currentUser != null) {
-      email = currentUser.email;
-    }
-    final result = _db.collection('Usuario').doc(email).snapshots();
+  Stream<Users> getDadosUsuario() {
+    var email = getEmail();
+    final result = _db
+        .collection('Usuario')
+        .doc(email)
+        .snapshots()
+        .map((event) => Users.fromFirestore(event.data()));
     return result;
   }
 
@@ -101,19 +113,45 @@ class FirestoreService extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> pesquisaExemplar(isbn) {
-    final result =
-        _db.collection('Exemplar').where('isbn', isEqualTo: isbn).snapshots();
+    final result = _db
+        .collection('Exemplar')
+        .where('isbn', isEqualTo: isbn)
+        .where('status', isEqualTo: 'aberto')
+        .snapshots();
     return result;
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getUsuario(email) {
-    var result = _db.collection('Usuario').doc(email).snapshots();
+  Stream<Users> getUsuario(email) {
+    var result = _db
+        .collection('Usuario')
+        .doc(email)
+        .snapshots()
+        .map((event) => Users.fromFirestore(event.data()));
     return result;
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getObra(isbn) {
-    var result = _db.collection('Obra').doc(isbn).snapshots();
+  Stream<Obra> getObra(isbn) {
+    var result = _db
+        .collection('Obra')
+        .doc(isbn)
+        .snapshots()
+        .map((event) => Obra.fromFirestore(event.data()));
     return result;
+  }
+
+//Recuperar dados e salvar em uma variável
+  Future<String> testeUser() async {
+    var result = await _db
+        .collection('Usuario')
+        .doc('luis@gmail.com')
+        .snapshots()
+        .map((snapshot) => testeUser2(snapshot.data()))
+        .first;
+  }
+
+  String testeUser2(Map<String, dynamic> firestore) {
+    String nome = firestore['nome'];
+    return nome;
   }
 
   //LOGIN GOOGLE

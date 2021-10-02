@@ -24,37 +24,39 @@ class Users {
   final String livros3;
   final String livros4;
   final String livros5;
+  final String id;
 
-  Users({
-    this.nome,
-    this.email,
-    this.senha,
-    this.cpf,
-    this.datanasc,
-    this.sexo,
-    this.telefone,
-    this.cep,
-    this.rua,
-    this.bairro,
-    this.numero,
-    this.complemento,
-    this.cidade,
-    this.uf,
-    this.url,
-    this.generos1,
-    this.generos2,
-    this.generos3,
-    this.generos4,
-    this.generos5,
-    this.livros1,
-    this.livros2,
-    this.livros3,
-    this.livros4,
-    this.livros5,
-  });
+  Users(
+      {this.nome,
+      this.email,
+      this.senha,
+      this.cpf,
+      this.datanasc,
+      this.sexo,
+      this.telefone,
+      this.cep,
+      this.rua,
+      this.bairro,
+      this.numero,
+      this.complemento,
+      this.cidade,
+      this.uf,
+      this.url,
+      this.generos1,
+      this.generos2,
+      this.generos3,
+      this.generos4,
+      this.generos5,
+      this.livros1,
+      this.livros2,
+      this.livros3,
+      this.livros4,
+      this.livros5,
+      this.id});
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'cpf': cpf,
       'nome': nome,
       'sexo': sexo,
@@ -112,5 +114,6 @@ class Users {
         livros2 = firestore['livrosInteresse']['livros2'],
         livros3 = firestore['livrosInteresse']['livros3'],
         livros4 = firestore['livrosInteresse']['livros4'],
-        livros5 = firestore['livrosInteresse']['livros5'];
+        livros5 = firestore['livrosInteresse']['livros5'],
+        id = firestore['id'];
 }

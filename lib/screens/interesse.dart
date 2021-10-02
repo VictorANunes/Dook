@@ -1,3 +1,4 @@
+import 'package:dook/screens/notificacoes.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -114,7 +115,13 @@ class IntCabecalho extends StatelessWidget {
                 color: Colors.deepPurple[600],
                 size: 40,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            NotificacaoScreen()));
+              },
             ),
           ),
         ],

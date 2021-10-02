@@ -29,6 +29,7 @@ class UserProvider with ChangeNotifier {
   String _livros3 = '';
   String _livros4 = '';
   String _livros5 = '';
+  String _id;
 
   //Get
   String get nome => _nome;
@@ -56,6 +57,7 @@ class UserProvider with ChangeNotifier {
   String get livros3 => _livros3;
   String get livros4 => _livros4;
   String get livros5 => _livros5;
+  String get id => _id;
 
   //Set
   changeNome(String value) {
@@ -179,34 +181,39 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  changeId(value) {
+    _id = value;
+    notifyListeners();
+  }
+
   saveUser() {
     var newUser = Users(
-      nome: nome,
-      email: email,
-      senha: senha,
-      cpf: cpf,
-      datanasc: datanasc,
-      sexo: sexo,
-      telefone: telefone,
-      cep: cep,
-      rua: rua,
-      bairro: bairro,
-      numero: numero,
-      complemento: complemento,
-      cidade: cidade,
-      uf: uf,
-      url: url,
-      generos1: generos1,
-      generos2: generos2,
-      generos3: generos3,
-      generos4: generos4,
-      generos5: generos5,
-      livros1: livros1,
-      livros2: livros2,
-      livros3: livros3,
-      livros4: livros4,
-      livros5: livros5,
-    );
+        nome: nome,
+        email: email,
+        senha: senha,
+        cpf: cpf,
+        datanasc: datanasc,
+        sexo: sexo,
+        telefone: telefone,
+        cep: cep,
+        rua: rua,
+        bairro: bairro,
+        numero: numero,
+        complemento: complemento,
+        cidade: cidade,
+        uf: uf,
+        url: url,
+        generos1: generos1,
+        generos2: generos2,
+        generos3: generos3,
+        generos4: generos4,
+        generos5: generos5,
+        livros1: livros1,
+        livros2: livros2,
+        livros3: livros3,
+        livros4: livros4,
+        livros5: livros5,
+        id: id);
     firestoreService.saveUser(newUser);
   }
 
