@@ -134,7 +134,7 @@ class MenuPerfil extends StatelessWidget {
                         width: 170.w,
                         height: 170.h,
                         decoration: BoxDecoration(
-                          color: Colors.grey[600],
+                          color: Colors.white,
                           shape: BoxShape.circle,
                         ),
                         child: Padding(

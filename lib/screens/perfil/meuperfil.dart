@@ -19,7 +19,8 @@ class MeuPerfil extends State {
         child: ListView(
           children: <Widget>[
             MeuPerfilCabecalho(),
-            MeuPerfilCorpo(),
+            MeuPerfilLivrosDoados(),
+            MeuPerfilLivrosRecebidos()
           ],
         ),
       ),
@@ -37,7 +38,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
         clipBehavior: Clip.none,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.deepPurple[600]),
+            color: Colors.deepPurple[600],
             height: 220.0.h,
           ),
           Row(
@@ -131,7 +132,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
                         width: 170.w,
                         height: 170.h,
                         decoration: BoxDecoration(
-                          color: Colors.grey[600],
+                          color: Colors.white,
                           shape: BoxShape.circle,
                         ),
                         child: Padding(
@@ -155,7 +156,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
             ],
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 270.0),
+            margin: EdgeInsets.only(top: 270.0),
             width: 431.w,
             height: 120.h,
             //color: Colors.yellow,
@@ -216,9 +217,168 @@ class MeuPerfilCabecalho extends StatelessWidget {
   }
 }
 
-class MeuPerfilCorpo extends StatelessWidget {
+class MeuPerfilLivrosDoados extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      //color: Colors.yellow,
+      padding: EdgeInsets.only(
+        left: 15.r,
+        right: 15.r,
+      ),
+      width: 340.w,
+      height: 245.h,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Livros Doados',
+            style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w500),
+            textAlign: TextAlign.left,
+          ),
+          SizedBox(
+            height: 15.h,
+          ),
+          Container(
+            height: 195.h,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  width: 135.w,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://livrariascuritiba.vteximg.com.br/arquivos/ids/1663114-1000-1000/LV417866.jpg?v=636815454000200000'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          // color: Colors.blue,
+                          height: 50.h,
+                          child: Text(
+                            'Harry Potter',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Container(
+                  height: 135.h,
+                  width: 135.w,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://images-na.ssl-images-amazon.com/images/I/61hH5E8xHZL.jpg'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          height: 50.h,
+                          child: Text(
+                            'Percy Jackson',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MeuPerfilLivrosRecebidos extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //color: Colors.yellow,
+      padding: EdgeInsets.only(
+        left: 15.r,
+        right: 15.r,
+      ),
+      width: 340.w,
+      height: 245.h,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Livros Recebidos',
+            style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w500),
+            textAlign: TextAlign.left,
+          ),
+          SizedBox(
+            height: 15.h,
+          ),
+          Container(
+            height: 195.h,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  width: 135.w,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://livrariascuritiba.vteximg.com.br/arquivos/ids/1663114-1000-1000/LV417866.jpg?v=636815454000200000'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          // color: Colors.blue,
+                          height: 50.h,
+                          child: Text(
+                            'Harry Potter',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Container(
+                  height: 135.h,
+                  width: 135.w,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 135.h,
+                        child: Image.network(
+                            'https://images-na.ssl-images-amazon.com/images/I/61hH5E8xHZL.jpg'),
+                      ),
+                      SizedBox(height: 5.h),
+                      Container(
+                          height: 50.h,
+                          child: Text(
+                            'Percy Jackson',
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
