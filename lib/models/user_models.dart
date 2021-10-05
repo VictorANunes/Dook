@@ -25,6 +25,8 @@ class Users {
   final String livros4;
   final String livros5;
   final String id;
+  List<String> livrosDoados = [];
+  List<String> livrosRecebidos = [];
 
   Users(
       {this.nome,
@@ -52,7 +54,9 @@ class Users {
       this.livros3,
       this.livros4,
       this.livros5,
-      this.id});
+      this.id,
+      this.livrosDoados,
+      this.livrosRecebidos});
 
   Map<String, dynamic> toMap() {
     return {
@@ -85,7 +89,9 @@ class Users {
         'livros3': livros3,
         'livros4': livros4,
         'livros5': livros5,
-      }
+      },
+      'livrosDoados': [],
+      'livrosRecebidos': []
     };
   }
 
@@ -115,5 +121,7 @@ class Users {
         livros3 = firestore['livrosInteresse']['livros3'],
         livros4 = firestore['livrosInteresse']['livros4'],
         livros5 = firestore['livrosInteresse']['livros5'],
-        id = firestore['id'];
+        id = firestore['id'],
+        livrosDoados = List.from(firestore['livrosDoados']),
+        livrosRecebidos = List.from(firestore['livrosRecebidos']);
 }

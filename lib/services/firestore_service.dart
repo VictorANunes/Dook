@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dook/models/exemplar_models.dart';
 import 'package:dook/models/obra_models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/models/user_models.dart';
@@ -10,6 +11,7 @@ class FirestoreService extends ChangeNotifier {
   FirebaseFirestore _db = FirebaseFirestore.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+//FirebaseFirestore.instance.collection('collection_Name').doc('doc_Name').collection('collection_Name').doc(code.documentId).update({'redeem': true});
 
   String getEmail() {
     var currentUser = FirebaseAuth.instance.currentUser;
@@ -22,28 +24,7 @@ class FirestoreService extends ChangeNotifier {
     return email;
   }
 
-  //USERS
-  Future<void> saveUser(Users user) async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: user.email, password: user.senha);
-    try {
-      _db.collection('Usuario').doc(user.email).set(user.toMap());
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Stream<List<Users>> getDataUser(email) {
-    return _db.collection('Usuario').snapshots().map((snapshot) => snapshot.docs
-        .map((document) => Users.fromFirestore(document.data()))
-        .toList());
-  }
-
-  Future<void> removeUser(String id) {
-    return _db.collection('userteste').doc(id).delete();
-  }
-
-  //LOGIN
+  //----------LOGIN----------//
   Future<bool> LoginStatus() {
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
@@ -64,7 +45,30 @@ class FirestoreService extends ChangeNotifier {
     notifyListeners();
   }
 
+  //----------USUÁRIOS----------//
+  Future<void> saveUser(Users user) async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: user.email, password: user.senha);
+    try {
+      _db.collection('Usuario').doc(user.email).set(user.toMap());
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Stream<List<Users>> getDataUser(String email) {
+    //Pegar todos usuários
+    return _db.collection('Usuario').snapshots().map((snapshot) => snapshot.docs
+        .map((document) => Users.fromFirestore(document.data()))
+        .toList());
+  }
+
+  Future<void> removeUser(String id) {
+    return _db.collection('userteste').doc(id).delete();
+  }
+
   Stream<Users> getDadosUsuario() {
+    //Pegar dados do prório usuário
     var email = getEmail();
     final result = _db
         .collection('Usuario')
@@ -74,6 +78,17 @@ class FirestoreService extends ChangeNotifier {
     return result;
   }
 
+  Stream<Users> getUsuario(email) {
+    //Pegar dados de outro usuário
+    var result = _db
+        .collection('Usuario')
+        .doc(email)
+        .snapshots()
+        .map((event) => Users.fromFirestore(event.data()));
+    return result;
+  }
+
+  //----------OBRA----------//
   Stream<QuerySnapshot<Map<String, dynamic>>> resultadoPesquisa(texto) {
     final result = _db
         .collection('Obra')
@@ -112,7 +127,17 @@ class FirestoreService extends ChangeNotifier {
     });
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> pesquisaExemplar(isbn) {
+  Stream<Obra> getObra(String isbn) {
+    var result = _db
+        .collection('Obra')
+        .doc(isbn)
+        .snapshots()
+        .map((event) => Obra.fromFirestore(event.data()));
+    return result;
+  }
+
+  //----------EXEMPLAR----------//
+  Stream<QuerySnapshot<Map<String, dynamic>>> pesquisaExemplar(String isbn) {
     final result = _db
         .collection('Exemplar')
         .where('isbn', isEqualTo: isbn)
@@ -121,21 +146,23 @@ class FirestoreService extends ChangeNotifier {
     return result;
   }
 
-  Stream<Users> getUsuario(email) {
+  Stream<List<Exemplar>> getMeusAnuncios() {
+    String email = getEmail();
     var result = _db
-        .collection('Usuario')
-        .doc(email)
+        .collection('Exemplar')
+        .where('criador', isEqualTo: email)
         .snapshots()
-        .map((event) => Users.fromFirestore(event.data()));
+        .map((event) =>
+            event.docs.map((e) => Exemplar.fromFirestore(e.data())).toList());
     return result;
   }
 
-  Stream<Obra> getObra(isbn) {
+  Stream<Exemplar> getExemplar(String id) {
     var result = _db
-        .collection('Obra')
-        .doc(isbn)
+        .collection('Exemplar')
+        .doc(id)
         .snapshots()
-        .map((event) => Obra.fromFirestore(event.data()));
+        .map((event) => Exemplar.fromFirestore(event.data()));
     return result;
   }
 
@@ -149,9 +176,12 @@ class FirestoreService extends ChangeNotifier {
         .first;
   }
 
-  String testeUser2(Map<String, dynamic> firestore) {
-    String nome = firestore['nome'];
-    return nome;
+  void testeUser2(Map<String, dynamic> firestore) {
+    //print(firestore['livrosDoados']);
+    List<String> livrosDoados = List.from(firestore['livrosDoados']);
+    print(livrosDoados[0]);
+    //String nome = firestore['nome'];
+    //return nome;
   }
 
   //LOGIN GOOGLE

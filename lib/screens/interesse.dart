@@ -1,3 +1,5 @@
+import 'package:dook/models/exemplar_models.dart';
+import 'package:dook/models/obra_models.dart';
 import 'package:dook/screens/notificacoes.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
@@ -292,6 +294,7 @@ class IntListaDesejos extends StatelessWidget {
 }
 
 class IntMeusAnuncios extends StatelessWidget {
+  FirestoreService firestore = new FirestoreService();
   Widget build(BuildContext contexto) {
     return Container(
       width: 340.w,
@@ -318,58 +321,54 @@ class IntMeusAnuncios extends StatelessWidget {
           ),
           Container(
             height: 195.h,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                Container(
-                  width: 135.w,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 135.h,
-                        child: Image.network(
-                            'https://livrariascuritiba.vteximg.com.br/arquivos/ids/1663114-1000-1000/LV417866.jpg?v=636815454000200000'),
-                      ),
-                      SizedBox(height: 5.h),
-                      Container(
-                          // color: Colors.blue,
-                          height: 50.h,
-                          child: Text(
-                            'Harry Potter',
-                            style: TextStyle(
-                                fontSize: 17.sp, fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.center,
-                          )),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Container(
-                  height: 135.h,
-                  width: 135.w,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 135.h,
-                        child: Image.network(
-                            'https://images-na.ssl-images-amazon.com/images/I/61hH5E8xHZL.jpg'),
-                      ),
-                      SizedBox(height: 5.h),
-                      Container(
-                          height: 50.h,
-                          child: Text(
-                            'Percy Jackson',
-                            style: TextStyle(
-                                fontSize: 17.sp, fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.center,
-                          )),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            child: StreamBuilder(
+                stream: firestore.getMeusAnuncios(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Exemplar>> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: 135.w,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 135.h,
+                                  child:
+                                      Image.network(snapshot.data[index].capa),
+                                ),
+                                SizedBox(height: 5.h),
+                                Container(
+                                    // color: Colors.blue,
+                                    height: 50.h,
+                                    child: StreamBuilder(
+                                      stream: firestore
+                                          .getObra(snapshot.data[index].isbn),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<Obra> obra) {
+                                        if (obra.hasData) {
+                                          return Text(
+                                            obra.data.titulo,
+                                            style: TextStyle(
+                                                fontSize: 17.sp,
+                                                fontWeight: FontWeight.w500),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return Text('');
+                                        }
+                                      },
+                                    )),
+                              ],
+                            ),
+                          );
+                        });
+                  } else {
+                    return Text('');
+                  }
+                }),
           ),
         ],
       ),
