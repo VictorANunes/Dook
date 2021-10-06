@@ -7,6 +7,7 @@ import 'package:dook/screens/cadastro/cadastro_2.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class CadastroScreen extends StatefulWidget {
   @override
@@ -30,8 +31,6 @@ class Cadastro extends State {
   }
 
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    print(size);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -296,8 +295,12 @@ class Cadastro extends State {
             ),
             ElevatedButton(
               onPressed: () async {
+                var status = await OneSignal.shared.getDeviceState();
+                var playerId = status.userId;
+
                 final _auth = FirebaseAuth.instance;
                 UserProvider user = new UserProvider();
+
                 var mensagem = '';
                 if (nome.text != '' && email.text != '' && senha.text != '') {
                   final bool emailTest = EmailValidator.validate(email.text);
@@ -318,6 +321,7 @@ class Cadastro extends State {
                             user.changeNome(nome.text);
                             user.changeEmail(email.text);
                             user.changeSenha(senha.text);
+                            user.changeId(playerId);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

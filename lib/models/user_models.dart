@@ -11,7 +11,7 @@ class Users {
   final String bairro;
   final String numero;
   final String complemento;
-  final String estado;
+  final String cidade;
   final String uf;
   final String url;
   final String generos1;
@@ -24,48 +24,56 @@ class Users {
   final String livros3;
   final String livros4;
   final String livros5;
+  final String id;
+  List<String> livrosDoados = [];
+  List<String> livrosRecebidos = [];
 
-  Users({
-    this.nome,
-    this.email,
-    this.senha,
-    this.cpf,
-    this.datanasc,
-    this.sexo,
-    this.telefone,
-    this.cep,
-    this.rua,
-    this.bairro,
-    this.numero,
-    this.complemento,
-    this.estado,
-    this.uf,
-    this.url,
-    this.generos1,
-    this.generos2,
-    this.generos3,
-    this.generos4,
-    this.generos5,
-    this.livros1,
-    this.livros2,
-    this.livros3,
-    this.livros4,
-    this.livros5,
-  });
+  Users(
+      {this.nome,
+      this.email,
+      this.senha,
+      this.cpf,
+      this.datanasc,
+      this.sexo,
+      this.telefone,
+      this.cep,
+      this.rua,
+      this.bairro,
+      this.numero,
+      this.complemento,
+      this.cidade,
+      this.uf,
+      this.url,
+      this.generos1,
+      this.generos2,
+      this.generos3,
+      this.generos4,
+      this.generos5,
+      this.livros1,
+      this.livros2,
+      this.livros3,
+      this.livros4,
+      this.livros5,
+      this.id,
+      this.livrosDoados,
+      this.livrosRecebidos});
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'cpf': cpf,
       'nome': nome,
       'sexo': sexo,
       'foto': url,
+      'datanasc': datanasc,
+      'telefone': telefone,
       'endereco': {
         'cep': cep,
         'rua': rua,
         'bairro': bairro,
         'numero': numero,
         'complemento': complemento,
-        'estado': estado,
+        'cidade': cidade,
         'uf': uf
       },
       'generosInteresse': {
@@ -81,10 +89,39 @@ class Users {
         'livros3': livros3,
         'livros4': livros4,
         'livros5': livros5,
-      }
+      },
+      'livrosDoados': [],
+      'livrosRecebidos': []
     };
   }
 
-/*  Users.fromFirestore(Map<String, dynamic> firestore)
-      : nome = firestore['nome']*/
+  Users.fromFirestore(Map<String, dynamic> firestore)
+      : email = firestore['email'],
+        senha = firestore['senha'],
+        nome = firestore['nome'],
+        cpf = firestore['cpf'],
+        datanasc = firestore['datanasc'],
+        sexo = firestore['sexo'],
+        telefone = firestore['telefone'],
+        cep = firestore['endereco']['cep'],
+        rua = firestore['endereco']['rua'],
+        bairro = firestore['endereco']['bairro'],
+        numero = firestore['endereco']['numero'],
+        complemento = firestore['endereco']['complemento'],
+        cidade = firestore['endereco']['cidade'],
+        uf = firestore['endereco']['uf'],
+        url = firestore['foto'],
+        generos1 = firestore['generosInteresse']['generos1'],
+        generos2 = firestore['generosInteresse']['generos2'],
+        generos3 = firestore['generosInteresse']['generos3'],
+        generos4 = firestore['generosInteresse']['generos4'],
+        generos5 = firestore['generosInteresse']['generos5'],
+        livros1 = firestore['livrosInteresse']['livros1'],
+        livros2 = firestore['livrosInteresse']['livros2'],
+        livros3 = firestore['livrosInteresse']['livros3'],
+        livros4 = firestore['livrosInteresse']['livros4'],
+        livros5 = firestore['livrosInteresse']['livros5'],
+        id = firestore['id'],
+        livrosDoados = List.from(firestore['livrosDoados']),
+        livrosRecebidos = List.from(firestore['livrosRecebidos']);
 }

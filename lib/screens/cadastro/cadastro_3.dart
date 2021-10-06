@@ -21,7 +21,7 @@ class Cadastro3 extends State {
   final bairro = TextEditingController();
   final numero = TextEditingController();
   final complemento = TextEditingController();
-  final estado = TextEditingController();
+  final cidade = TextEditingController();
   final uf = TextEditingController();
   Widget build(BuildContext context) {
     return Scaffold(
@@ -245,7 +245,7 @@ class Cadastro3 extends State {
               height: 15.h,
             ),
             Text(
-              'Estado *                                         UF *',
+              'Cidade *                                         UF *',
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 18.sp,
@@ -261,7 +261,7 @@ class Cadastro3 extends State {
                 Container(
                   width: 230.w,
                   child: TextFormField(
-                    controller: estado,
+                    controller: cidade,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(
@@ -337,7 +337,7 @@ class Cadastro3 extends State {
                     rua.text != '' &&
                     bairro.text != '' &&
                     numero.text != '' &&
-                    estado.text != '' &&
+                    cidade.text != '' &&
                     uf.text != '') {
                   if (cep.text.length == 9) {
                     if (uf.text.length == 2) {
@@ -346,7 +346,7 @@ class Cadastro3 extends State {
                       user.changeBairro(bairro.text);
                       user.changeNumero(numero.text);
                       user.changeComplemento(complemento.text);
-                      user.changeEstado(estado.text);
+                      user.changeCidade(cidade.text);
                       user.changeUf(uf.text);
                       Navigator.push(
                           context,

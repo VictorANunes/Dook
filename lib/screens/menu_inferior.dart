@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dook/screens/interesse.dart';
 import 'package:dook/screens/acervo.dart';
 import 'package:dook/screens/chat.dart';
@@ -16,13 +15,18 @@ class MenuInferior extends State {
     InteresseScreen(),
     AcervoScreen(),
     ChatScreen(),
-    MenuScreen()
   ];
 
   void mudarTela(int index) {
     setState(() {
       _indiceAtual = index;
-      print(_indiceAtual);
+      if (_indiceAtual == 3) {
+        _indiceAtual = 0;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MenuScreen()),
+        );
+      }
     });
   }
 
@@ -50,7 +54,7 @@ class MenuInferior extends State {
             unselectedFontSize: 15,
             showUnselectedLabels: true,
             showSelectedLabels: true,
-            elevation: 15,
+            elevation: 5,
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_rounded),

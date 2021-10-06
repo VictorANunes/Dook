@@ -16,7 +16,7 @@ class UserProvider with ChangeNotifier {
   String _bairro;
   String _numero;
   String _complemento;
-  String _estado;
+  String _cidade;
   String _uf;
   String _url;
   String _generos1 = '';
@@ -29,6 +29,7 @@ class UserProvider with ChangeNotifier {
   String _livros3 = '';
   String _livros4 = '';
   String _livros5 = '';
+  String _id;
 
   //Get
   String get nome => _nome;
@@ -43,7 +44,7 @@ class UserProvider with ChangeNotifier {
   String get bairro => _bairro;
   String get numero => _numero;
   String get complemento => _complemento;
-  String get estado => _estado;
+  String get cidade => _cidade;
   String get uf => _uf;
   String get url => _url;
   String get generos1 => _generos1;
@@ -56,6 +57,7 @@ class UserProvider with ChangeNotifier {
   String get livros3 => _livros3;
   String get livros4 => _livros4;
   String get livros5 => _livros5;
+  String get id => _id;
 
   //Set
   changeNome(String value) {
@@ -118,8 +120,8 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  changeEstado(String value) {
-    _estado = value;
+  changeCidade(String value) {
+    _cidade = value;
     notifyListeners();
   }
 
@@ -179,34 +181,39 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  changeId(value) {
+    _id = value;
+    notifyListeners();
+  }
+
   saveUser() {
     var newUser = Users(
-      nome: nome,
-      email: email,
-      senha: senha,
-      cpf: cpf,
-      datanasc: datanasc,
-      sexo: sexo,
-      telefone: telefone,
-      cep: cep,
-      rua: rua,
-      bairro: bairro,
-      numero: numero,
-      complemento: complemento,
-      estado: estado,
-      uf: uf,
-      url: url,
-      generos1: generos1,
-      generos2: generos2,
-      generos3: generos3,
-      generos4: generos4,
-      generos5: generos5,
-      livros1: livros1,
-      livros2: livros2,
-      livros3: livros3,
-      livros4: livros4,
-      livros5: livros5,
-    );
+        nome: nome,
+        email: email,
+        senha: senha,
+        cpf: cpf,
+        datanasc: datanasc,
+        sexo: sexo,
+        telefone: telefone,
+        cep: cep,
+        rua: rua,
+        bairro: bairro,
+        numero: numero,
+        complemento: complemento,
+        cidade: cidade,
+        uf: uf,
+        url: url,
+        generos1: generos1,
+        generos2: generos2,
+        generos3: generos3,
+        generos4: generos4,
+        generos5: generos5,
+        livros1: livros1,
+        livros2: livros2,
+        livros3: livros3,
+        livros4: livros4,
+        livros5: livros5,
+        id: id);
     firestoreService.saveUser(newUser);
   }
 
