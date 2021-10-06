@@ -12,6 +12,7 @@ class MeuPerfilScreen extends StatefulWidget {
 }
 
 class MeuPerfil extends State {
+  //Inicia a tela chamando as demais classes com os Widgets
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,22 +32,27 @@ class MeuPerfil extends State {
 }
 
 class MeuPerfilCabecalho extends StatelessWidget {
+  //Monta o cabeçalho da pagina
   FirestoreService firestore = new FirestoreService();
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topCenter,
       child: Stack(
+        //Stack usado para fazer este efeito da cor roxa
         clipBehavior: Clip.none,
         children: <Widget>[
           Container(
+            //Criado Container da cor roxa e seu tamanho
             color: Colors.deepPurple[600],
             height: 220.0.h,
           ),
           Row(
+            //Linhas para colocar os Icones e o Texto centralizados
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
+                //Botão de voltar para a página anterior
                 padding: EdgeInsets.only(
                   top: 25.r,
                   left: 25.r,
@@ -63,6 +69,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
                 width: 90.w,
               ),
               Container(
+                //Texto central 'Perfil'
                 padding: EdgeInsets.only(
                   top: 25.r,
                   left: 25.r,
@@ -78,6 +85,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
                 ),
               ),
               Container(
+                //Icone que vai para a tela de editar perfil
                 padding: EdgeInsets.only(
                   top: 25.r,
                   left: 25.r,
@@ -97,18 +105,23 @@ class MeuPerfilCabecalho extends StatelessWidget {
             ],
           ),
           Row(
+            //Linha com espaços vazios e a foto circurlar para centralizar
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(' '),
               StreamBuilder(
-                  stream: firestore.getDadosUsuario(),
+                  //Stream que pega os dados do usuário para resgatar a url da foto
+                  stream: firestore
+                      .getDadosUsuario(), //função que pega os dados do usuario
                   builder:
-                      (BuildContext context, AsyncSnapshot<Users> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      (BuildContext context, AsyncSnapshot<Users> usuario) {
+                    if (usuario.connectionState == ConnectionState.waiting) {
                       return new Center(child: new CircularProgressIndicator());
                     }
-                    if (snapshot.hasData) {
+                    if (usuario.hasData) {
+                      //Verifica se tem data
                       return Container(
+                        //Mostrar foto de perfil redonda
                         margin: EdgeInsets.symmetric(vertical: 100.0.r),
                         width: 170.w,
                         height: 170.h,
@@ -117,20 +130,22 @@ class MeuPerfilCabecalho extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(2),
+                          padding: EdgeInsets.all(2.r),
                           child: Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage(snapshot.data.url),
+                                image: NetworkImage(usuario.data
+                                    .url), //Pegar imagem através de um link
                               ),
                             ),
                           ),
                         ),
                       );
                     } else {
+                      //Caso a foto demore para carregar coloca esta no lugar até carregar
                       return Container(
                         width: 170.w,
                         height: 170.h,
@@ -159,6 +174,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
             ],
           ),
           Container(
+            //Resgata e mostra dados do usuário como nome e cidade
             margin: EdgeInsets.only(top: 270.0),
             width: 431.w,
             height: 120.h,
@@ -173,10 +189,12 @@ class MeuPerfilCabecalho extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   StreamBuilder(
+                      //Stream para resgatar os dados do usuário
                       stream: firestore.getDadosUsuario(),
                       builder:
                           (BuildContext context, AsyncSnapshot<Users> usuario) {
                         if (usuario.hasData) {
+                          //Cortar o nome pegando o primeiro e ultimo nome da pessoa
                           String nome = usuario.data.nome;
                           List<String> nome2 = nome.split(" ");
                           String nome3 =
@@ -184,15 +202,19 @@ class MeuPerfilCabecalho extends StatelessWidget {
 
                           return Column(
                             children: <Widget>[
-                              Text(nome3,
+                              Text(nome3, //Mostra o nome
                                   style: TextStyle(
                                       fontSize: 35.sp,
                                       fontWeight: FontWeight.bold)),
-                              Text(usuario.data.cidade + ", " + usuario.data.uf,
+                              Text(
+                                  usuario.data.cidade +
+                                      ", " +
+                                      usuario.data.uf, //Mostra cidade e estado
                                   style: TextStyle(
                                     fontSize: 18.sp,
                                   )),
                               Container(
+                                  //Mostra a avaliação da pessoa em estrelas
                                   margin: EdgeInsets.symmetric(vertical: 5.0.r),
                                   child: RatingBarIndicator(
                                     rating: 4,
@@ -221,11 +243,11 @@ class MeuPerfilCabecalho extends StatelessWidget {
 }
 
 class MeuPerfilLivrosDoados extends StatelessWidget {
+  //Parte que mostra os Livros Doados no Perfil
   @override
   FirestoreService firestore = new FirestoreService();
   Widget build(BuildContext context) {
     return Container(
-      //color: Colors.yellow,
       padding: EdgeInsets.only(
         left: 15.r,
         right: 15.r,
@@ -246,21 +268,24 @@ class MeuPerfilLivrosDoados extends StatelessWidget {
           Container(
             height: 195.h,
             child: StreamBuilder(
+                //Stream que pega dados do usuário
                 stream: firestore.getDadosUsuario(),
                 builder: (BuildContext context, AsyncSnapshot<Users> usuario) {
                   if (usuario.hasData) {
                     return ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: usuario.data.livrosDoados.length,
+                        itemCount: usuario.data.livrosDoados
+                            .length, //faz o count de acordo com a lista de livrosDoados
                         itemBuilder: (context, index) {
-                          print(usuario.data.livrosDoados[index]);
                           return StreamBuilder(
+                              //A partir do id de exemplar armazenado em livrosDoados acessamos o exemplar
                               stream: firestore.getExemplar(
                                   usuario.data.livrosDoados[index]),
                               builder: (BuildContext context,
                                   AsyncSnapshot<Exemplar> exemplar) {
                                 if (exemplar.hasData) {
                                   return StreamBuilder(
+                                    //Aqui acessamos a Obra de acordo com o isbn pego no Exemplar
                                     stream:
                                         firestore.getObra(exemplar.data.isbn),
                                     builder: (BuildContext context,
@@ -277,31 +302,16 @@ class MeuPerfilLivrosDoados extends StatelessWidget {
                                               ),
                                               SizedBox(height: 5.h),
                                               Container(
-                                                  // color: Colors.blue,
-                                                  height: 50.h,
-                                                  child: StreamBuilder(
-                                                    stream: firestore.getObra(
-                                                        obra.data.isbn),
-                                                    builder:
-                                                        (BuildContext context,
-                                                            AsyncSnapshot<Obra>
-                                                                obra) {
-                                                      if (obra.hasData) {
-                                                        return Text(
-                                                          obra.data.titulo,
-                                                          style: TextStyle(
-                                                              fontSize: 17.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        );
-                                                      } else {
-                                                        return Text('');
-                                                      }
-                                                    },
-                                                  )),
+                                                height: 50.h,
+                                                child: Text(
+                                                  obra.data.titulo,
+                                                  style: TextStyle(
+                                                      fontSize: 17.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         );
@@ -327,6 +337,7 @@ class MeuPerfilLivrosDoados extends StatelessWidget {
 }
 
 class MeuPerfilLivrosRecebidos extends StatelessWidget {
+  //Funciona igualmente o LivrosDoados
   @override
   Widget build(BuildContext context) {
     FirestoreService firestore = new FirestoreService();
@@ -383,30 +394,16 @@ class MeuPerfilLivrosRecebidos extends StatelessWidget {
                                               ),
                                               SizedBox(height: 5.h),
                                               Container(
-                                                  height: 50.h,
-                                                  child: StreamBuilder(
-                                                    stream: firestore.getObra(
-                                                        obra.data.isbn),
-                                                    builder:
-                                                        (BuildContext context,
-                                                            AsyncSnapshot<Obra>
-                                                                obra) {
-                                                      if (obra.hasData) {
-                                                        return Text(
-                                                          obra.data.titulo,
-                                                          style: TextStyle(
-                                                              fontSize: 17.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        );
-                                                      } else {
-                                                        return Text('');
-                                                      }
-                                                    },
-                                                  )),
+                                                height: 50.h,
+                                                child: Text(
+                                                  obra.data.titulo,
+                                                  style: TextStyle(
+                                                      fontSize: 17.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         );

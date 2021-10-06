@@ -47,6 +47,7 @@ class FirestoreService extends ChangeNotifier {
 
   //----------USUÁRIOS----------//
   Future<void> saveUser(Users user) async {
+    //Salvar usuário no Firebase
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: user.email, password: user.senha);
     try {
@@ -57,7 +58,7 @@ class FirestoreService extends ChangeNotifier {
   }
 
   Stream<List<Users>> getDataUser(String email) {
-    //Pegar todos usuários
+    //Pegar todos usuários cadastrados
     return _db.collection('Usuario').snapshots().map((snapshot) => snapshot.docs
         .map((document) => Users.fromFirestore(document.data()))
         .toList());
@@ -68,7 +69,7 @@ class FirestoreService extends ChangeNotifier {
   }
 
   Stream<Users> getDadosUsuario() {
-    //Pegar dados do prório usuário
+    //Pegar dados do prório usuário pegando seu próprio e-mail
     var email = getEmail();
     final result = _db
         .collection('Usuario')
@@ -79,7 +80,7 @@ class FirestoreService extends ChangeNotifier {
   }
 
   Stream<Users> getUsuario(email) {
-    //Pegar dados de outro usuário
+    //Pegar dados de outro usuário através de seu ID(Email)
     var result = _db
         .collection('Usuario')
         .doc(email)
@@ -90,6 +91,7 @@ class FirestoreService extends ChangeNotifier {
 
   //----------OBRA----------//
   Stream<QuerySnapshot<Map<String, dynamic>>> resultadoPesquisa(texto) {
+    //Mostrar o resultado da pesquisa
     final result = _db
         .collection('Obra')
         .where('pesqList', arrayContains: texto)
@@ -128,6 +130,7 @@ class FirestoreService extends ChangeNotifier {
   }
 
   Stream<Obra> getObra(String isbn) {
+    //Pegar uma Obra de acordo com seu ID (isbn)
     var result = _db
         .collection('Obra')
         .doc(isbn)
@@ -138,6 +141,7 @@ class FirestoreService extends ChangeNotifier {
 
   //----------EXEMPLAR----------//
   Stream<QuerySnapshot<Map<String, dynamic>>> pesquisaExemplar(String isbn) {
+    //Mostrar o resultado da pesquisa de acordo com o isbn do livro e o status aberto do Exemplar
     final result = _db
         .collection('Exemplar')
         .where('isbn', isEqualTo: isbn)
@@ -147,6 +151,7 @@ class FirestoreService extends ChangeNotifier {
   }
 
   Stream<List<Exemplar>> getMeusAnuncios() {
+    //Pegar os Exemplares com o criador igual ao seu e-mail
     String email = getEmail();
     var result = _db
         .collection('Exemplar')
@@ -158,6 +163,7 @@ class FirestoreService extends ChangeNotifier {
   }
 
   Stream<Exemplar> getExemplar(String id) {
+    //Pegar Exemplar através de seu ID
     var result = _db
         .collection('Exemplar')
         .doc(id)
