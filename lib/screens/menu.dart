@@ -1,4 +1,5 @@
 import 'package:dook/models/user_models.dart';
+import 'package:dook/screens/anuncio/criar_anuncio_1.dart';
 import 'package:dook/screens/menu_inferior.dart';
 import 'package:dook/screens/perfil/meuperfil.dart';
 import 'package:dook/services/firestore_service.dart';
@@ -71,7 +72,7 @@ class MenuPerfil extends StatelessWidget {
                         builder: (context) => MenuInferiorScreen()),
                   );
                 },
-                icon: Icon(Icons.arrow_back_ios_rounded, size: 30),
+                icon: Icon(Icons.arrow_back_ios_rounded),
               ),
               Text(
                 'Menu',
@@ -89,7 +90,7 @@ class MenuPerfil extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => Configuracoes()),
                   );*/
                 },
-                icon: Icon(Icons.settings, size: 30),
+                icon: Icon(Icons.settings),
               ),
             ],
           ),
@@ -232,10 +233,11 @@ class MenuLista extends StatelessWidget {
                 alignment: Alignment.centerLeft,
               ),
               onPressed: () {
-                /*Navigator.push(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CriarAnuncio()),
-                );*/
+                  MaterialPageRoute(
+                      builder: (context) => CriarAnuncio1Screen()),
+                );
               },
               child: Text(
                 'Criar Anúncio',
@@ -256,7 +258,8 @@ class MenuLista extends StatelessWidget {
               onPressed: () {
                 /*Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MeusInteresses()),
+                  MaterialPageRoute(
+                      builder: (context) => CriarAnuncio1Screen()),
                 );*/
               },
               child: Text(
@@ -301,7 +304,7 @@ class MenuSair extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 7.r),
+            padding: EdgeInsets.only(top: 3.r),
             child: TextButton(
               child: Text(
                 'Sair',

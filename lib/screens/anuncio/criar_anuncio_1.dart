@@ -1,3 +1,6 @@
+import 'package:dook/models/book_models.dart';
+import 'package:dook/screens/menu.dart';
+import 'package:dook/services/get_book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dook/screens/anuncio/criar_anuncio_2.dart';
@@ -9,40 +12,56 @@ class CriarAnuncio1Screen extends StatefulWidget {
 
 class CriarAnuncio1 extends State {
   final TextEditingController _controladorISBN = TextEditingController();
+  String aviso = '';
 
-  void telaCriarAnuncio2() {
+  void telaCriarAnuncio2(Book book, String isbn) {
     Navigator.push(
         //Mudar para a tela de confirmação dos dados
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => CriarAnuncio2Screen()));
+            builder: (BuildContext context) =>
+                CriarAnuncio2Screen(book: book, isbn: isbn)));
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          padding: EdgeInsets.only(
-            top: 40.r,
-            left: 25.r,
-            right: 25.r,
-          ),
-          child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Superior(),
-              SizedBox(
-                height: 270.h,
+    GetBook getBook = new GetBook();
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.only(
+          top: 35.r,
+          left: 25.r,
+          right: 25.r,
+        ),
+        child: ListView(
+          children: <Widget>[
+            Superior(),
+            SizedBox(
+              height: 270.h,
+            ),
+            TextField(
+              controller: _controladorISBN,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 22.sp),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Text(
+              '$aviso',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 18.sp,
+                color: Colors.red,
+                fontWeight: FontWeight.w500,
               ),
-              TextField(
-                controller: _controladorISBN,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 310.h,
-              ),
-              ElevatedButton(
+            ),
+            SizedBox(
+              height: 270.h,
+            ),
+            Container(
+              height: 55.h,
+              child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Colors.deepPurple[600],
                   minimumSize: Size(382.h, 55.h),
@@ -50,10 +69,16 @@ class CriarAnuncio1 extends State {
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                   ),
                 ),
-                onPressed: () {
-                  debugPrint(_controladorISBN.text);
+                onPressed: () async {
                   final isbn = _controladorISBN.text;
-                  telaCriarAnuncio2();
+                  if (isbn != '' && isbn.length == 13) {
+                    Book book = await getBook.getData(isbn);
+                    telaCriarAnuncio2(book, isbn);
+                  } else {
+                    setState(() {
+                      aviso = 'Insira um ISBN válido!';
+                    });
+                  }
                 },
                 child: Text(
                   'Próximo',
@@ -61,8 +86,8 @@ class CriarAnuncio1 extends State {
                 ),
                 //color: Colors.deepPurple[600],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -77,10 +102,11 @@ class Superior extends StatelessWidget {
       children: <Widget>[
         IconButton(
           color: Colors.black,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Icon(
             Icons.arrow_back_ios_rounded,
-            size: 30,
           ),
         ),
         Text(

@@ -20,15 +20,54 @@ class Cadastro6 extends State {
   File _image;
   String _url =
       'https://www.chocolatebayou.org/wp-content/uploads/No-Image-Person-1536x1536.jpeg';
+
   @override
   Widget build(BuildContext context) {
     final ImagePicker imagePicker = ImagePicker();
-    Future getImage() async {
+    Future getImageGallery() async {
       var image = await imagePicker.pickImage(source: ImageSource.gallery);
 
       setState(() {
         _image = File(image.path);
       });
+    }
+
+    Future getImageCamera() async {
+      var image = await imagePicker.pickImage(source: ImageSource.camera);
+
+      setState(() {
+        _image = File(image.path);
+      });
+    }
+
+    void mostrarOpcaoFoto(context) {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return SafeArea(
+              child: Container(
+                child: new Wrap(
+                  children: <Widget>[
+                    new ListTile(
+                        leading: new Icon(Icons.photo_library),
+                        title: new Text('Galeria'),
+                        onTap: () {
+                          getImageGallery();
+                          Navigator.of(context).pop();
+                        }),
+                    new ListTile(
+                      leading: new Icon(Icons.photo_camera),
+                      title: new Text('Camera'),
+                      onTap: () {
+                        getImageCamera();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
     }
 
     return Scaffold(
@@ -114,7 +153,7 @@ class Cadastro6 extends State {
                 ),
               ),
               onPressed: () {
-                getImage();
+                mostrarOpcaoFoto(context);
               },
             ),
             SizedBox(
@@ -123,20 +162,15 @@ class Cadastro6 extends State {
             ElevatedButton(
               onPressed: () async {
                 if (_image != null) {
-                  String fileName = basename(_image.path); //arrumar
-                  await FirebaseStorage.instance
+                  String fileName = basename(_image.path);
+                  UploadTask uploadTask = FirebaseStorage.instance
                       .ref()
                       .child(fileName)
                       .putFile(_image);
-                  String url = await FirebaseStorage.instance
-                      .ref()
-                      .child(fileName)
-                      .getDownloadURL();
-                  setState(() {
-                    _url = url;
-                    print(_url);
-                  });
-                  user.changeUrl(_url);
+
+                  var imageUrl = await (await uploadTask).ref.getDownloadURL();
+                  user.changeUrl(imageUrl);
+
                   user.saveUser();
                 } else {
                   String url =

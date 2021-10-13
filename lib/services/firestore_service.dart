@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dook/models/exemplar_models.dart';
 import 'package:dook/models/obra_models.dart';
+import 'package:dook/provider/exemplar_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/models/user_models.dart';
 import 'package:flutter/cupertino.dart';
@@ -90,6 +91,18 @@ class FirestoreService extends ChangeNotifier {
   }
 
   //----------OBRA----------//
+  Future<void> saveObra(Obra obra) async {
+    //Salvar Obra no Firebase
+    try {
+      await _db
+          .collection('Obra')
+          .doc(obra.isbn)
+          .set(obra.toMap(pesqList(obra.titulo, obra.editora, obra.autor)));
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> resultadoPesquisa(texto) {
     //Mostrar o resultado da pesquisa
     final result = _db
@@ -100,7 +113,7 @@ class FirestoreService extends ChangeNotifier {
     return result;
   }
 
-  void pesquisaList(String titulo, String editora, String autor) {
+  List<String> pesqList(String titulo, String editora, String autor) {
     String s = "";
     String s2 = "";
     if (titulo != null) {
@@ -121,12 +134,7 @@ class FirestoreService extends ChangeNotifier {
       }
     }
 
-    _db.collection('Obra').doc().set({
-      'titulo': titulo,
-      'editora': editora,
-      'autor': autor,
-      'pesqList': pesqList
-    });
+    return pesqList;
   }
 
   Stream<Obra> getObra(String isbn) {
@@ -140,6 +148,21 @@ class FirestoreService extends ChangeNotifier {
   }
 
   //----------EXEMPLAR----------//
+  Future<void> saveExemplar(Exemplar exemplar) async {
+    //Salvar Exemplar no Firebase
+    var lastId = await _db
+        .collection('Exemplar')
+        .get()
+        .then((value) => value.docs.last.id);
+
+    var id = int.parse(lastId) + 1;
+    try {
+      await _db.collection('Exemplar').doc(id.toString()).set(exemplar.toMap());
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> pesquisaExemplar(String isbn) {
     //Mostrar o resultado da pesquisa de acordo com o isbn do livro e o status aberto do Exemplar
     final result = _db

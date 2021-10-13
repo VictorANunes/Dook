@@ -1,70 +1,47 @@
+import 'package:dook/models/exemplar_models.dart';
+import 'package:dook/provider/exemplar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dook/screens/anuncio/criar_anuncio_4.dart';
 
 class CriarAnuncio3Screen extends StatefulWidget {
   @override
-  CriarAnuncio3 createState() => CriarAnuncio3();
+  ExemplarProvider exemplar;
+  CriarAnuncio3Screen({this.exemplar});
+  CriarAnuncio3 createState() => CriarAnuncio3(exemplar: exemplar);
 }
 
 class CriarAnuncio3 extends State {
-
-  void telaCriarAnuncio4() {
-    Navigator.push(
-        //Mudar para a tela de confirmação dos dados
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => CriarAnuncio4Screen()));
-  }
+  ExemplarProvider exemplar;
+  CriarAnuncio3({this.exemplar});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          padding: EdgeInsets.only(
-            top: 40.r,
-            left: 25.r,
-            right: 25.r,
-          ),
-          child: Column(
-            children: <Widget>[
-              Superior(),
-              SizedBox(
-                height: 35.h,
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.only(
+          top: 60.r,
+          left: 25.r,
+          right: 25.r,
+        ),
+        child: Column(
+          children: <Widget>[
+            Superior(),
+            SizedBox(
+              height: 35.h,
+            ),
+            Center(
+              child: Text(
+                'De acordo com a condição do seu livro, responda as afirmações em uma escala de 1 a 5. Sendo 1 discordo totalmente e 5 concordo totalmente.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18.sp),
               ),
-              Center(
-                child: Text(
-                  'De acordo com a condição do seu livro, responda as afirmações em uma escala de 1 a 5. Sendo 1 discordo totalmente e 5 concordo totalmente.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.sp),
-                ),
-              ),
-              SizedBox(
-                height: 30.h,
-              ),
-              FormCondicao(),
-              SizedBox(
-                height: 75.h,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurple[600],
-                  minimumSize: Size(382.h, 55.h),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                  ),
-                ),
-                onPressed: () {
-                  telaCriarAnuncio4();
-                },
-                child: Text(
-                  'Próximo',
-                  style: TextStyle(fontSize: 18.sp),
-                ),
-              ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 30.h,
+            ),
+            FormCondicao(exemplar: exemplar),
+          ],
         ),
       ),
     );
@@ -72,7 +49,6 @@ class CriarAnuncio3 extends State {
 }
 
 class Superior extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -80,13 +56,11 @@ class Superior extends StatelessWidget {
       children: <Widget>[
         IconButton(
           color: Colors.black,
-          onPressed: () { 
+          onPressed: () {
             Navigator.pop(context);
-            //telaCriarAnuncio2();
           },
           icon: Icon(
             Icons.arrow_back_ios_rounded,
-            size: 30,
           ),
         ),
         Text(
@@ -108,16 +82,30 @@ class Superior extends StatelessWidget {
 }
 
 class FormCondicao extends StatefulWidget {
+  ExemplarProvider exemplar;
+  FormCondicao({this.exemplar});
   @override
-  FormCondicaoState createState() => FormCondicaoState();
+  FormCondicaoState createState() => FormCondicaoState(exemplar: exemplar);
 }
 
 class FormCondicaoState extends State<FormCondicao> {
+  ExemplarProvider exemplar;
+  FormCondicaoState({this.exemplar});
+
   double _currentSliderValue1 = 1;
   double _currentSliderValue2 = 1;
   double _currentSliderValue3 = 1;
   double _currentSliderValue4 = 1;
   double _currentSliderValue5 = 1;
+
+  void telaCriarAnuncio4(ExemplarProvider exemplar) {
+    Navigator.push(
+        //Mudar para a tela de confirmação dos dados
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                CriarAnuncio4Screen(exemplar: exemplar)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +191,7 @@ class FormCondicaoState extends State<FormCondicao> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: Text(
-                'O livro não possui nenhuma pagina rasgada ou faltando',
+                'O livro não possui nenhuma página rasgada ou faltando',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18.sp),
               ),
@@ -228,7 +216,7 @@ class FormCondicaoState extends State<FormCondicao> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: Text(
-                'O livro tem menos de um ano desde que foi adquirido.',
+                'O livro não possui marcas de desgate do tempo',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18.sp),
               ),
@@ -245,6 +233,31 @@ class FormCondicaoState extends State<FormCondicao> {
                   _currentSliderValue5 = value;
                 });
               },
+            ),
+            SizedBox(
+              height: 65.h,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple[600],
+                minimumSize: Size(382.h, 55.h),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
+              ),
+              onPressed: () {
+                exemplar.changeResp1(_currentSliderValue1.toString());
+                exemplar.changeResp2(_currentSliderValue2.toString());
+                exemplar.changeResp3(_currentSliderValue3.toString());
+                exemplar.changeResp4(_currentSliderValue4.toString());
+                exemplar.changeResp5(_currentSliderValue5.toString());
+
+                telaCriarAnuncio4(exemplar);
+              },
+              child: Text(
+                'Próximo',
+                style: TextStyle(fontSize: 18.sp),
+              ),
             ),
           ],
         ),

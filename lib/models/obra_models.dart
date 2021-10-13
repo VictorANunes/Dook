@@ -5,7 +5,7 @@ class Obra {
   final String autor;
   final String edicao;
   final String dataPubli;
-  final String categoria;
+  final List<String> categoria;
 
   Obra(
       {this.isbn,
@@ -16,8 +16,16 @@ class Obra {
       this.dataPubli,
       this.categoria});
 
-  Map<String, dynamic> toMap() {
-    return {};
+  Map<String, dynamic> toMap(List<String> pesqList) {
+    return {
+      'titulo': titulo,
+      'editora': editora,
+      'autor': autor,
+      'dataPubli': dataPubli,
+      'edicao': edicao,
+      'categoria': categoria,
+      'pesqList': pesqList
+    };
   }
 
   Obra.fromFirestore(Map<String, dynamic> firestore)
@@ -27,5 +35,5 @@ class Obra {
         autor = firestore['autor'],
         edicao = firestore['edicao'],
         dataPubli = firestore['dataPubli'],
-        categoria = firestore['categoria'];
+        categoria = List.from(firestore['categoria']);
 }

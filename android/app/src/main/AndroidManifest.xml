@@ -27,6 +27,8 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
+              <meta-data android:name="68:66:29:75:4e:42:cf:9c:2e:ca:b6:cc:c3:f9:7a:ec:3c:8d:38:77:1b:9b:bf:93:3e:30:f1:27:0c:0d:30:f6"
+            android:value="AIzaSyAhfr-CmFGMJgePJUGzmspG-oiulUDv7xE"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

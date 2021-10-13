@@ -21,20 +21,15 @@ class Book {
     autores = autores.toString();
     autores = autores.replaceAll('[', '').replaceAll(']', '');
 
-    var categorias = jsonBook['items'][0]['volumeInfo']['categories'];
-    categorias = categorias.toString();
-    categorias = categorias.replaceAll('[', '').replaceAll(']', '');
-
     return Book(
       isbn: jsonBook['items'][0]['volumeInfo']['industryIdentifiers'][1]
           ['identifier'],
       titulo: jsonBook['items'][0]['volumeInfo']['title'],
       editora: jsonBook['items'][0]['volumeInfo']['publisher'],
       autor: autores,
-      edicao: jsonBook['items'][0]['volumeInfo']['edition'], //não tem
+      edicao: jsonBook['items'][0]['volumeInfo']['edition'],
       dataPubli: jsonBook['items'][0]['volumeInfo']['publishedDate'],
-      categoria: categorias,
-      //Criar demais informações importantes
+      categoria: null,
     );
   }
 }

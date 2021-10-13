@@ -195,10 +195,14 @@ class MeuPerfilCabecalho extends StatelessWidget {
                           (BuildContext context, AsyncSnapshot<Users> usuario) {
                         if (usuario.hasData) {
                           //Cortar o nome pegando o primeiro e ultimo nome da pessoa
+                          String nome3 = '';
                           String nome = usuario.data.nome;
                           List<String> nome2 = nome.split(" ");
-                          String nome3 =
-                              nome2[0] + " " + nome2[nome2.length - 1];
+                          if (nome2[0] != nome2[nome2.length - 1]) {
+                            nome3 = nome2[0] + " " + nome2[nome2.length - 1];
+                          } else {
+                            nome3 = nome2[0];
+                          }
 
                           return Column(
                             children: <Widget>[

@@ -313,6 +313,7 @@ class IntMeusAnuncios extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.add_circle_outline_rounded,
                     color: Colors.black, size: 32),
+                onPressed: () async {},
               ),
             ),
           ]),
@@ -357,7 +358,7 @@ class IntMeusAnuncios extends StatelessWidget {
                                             textAlign: TextAlign.center,
                                           );
                                         } else {
-                                          return Text('');
+                                          return Text('oi');
                                         }
                                       },
                                     )),
@@ -366,7 +367,7 @@ class IntMeusAnuncios extends StatelessWidget {
                           );
                         });
                   } else {
-                    return Text('');
+                    return Text('oi');
                   }
                 }),
           ),
