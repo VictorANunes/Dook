@@ -29,11 +29,9 @@ class FirestoreService extends ChangeNotifier {
   Future<bool> LoginStatus() {
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
-        print("oi");
         //deslogado
         return false;
       } else if (user != null) {
-        print("tchau");
         //logado
         return true;
       }
@@ -206,7 +204,6 @@ class FirestoreService extends ChangeNotifier {
   }
 
   void testeUser2(Map<String, dynamic> firestore) {
-    //print(firestore['livrosDoados']);
     List<String> livrosDoados = List.from(firestore['livrosDoados']);
     print(livrosDoados[0]);
     //String nome = firestore['nome'];

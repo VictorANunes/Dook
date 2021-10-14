@@ -175,7 +175,6 @@ class RecSenha extends State {
                     erro = 'Verifique se o e-mail está correto!';
                   });
                 });
-                print(email.text);
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple[600],

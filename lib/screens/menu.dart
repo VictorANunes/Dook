@@ -50,7 +50,7 @@ class MenuPerfil extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: 25.r,
+        top: 30.r,
         left: 25.r,
         right: 25.r,
       ),

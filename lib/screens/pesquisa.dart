@@ -25,7 +25,7 @@ class Pesquisa extends State {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(
-          top: 35.r,
+          top: 30.r,
           left: 25.r,
           right: 25.r,
         ),
@@ -91,7 +91,6 @@ class Pesquisa extends State {
                                               ResultadoScreen(
                                                   isbn: snapshot
                                                       .data.docs[index].id)));
-                                  print(snapshot.data.docs[index].id);
                                 },
                                 title: Text(snapshot.data.docs[index]['titulo'],
                                     style: TextStyle(

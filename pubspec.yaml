@@ -42,6 +42,7 @@ dependencies:
   flutter_screenutil: ^5.0.0+2
   flutter_rating_bar: ^4.0.0
   onesignal_flutter: ^3.2.3
+  dash_chat: ^1.1.16
 
 dev_dependencies:
   flutter_test:

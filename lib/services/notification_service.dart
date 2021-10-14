@@ -6,7 +6,6 @@ class NotificationService {
     var status = await OneSignal.shared.getDeviceState();
 
     var playerId = status.userId;
-    print(playerId);
 
     await OneSignal.shared.postNotification(
       OSCreateNotification(

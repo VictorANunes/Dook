@@ -95,7 +95,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
                   color: Colors.white,
                   onPressed: () {
                     //Editar Perfil
-                    firestore.testeUser();
+                    //firestore.testeUser();
                   },
                   icon: Icon(Icons.edit_outlined),
                   alignment: Alignment.centerRight,
@@ -374,7 +374,6 @@ class MeuPerfilLivrosRecebidos extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: usuario.data.livrosRecebidos.length,
                         itemBuilder: (context, index) {
-                          print(usuario.data.livrosRecebidos[index]);
                           return StreamBuilder(
                               stream: firestore.getExemplar(
                                   usuario.data.livrosRecebidos[index]),

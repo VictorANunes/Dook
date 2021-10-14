@@ -317,7 +317,6 @@ class Cadastro extends State {
                                   email: "$em", password: " ");
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'user-not-found') {
-                            //print(e.code);
                             user.changeNome(nome.text);
                             user.changeEmail(email.text);
                             user.changeSenha(senha.text);
@@ -329,7 +328,6 @@ class Cadastro extends State {
                                         CadastroScreen2(user: user)));
                           } else if (e.code == 'wrong-password') {
                             mensagem = "Este email já está cadastrado!";
-                            //print(e.code);
                           }
                         }
                         try {

@@ -8,7 +8,6 @@ class GetBook {
         Uri.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn'));
 
     var jsonBody = json.decode(jsonResponse.body);
-    print(jsonBody['items']);
     if (jsonBody['items'] != null) {
       Book book = new Book.fromJson(jsonBody);
       return book;
