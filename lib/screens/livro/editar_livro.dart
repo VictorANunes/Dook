@@ -1,5 +1,5 @@
-import 'package:dook/screens/editar_fotos.dart';
-import 'package:dook/screens/editar_form.dart';
+import 'package:dook/screens/livro/editar_fotos.dart';
+import 'package:dook/screens/livro/editar_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -10,7 +10,6 @@ class EditarLivroScreen extends StatefulWidget {
 }
 
 class EditarLivro extends State {
-
   void telaEditarFotos() {
     Navigator.push(
         //Mudar para a tela de confirmação dos dados
@@ -336,14 +335,12 @@ class InfoLivro extends StatelessWidget {
   }
 }
 
-class Condicao extends StatefulWidget{
+class Condicao extends StatefulWidget {
   @override
   CondicaoState createState() => CondicaoState();
-  
 }
 
 class CondicaoState extends State {
-
   void telaEditarForm() {
     Navigator.push(
         //Mudar para a tela de confirmação dos dados

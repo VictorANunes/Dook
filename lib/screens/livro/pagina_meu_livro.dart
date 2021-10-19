@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dook/screens/editar_livro.dart';
+import 'package:dook/screens/livro/editar_livro.dart';
 
 class MeuLivroScreen extends StatefulWidget {
   @override
@@ -9,7 +9,6 @@ class MeuLivroScreen extends StatefulWidget {
 }
 
 class MeuLivro extends State {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,14 +45,12 @@ class MeuLivro extends State {
   }
 }
 
-class Superior extends StatefulWidget{
+class Superior extends StatefulWidget {
   @override
   SuperiorState createState() => SuperiorState();
-  
 }
 
 class SuperiorState extends State {
-
   void telaEditarLivro() {
     Navigator.push(
         //Mudar para a tela de confirmação dos dados
@@ -95,7 +92,6 @@ class SuperiorState extends State {
             size: 30,
           ),
         ),
-        
       ],
     );
   }
