@@ -47,7 +47,7 @@ class EditarForm extends State {
               ),
               onPressed: () {},
               child: Text(
-                'Próximo',
+                'Salvar',
                 style: TextStyle(fontSize: 18.sp),
               ),
             ),
