@@ -5,7 +5,7 @@ class Book {
   String autor;
   String edicao;
   String dataPubli;
-  String categoria;
+  List<String> categoria;
 
   Book(
       {this.isbn,
@@ -30,6 +30,18 @@ class Book {
       edicao: jsonBook['items'][0]['volumeInfo']['edition'],
       dataPubli: jsonBook['items'][0]['volumeInfo']['publishedDate'],
       categoria: null,
+    );
+  }
+
+  factory Book.fromFirestore(Map<String, dynamic> firestore) {
+    return Book(
+      isbn: firestore['isbn'],
+      titulo: firestore['titulo'],
+      editora: firestore['editora'],
+      autor: firestore['autor'],
+      edicao: firestore['edicao'],
+      dataPubli: firestore['dataPubli'],
+      categoria: List.from(firestore['categoria']),
     );
   }
 }

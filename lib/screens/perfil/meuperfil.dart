@@ -1,6 +1,7 @@
 import 'package:dook/models/exemplar_models.dart';
 import 'package:dook/models/obra_models.dart';
 import 'package:dook/models/user_models.dart';
+import 'package:dook/screens/perfil/meuperfil_editar.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -63,7 +64,11 @@ class MeuPerfilCabecalho extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.arrow_back_ios_rounded),
+                  icon: Image.asset(
+                    'assets/images/icons/voltarbranco.png',
+                    height: 25.h,
+                    width: 25.w,
+                  ),
                   alignment: Alignment.centerLeft,
                 ),
                 width: 90.w,
@@ -84,24 +89,36 @@ class MeuPerfilCabecalho extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                //Icone que vai para a tela de editar perfil
-                padding: EdgeInsets.only(
-                  top: 25.r,
-                  left: 25.r,
-                  right: 25.r,
-                ),
-                child: IconButton(
-                  color: Colors.white,
-                  onPressed: () {
-                    //Editar Perfil
-                    firestore.testeUser();
-                  },
-                  icon: Icon(Icons.edit_outlined),
-                  alignment: Alignment.centerRight,
-                ),
-                width: 90.w,
-              ),
+              StreamBuilder(
+                  stream: firestore.getDadosUsuario(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<Users> usuario) {
+                    return Container(
+                      //Icone que vai para a tela de editar perfil
+                      padding: EdgeInsets.only(
+                        top: 25.r,
+                        left: 25.r,
+                        right: 25.r,
+                      ),
+                      child: IconButton(
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditarPerfilScreen(
+                                      usuario: usuario.data)));
+                        },
+                        icon: Image.asset(
+                          'assets/images/icons/editbranco.png',
+                          height: 24.h,
+                          width: 24.w,
+                        ),
+                        alignment: Alignment.centerRight,
+                      ),
+                      width: 90.w,
+                    );
+                  }),
             ],
           ),
           Row(
@@ -204,6 +221,17 @@ class MeuPerfilCabecalho extends StatelessWidget {
                             nome3 = nome2[0];
                           }
 
+                          //Pegar avaliacao
+                          List<int> avaliacao = usuario.data.avaliacao;
+                          int soma = 0;
+                          var media = 5.0;
+                          if (avaliacao.isEmpty == false) {
+                            for (int i = 0; i < avaliacao.length; i++) {
+                              soma = soma + avaliacao[i];
+                            }
+                            media = (soma / avaliacao.length).toDouble();
+                          }
+
                           return Column(
                             children: <Widget>[
                               Text(nome3, //Mostra o nome
@@ -221,7 +249,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
                                   //Mostra a avaliação da pessoa em estrelas
                                   margin: EdgeInsets.symmetric(vertical: 5.0.r),
                                   child: RatingBarIndicator(
-                                    rating: 4,
+                                    rating: media,
                                     itemBuilder: (context, index) => Icon(
                                       Icons.star,
                                       color: Colors.deepPurple[600],
@@ -374,7 +402,6 @@ class MeuPerfilLivrosRecebidos extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: usuario.data.livrosRecebidos.length,
                         itemBuilder: (context, index) {
-                          print(usuario.data.livrosRecebidos[index]);
                           return StreamBuilder(
                               stream: firestore.getExemplar(
                                   usuario.data.livrosRecebidos[index]),

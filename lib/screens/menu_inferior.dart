@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dook/screens/interesse.dart';
 import 'package:dook/screens/acervo.dart';
-import 'package:dook/screens/chat.dart';
+import 'package:dook/screens/chat/chat.dart';
 import 'package:dook/screens/menu.dart';
 
 class MenuInferiorScreen extends StatefulWidget {

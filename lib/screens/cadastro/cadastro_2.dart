@@ -197,10 +197,8 @@ class Cadastro2 extends State {
             onToggle: (index) {
               if (index == 0) {
                 sexoSwitch = 'Masculino';
-                print("Masculino");
               } else {
                 sexoSwitch = 'Feminino';
-                print("Feminino");
               }
             },
           ),
@@ -330,15 +328,12 @@ class Cadastro2 extends State {
                 if (GetUtils.isCpf(cpf.text)) {
                   if (sexoCheck == false) {
                     if (sexoText.text == '') {
-                      print(sexoSwitch);
                       _sexo = sexoSwitch;
                     } else {
                       _sexo = sexoText.text;
-                      print(sexoText.text);
                     }
                   } else {
                     _sexo = '';
-                    print(sexoCheck);
                   }
                   //enviar dados
                   user.changeCpf(cpf.text);

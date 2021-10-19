@@ -22,7 +22,7 @@ class Resultado extends State {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(
-          top: 35.r,
+          top: 30.r,
           left: 25.r,
           right: 15.r,
         ),
@@ -115,7 +115,6 @@ class ResultadoCorpo extends StatelessWidget {
                   return ListTile(
                     onTap: () async {
                       //mudar para tela de anuncio
-                      print(snapshot.data.docs[index].id);
                     },
                     title: StreamBuilder(
                       stream: obra,

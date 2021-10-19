@@ -27,6 +27,7 @@ class Users {
   final String id;
   List<String> livrosDoados = [];
   List<String> livrosRecebidos = [];
+  List<int> avaliacao = [];
 
   Users(
       {this.nome,
@@ -91,12 +92,13 @@ class Users {
         'livros5': livros5,
       },
       'livrosDoados': [],
-      'livrosRecebidos': []
+      'livrosRecebidos': [],
+      'avaliacao': []
     };
   }
 
-  Users.fromFirestore(Map<String, dynamic> firestore)
-      : email = firestore['email'],
+  Users.fromFirestore(Map<String, dynamic> firestore, String id)
+      : email = id,
         senha = firestore['senha'],
         nome = firestore['nome'],
         cpf = firestore['cpf'],
@@ -123,5 +125,6 @@ class Users {
         livros5 = firestore['livrosInteresse']['livros5'],
         id = firestore['id'],
         livrosDoados = List.from(firestore['livrosDoados']),
-        livrosRecebidos = List.from(firestore['livrosRecebidos']);
+        livrosRecebidos = List.from(firestore['livrosRecebidos']),
+        avaliacao = List.from(firestore['avaliacao']);
 }

@@ -132,7 +132,8 @@ class FormLivro extends StatelessWidget {
       controladorDtPub.text = '';
     }
     if (book.categoria != null) {
-      controladorCategoria.text = book.categoria;
+      controladorCategoria.text =
+          book.categoria.toString().replaceAll('[', '').replaceAll(']', '');
     } else {
       controladorCategoria.text = '';
     }
@@ -342,7 +343,8 @@ class FormLivro extends StatelessWidget {
               obra.changeDataPubli(controladorDtPub.text);
               obra.changeAutor(controladorAutor.text);
 
-              List<String> categoria = controladorCategoria.text.split(',');
+              List<String> categoria =
+                  controladorCategoria.text.replaceAll(' ', '').split(',');
               obra.changeCategoria(categoria);
 
               obra.saveObra();

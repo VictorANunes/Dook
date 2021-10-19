@@ -236,7 +236,6 @@ class Cadastro4 extends State {
                   } else {
                     gen = gen + generosInt[i] + ",";
                   }
-                  print(gen);
                 }
                 user.changeGenerosInt(generosInt);
                 Navigator.push(
