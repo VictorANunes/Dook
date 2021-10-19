@@ -26,7 +26,7 @@ class Menu extends State {
                 MenuPerfil(),
                 MenuLista(),
                 SizedBox(
-                  height: 213.h,
+                  height: 205.h,
                 ),
                 Divider(
                   height: 0,
@@ -72,7 +72,11 @@ class MenuPerfil extends StatelessWidget {
                         builder: (context) => MenuInferiorScreen()),
                   );
                 },
-                icon: Icon(Icons.arrow_back_ios_rounded),
+                icon: Image.asset(
+                  'assets/images/icons/voltarbranco.png',
+                  height: 25.h,
+                  width: 25.w,
+                ),
               ),
               Text(
                 'Menu',
@@ -89,8 +93,13 @@ class MenuPerfil extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => Configuracoes()),
                   );*/
+                  firestore.getBook('1');
                 },
-                icon: Icon(Icons.settings),
+                icon: Image.asset(
+                  'assets/images/icons/settingsbranco.png',
+                  height: 27.h,
+                  width: 27.w,
+                ),
               ),
             ],
           ),
@@ -283,28 +292,35 @@ class MenuSair extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: 2.r,
+        top: 3.r,
         left: 25.r,
         right: 25.r,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          IconButton(
-            color: Colors.red,
-            onPressed: () {
-              FirestoreService firestore = new FirestoreService();
-              firestore.SignOut();
-            },
-            icon: Icon(Icons.exit_to_app, size: 40),
+          Container(
+            width: 60.w,
+            height: 60.h,
+            child: IconButton(
+              color: Colors.red,
+              onPressed: () {
+                FirestoreService firestore = new FirestoreService();
+                firestore.SignOut();
+              },
+              icon: Image.asset(
+                'assets/images/icons/sair.png',
+                height: 42.h,
+                width: 42.w,
+              ),
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(
-              right: 5.r,
+              right: 0.r,
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 3.r),
             child: TextButton(
               child: Text(
                 'Sair',

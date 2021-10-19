@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dash_chat/dash_chat.dart';
+import 'package:dook/models/book_models.dart';
+import 'package:dook/models/chat_models.dart';
 import 'package:dook/models/exemplar_models.dart';
 import 'package:dook/models/obra_models.dart';
 import 'package:dook/provider/exemplar_provider.dart';
@@ -59,7 +62,7 @@ class FirestoreService extends ChangeNotifier {
   Stream<List<Users>> getDataUser(String email) {
     //Pegar todos usuários cadastrados
     return _db.collection('Usuario').snapshots().map((snapshot) => snapshot.docs
-        .map((document) => Users.fromFirestore(document.data()))
+        .map((document) => Users.fromFirestore(document.data(), document.id))
         .toList());
   }
 
@@ -74,7 +77,7 @@ class FirestoreService extends ChangeNotifier {
         .collection('Usuario')
         .doc(email)
         .snapshots()
-        .map((event) => Users.fromFirestore(event.data()));
+        .map((event) => Users.fromFirestore(event.data(), event.id));
     return result;
   }
 
@@ -84,8 +87,52 @@ class FirestoreService extends ChangeNotifier {
         .collection('Usuario')
         .doc(email)
         .snapshots()
-        .map((event) => Users.fromFirestore(event.data()));
+        .map((event) => Users.fromFirestore(event.data(), event.id));
     return result;
+  }
+
+  void updateAvaliacao(String email, List<int> avaliacao) {
+    _db.collection('Usuario').doc(email).update({'avaliacao': avaliacao});
+  }
+
+  void updateUser(
+      String nome,
+      String cpf,
+      String dataNasc,
+      String telefone,
+      String cep,
+      String rua,
+      String bairro,
+      String numero,
+      String complemento,
+      String cidade,
+      String uf,
+      String url) {
+    String email = getEmail();
+    if (nome != '') {
+      _db.collection('Usuario').doc(email).update({'nome': nome});
+    }
+    if (dataNasc != '') {
+      _db.collection('Usuario').doc(email).update({'datanasc': dataNasc});
+    }
+    if (telefone != '') {
+      _db.collection('Usuario').doc(email).update({'telefone': telefone});
+    }
+    _db.collection('Usuario').doc(email).update({
+      'endereco': {
+        'cep': cep,
+        'rua': rua,
+        'bairro': bairro,
+        'numero': numero,
+        'complemento': complemento,
+        'cidade': cidade,
+        'uf': uf
+      }
+    });
+
+    _db.collection('Usuario').doc(email).update({'cpf': cpf});
+
+    _db.collection('Usuario').doc(email).update({'foto': url});
   }
 
   //----------OBRA----------//
@@ -145,6 +192,25 @@ class FirestoreService extends ChangeNotifier {
     return result;
   }
 
+  Future<Book> getBook(String isbn) async {
+    //Pegar uma Obra de acordo com seu ID (isbn)
+    var result = await _db.collection('Obra').doc(isbn).get();
+    print(result.exists);
+    Book book;
+    if (result.exists) {
+      book = Book.fromFirestore(result.data());
+    } else {
+      book = null;
+    }
+    return book;
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getObraWithTitulo(String titulo) {
+    var result =
+        _db.collection('Obra').where('titulo', isEqualTo: titulo).snapshots();
+    return result;
+  }
+
   //----------EXEMPLAR----------//
   Future<void> saveExemplar(Exemplar exemplar) async {
     //Salvar Exemplar no Firebase
@@ -193,7 +259,109 @@ class FirestoreService extends ChangeNotifier {
     return result;
   }
 
-//Recuperar dados e salvar em uma variável
+  Stream<QuerySnapshot<Map<String, dynamic>>> getExemplarWithIsbn(String isbn) {
+    var result =
+        _db.collection('Exemplar').where('isbn', isEqualTo: isbn).snapshots();
+    return result;
+  }
+
+  void updateStatusExemplar(String id, String status) {
+    _db.collection('Exemplar').doc(id).update({'status': status});
+  }
+
+  void updateListaEspera(String id, List<String> listaEspera) {
+    //print(id);
+    _db.collection('Exemplar').doc(id).update({'listaEspera': listaEspera});
+  }
+
+  void getLivrosInteresse() {
+    /*
+    1 - Pegar livros de interesse do perfil do usuario - getDadosUsuario()
+    2 - Pegar o ISBN desses livros - getObraWithTitulo(titulo)
+    3 - Pegar os exemplares que existem com esses ISBN's
+    */
+  }
+
+  void getGenerosInteresse() {
+    /*
+    1 - Pegar generos de interesse do perfil do usuario
+    2 - Pegar ISBN's das obras que possuem esses genêros
+    3 - Ver quais exemplares existem com esses ISBN's
+     */
+  }
+
+  //----------CHAT----------//
+  Future<void> saveChat(Chat chat) async {
+    //Salvar chat no Firebase
+    _db
+        .collection('Chat')
+        .doc(chat.doador + " - " + chat.receptor)
+        .set(chat.toMap());
+  }
+
+  void salvarMensagem(ChatMessage msg, String doador, String receptor) async {
+    Map<String, dynamic> mensagens;
+    Map<String, dynamic> msg2;
+
+    mensagens = await _db //Pegar mensagens que ja estao salvas
+        .collection('Chat')
+        .doc(doador + " - " + receptor)
+        .get()
+        .then((value) => value.data());
+
+    msg2 = mensagens['mensagens'];
+
+    msg2.addAll(
+        //Adicionar a mensagem nova na lista de mensagens que ja estao salvas
+        {DateTime.now().millisecondsSinceEpoch.toString(): msg.toJson()});
+
+    _db //salvar as mensagens novamente com a mensagem nova
+        .collection('Chat')
+        .doc(doador + " - " + receptor)
+        .update({'mensagens': msg2});
+
+    updateData(DateTime.now().millisecondsSinceEpoch, doador, receptor);
+  }
+
+  void updateData(int data, String doador, String receptor) {
+    _db
+        .collection('Chat')
+        .doc(doador + " - " + receptor)
+        .update({'data': data});
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getChat(
+      String doador, String receptor) {
+    //Recuperar mensagens da conversa
+    var result =
+        _db.collection('Chat').doc(doador + " - " + receptor).snapshots();
+
+    return result;
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> listarConversas() {
+    var email = getEmail();
+
+    var result =
+        _db.collection('Chat').where('doador', isEqualTo: email).snapshots();
+
+    return result;
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> listarConversas2() {
+    var email = getEmail();
+
+    var result2 =
+        _db.collection('Chat').where('receptor', isEqualTo: email).snapshots();
+
+    return result2;
+  }
+
+  void removeChat(String doador, String receptor) {
+    _db.collection('Chat').doc(doador + " - " + receptor).delete();
+  }
+
+  //Recuperar dados e salvar em uma variável
   Future<String> testeUser() async {
     var result = await _db
         .collection('Usuario')
@@ -205,7 +373,6 @@ class FirestoreService extends ChangeNotifier {
 
   void testeUser2(Map<String, dynamic> firestore) {
     List<String> livrosDoados = List.from(firestore['livrosDoados']);
-    print(livrosDoados[0]);
     //String nome = firestore['nome'];
     //return nome;
   }

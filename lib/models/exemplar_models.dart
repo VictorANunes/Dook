@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Exemplar {
   final String status;
   final String isbn;

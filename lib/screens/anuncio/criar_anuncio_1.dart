@@ -1,5 +1,6 @@
 import 'package:dook/models/book_models.dart';
 import 'package:dook/screens/menu.dart';
+import 'package:dook/services/firestore_service.dart';
 import 'package:dook/services/get_book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +26,7 @@ class CriarAnuncio1 extends State {
 
   @override
   Widget build(BuildContext context) {
+    FirestoreService firestore = FirestoreService();
     GetBook getBook = new GetBook();
     return Scaffold(
       body: Container(
@@ -72,7 +74,12 @@ class CriarAnuncio1 extends State {
                 onPressed: () async {
                   final isbn = _controladorISBN.text;
                   if (isbn != '' && isbn.length == 13) {
-                    Book book = await getBook.getData(isbn);
+                    Book book;
+                    book = await firestore.getBook(isbn);
+                    if (book == null) {
+                      book = await getBook.getData(isbn);
+                    }
+                    //Book book = await getBook.getData(isbn);
                     telaCriarAnuncio2(book, isbn);
                   } else {
                     setState(() {
