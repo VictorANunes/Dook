@@ -45,6 +45,14 @@ class CriarAnuncio1 extends State {
               controller: _controladorISBN,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 22.sp),
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.deepPurple[600]),
+                ),
+              ),
             ),
             SizedBox(
               height: 20.h,
@@ -108,13 +116,15 @@ class Superior extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
+          icon: Image.asset(
+            'assets/images/icons/voltar.png',
+            height: 25.h,
+            width: 25.w,
           ),
+          alignment: Alignment.centerLeft,
         ),
         Text(
           'ISBN do Livro',

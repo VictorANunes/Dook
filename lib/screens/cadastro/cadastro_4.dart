@@ -30,7 +30,6 @@ class Cadastro4 extends State {
     'Romance Epistolar',
     'Romance Histórico',
     'Romance Psicólogo',
-    'Drama',
     'Novela',
     'Conto',
     'Crônica',
@@ -57,6 +56,8 @@ class Cadastro4 extends State {
     'Policial',
     'Psicológico',
     'Romântico',
+    'Suspense',
+    'Ficção'
   ];
 
   @override
@@ -95,13 +96,15 @@ class Cadastro4 extends State {
               child: Row(children: <Widget>[
                 Container(
                   child: IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back_ios_rounded,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Image.asset(
+                      'assets/images/icons/voltar.png',
+                      height: 25.h,
+                      width: 25.w,
                     ),
                     alignment: Alignment.centerLeft,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
                   ),
                   width: 90.w,
                 ),

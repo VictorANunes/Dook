@@ -7,12 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MeuPerfilScreen extends StatefulWidget {
+class PerfilScreen extends StatefulWidget {
+  var email;
+  PerfilScreen({this.email});
   @override
-  MeuPerfil createState() => MeuPerfil();
+  Perfil createState() => Perfil(email: email);
 }
 
-class MeuPerfil extends State {
+class Perfil extends State {
+  var email;
+  Perfil({this.email});
   //Inicia a tela chamando as demais classes com os Widgets
   @override
   Widget build(BuildContext context) {
@@ -22,9 +26,9 @@ class MeuPerfil extends State {
         height: MediaQuery.of(context).size.height,
         child: ListView(
           children: <Widget>[
-            MeuPerfilCabecalho(),
-            MeuPerfilLivrosDoados(),
-            MeuPerfilLivrosRecebidos()
+            PerfilCabecalho(email: email),
+            PerfilLivrosDoados(email: email),
+            PerfilLivrosRecebidos(email: email)
           ],
         ),
       ),
@@ -32,7 +36,9 @@ class MeuPerfil extends State {
   }
 }
 
-class MeuPerfilCabecalho extends StatelessWidget {
+class PerfilCabecalho extends StatelessWidget {
+  var email;
+  PerfilCabecalho({this.email});
   //Monta o cabeçalho da pagina
   FirestoreService firestore = new FirestoreService();
   @override
@@ -89,36 +95,9 @@ class MeuPerfilCabecalho extends StatelessWidget {
                   ),
                 ),
               ),
-              StreamBuilder(
-                  stream: firestore.getDadosUsuario(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<Users> usuario) {
-                    return Container(
-                      //Icone que vai para a tela de editar perfil
-                      padding: EdgeInsets.only(
-                        top: 25.r,
-                        left: 25.r,
-                        right: 25.r,
-                      ),
-                      child: IconButton(
-                        color: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditarPerfilScreen(
-                                      usuario: usuario.data)));
-                        },
-                        icon: Image.asset(
-                          'assets/images/icons/editbranco.png',
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                        alignment: Alignment.centerRight,
-                      ),
-                      width: 90.w,
-                    );
-                  }),
+              Container(
+                width: 90.w,
+              )
             ],
           ),
           Row(
@@ -129,7 +108,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
               StreamBuilder(
                   //Stream que pega os dados do usuário para resgatar a url da foto
                   stream: firestore
-                      .getDadosUsuario(), //função que pega os dados do usuario
+                      .getUsuario(email), //função que pega os dados do usuario
                   builder:
                       (BuildContext context, AsyncSnapshot<Users> usuario) {
                     if (usuario.connectionState == ConnectionState.waiting) {
@@ -207,7 +186,7 @@ class MeuPerfilCabecalho extends StatelessWidget {
                 children: <Widget>[
                   StreamBuilder(
                       //Stream para resgatar os dados do usuário
-                      stream: firestore.getDadosUsuario(),
+                      stream: firestore.getUsuario(email),
                       builder:
                           (BuildContext context, AsyncSnapshot<Users> usuario) {
                         if (usuario.hasData) {
@@ -274,7 +253,9 @@ class MeuPerfilCabecalho extends StatelessWidget {
   }
 }
 
-class MeuPerfilLivrosDoados extends StatelessWidget {
+class PerfilLivrosDoados extends StatelessWidget {
+  var email;
+  PerfilLivrosDoados({this.email});
   //Parte que mostra os Livros Doados no Perfil
   @override
   FirestoreService firestore = new FirestoreService();
@@ -301,7 +282,7 @@ class MeuPerfilLivrosDoados extends StatelessWidget {
             height: 210.h,
             child: StreamBuilder(
                 //Stream que pega dados do usuário
-                stream: firestore.getDadosUsuario(),
+                stream: firestore.getUsuario(email),
                 builder: (BuildContext context, AsyncSnapshot<Users> usuario) {
                   if (usuario.hasData) {
                     return ListView.builder(
@@ -377,13 +358,14 @@ class MeuPerfilLivrosDoados extends StatelessWidget {
   }
 }
 
-class MeuPerfilLivrosRecebidos extends StatelessWidget {
+class PerfilLivrosRecebidos extends StatelessWidget {
+  var email;
+  PerfilLivrosRecebidos({this.email});
   //Funciona igualmente o LivrosDoados
   @override
   Widget build(BuildContext context) {
     FirestoreService firestore = new FirestoreService();
     return Container(
-      //color: Colors.yellow,
       padding: EdgeInsets.only(
         left: 15.r,
         right: 15.r,
@@ -404,7 +386,7 @@ class MeuPerfilLivrosRecebidos extends StatelessWidget {
           Container(
             height: 210.h,
             child: StreamBuilder(
-                stream: firestore.getDadosUsuario(),
+                stream: firestore.getUsuario(email),
                 builder: (BuildContext context, AsyncSnapshot<Users> usuario) {
                   if (usuario.hasData) {
                     return ListView.builder(

@@ -205,12 +205,6 @@ class FirestoreService extends ChangeNotifier {
     return book;
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getObraWithTitulo(String titulo) {
-    var result =
-        _db.collection('Obra').where('titulo', isEqualTo: titulo).snapshots();
-    return result;
-  }
-
   //----------EXEMPLAR----------//
   Future<void> saveExemplar(Exemplar exemplar) async {
     //Salvar Exemplar no Firebase
@@ -237,15 +231,13 @@ class FirestoreService extends ChangeNotifier {
     return result;
   }
 
-  Stream<List<Exemplar>> getMeusAnuncios() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getMeusAnuncios() {
     //Pegar os Exemplares com o criador igual ao seu e-mail
     String email = getEmail();
     var result = _db
         .collection('Exemplar')
         .where('criador', isEqualTo: email)
-        .snapshots()
-        .map((event) =>
-            event.docs.map((e) => Exemplar.fromFirestore(e.data())).toList());
+        .snapshots();
     return result;
   }
 
@@ -259,39 +251,129 @@ class FirestoreService extends ChangeNotifier {
     return result;
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getExemplarWithIsbn(String isbn) {
-    var result =
-        _db.collection('Exemplar').where('isbn', isEqualTo: isbn).snapshots();
-    return result;
-  }
-
   void updateStatusExemplar(String id, String status) {
     _db.collection('Exemplar').doc(id).update({'status': status});
   }
 
   void updateListaEspera(String id, List<String> listaEspera) {
-    //print(id);
     _db.collection('Exemplar').doc(id).update({'listaEspera': listaEspera});
   }
 
-  void getLivrosInteresse() {
-    /*
-    1 - Pegar livros de interesse do perfil do usuario - getDadosUsuario()
-    2 - Pegar o ISBN desses livros - getObraWithTitulo(titulo)
-    3 - Pegar os exemplares que existem com esses ISBN's
-    */
+  void updateFotos(String id, String capa, String contracapa, String lombada,
+      String corteSuperior, String corteDianteiro, String corteInferior) {
+    _db.collection('Exemplar').doc(id).update({
+      'fotos': {
+        'capa': capa,
+        'contracapa': contracapa,
+        'lombada': lombada,
+        'cortesuperior': corteSuperior,
+        'cortedianteiro': corteDianteiro,
+        'corteinferior': corteInferior
+      }
+    });
   }
 
-  void getGenerosInteresse() {
-    /*
-    1 - Pegar generos de interesse do perfil do usuario
-    2 - Pegar ISBN's das obras que possuem esses genêros
-    3 - Ver quais exemplares existem com esses ISBN's
-     */
+  Future<List<String>> getListaEspera(String id) async {
+    var result = await _db.collection('Exemplar').doc(id).get();
+    print(result.data()['listaEspera']);
+    Exemplar exemplar = Exemplar.fromFirestore(result.data());
+    return exemplar.listaEspera;
+  }
+
+  Future<List<String>> getExemplaresGeneros(List<String> generos) async {
+    List<String> exemplares = [];
+    List<String> isbn = [];
+    var result;
+
+    for (var i in generos) {
+      result = await _db
+          .collection('Obra')
+          .where('categoria', arrayContains: i)
+          .limit(20)
+          .get();
+      for (int i = 0; i < result.docs.length; i++) {
+        if (!isbn.contains(result.docs[i].id)) {
+          isbn.add(result.docs[i].id);
+        }
+      }
+    }
+    for (var i in isbn) {
+      result = await _db
+          .collection('Exemplar')
+          .where('isbn', isEqualTo: i)
+          .where('status', isEqualTo: 'aberto')
+          .limit(3)
+          .get();
+      for (int i = 0; i < result.docs.length; i++) {
+        if (!isbn.contains(result.docs[i].id)) {
+          exemplares.add(result.docs[i].id);
+        }
+      }
+    }
+
+    exemplares.shuffle();
+    if (exemplares.isEmpty) {
+      return null;
+    } else {
+      return exemplares;
+    }
+  }
+
+  Future<List<String>> getExemplaresLivros(List<String> livros) async {
+    List<String> exemplares = [];
+    List<String> isbn = [];
+    var result;
+
+    for (var i in livros) {
+      i = i.toLowerCase();
+      var result = await _db
+          .collection('Obra')
+          .where('pesqList', arrayContains: i)
+          .limit(20)
+          .get();
+      for (int i = 0; i < result.docs.length; i++) {
+        if (!isbn.contains(result.docs[i].id)) {
+          isbn.add(result.docs[i].id);
+        }
+      }
+    }
+
+    for (var i in isbn) {
+      result = await _db
+          .collection('Exemplar')
+          .where('isbn', isEqualTo: i)
+          .where('status', isEqualTo: 'aberto')
+          .limit(3)
+          .get();
+      for (int i = 0; i < result.docs.length; i++) {
+        if (!isbn.contains(result.docs[i].id)) {
+          exemplares.add(result.docs[i].id);
+        }
+      }
+    }
+
+    exemplares.shuffle();
+
+    return exemplares;
+  }
+
+  void deleteExemplar(String id) {
+    _db.collection('Exemplar').doc(id).delete();
+  }
+
+  void updateRespostas(String exemplar, List<double> respostas) {
+    Map<String, dynamic> map = {
+      'resp1': respostas[0].toInt().toString(),
+      'resp2': respostas[1].toInt().toString(),
+      'resp3': respostas[2].toInt().toString(),
+      'resp4': respostas[3].toInt().toString(),
+      'resp5': respostas[4].toInt().toString()
+    };
+    _db.collection('Exemplar').doc(exemplar).update({'respostas': map});
   }
 
   //----------CHAT----------//
-  Future<void> saveChat(Chat chat) async {
+  void saveChat(Chat chat) async {
     //Salvar chat no Firebase
     _db
         .collection('Chat')
@@ -359,6 +441,14 @@ class FirestoreService extends ChangeNotifier {
 
   void removeChat(String doador, String receptor) {
     _db.collection('Chat').doc(doador + " - " + receptor).delete();
+  }
+
+  void deleteChatWithExemplar(String exemplar) async {
+    var result =
+        await _db.collection('Chat').where({'exemplar': exemplar}).get();
+    for (var i in result.docs) {
+      _db.collection('Chat').doc(i.id).delete();
+    }
   }
 
   //Recuperar dados e salvar em uma variável

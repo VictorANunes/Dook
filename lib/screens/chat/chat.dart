@@ -98,6 +98,7 @@ class ChatConversas extends StatelessWidget {
                           'data'])); //Ordenar a lista pela Data que vai atualizar de acordo com a ultima mensagem enviada
                       return ListView.builder(
                           //Listar as conversas
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: listaConversas.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -142,6 +143,8 @@ class ChatConversas extends StatelessWidget {
                                           }
                                           //Gesture Detector para colocar a ação de onTap na Row
                                           return ListView(
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             children: [
                                               GestureDetector(

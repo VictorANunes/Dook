@@ -86,11 +86,15 @@ class Cadastro6 extends State {
                 children: <Widget>[
                   Container(
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_rounded),
-                      alignment: Alignment.centerLeft,
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.pop(context);
                       },
+                      icon: Image.asset(
+                        'assets/images/icons/voltar.png',
+                        height: 25.h,
+                        width: 25.w,
+                      ),
+                      alignment: Alignment.centerLeft,
                     ),
                     width: 90.w,
                   ),
@@ -130,7 +134,7 @@ class Cadastro6 extends State {
                     shape: BoxShape.circle,
                     color: Colors.white,
                     image: DecorationImage(
-                      fit: BoxFit.scaleDown,
+                      fit: BoxFit.cover,
                       image: (_image != null)
                           ? FileImage(_image)
                           : NetworkImage(_url),

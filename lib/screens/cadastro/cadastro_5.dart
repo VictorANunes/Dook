@@ -53,11 +53,15 @@ class Cadastro5 extends State {
             child: Row(children: <Widget>[
               Container(
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_rounded),
-                  alignment: Alignment.centerLeft,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pop(context);
                   },
+                  icon: Image.asset(
+                    'assets/images/icons/voltar.png',
+                    height: 25.h,
+                    width: 25.w,
+                  ),
+                  alignment: Alignment.centerLeft,
                 ),
                 width: 90.w,
               ),

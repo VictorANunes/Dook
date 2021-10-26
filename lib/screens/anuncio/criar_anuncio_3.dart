@@ -55,13 +55,15 @@ class Superior extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
+          icon: Image.asset(
+            'assets/images/icons/voltar.png',
+            height: 25.h,
+            width: 25.w,
           ),
+          alignment: Alignment.centerLeft,
         ),
         Text(
           'Condição do Livro',
@@ -246,11 +248,11 @@ class FormCondicaoState extends State<FormCondicao> {
                 ),
               ),
               onPressed: () {
-                exemplar.changeResp1(_currentSliderValue1.toString());
-                exemplar.changeResp2(_currentSliderValue2.toString());
-                exemplar.changeResp3(_currentSliderValue3.toString());
-                exemplar.changeResp4(_currentSliderValue4.toString());
-                exemplar.changeResp5(_currentSliderValue5.toString());
+                exemplar.changeResp1(_currentSliderValue1.toInt().toString());
+                exemplar.changeResp2(_currentSliderValue2.toInt().toString());
+                exemplar.changeResp3(_currentSliderValue3.toInt().toString());
+                exemplar.changeResp4(_currentSliderValue4.toInt().toString());
+                exemplar.changeResp5(_currentSliderValue5.toInt().toString());
 
                 telaCriarAnuncio4(exemplar);
               },

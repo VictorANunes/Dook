@@ -60,13 +60,15 @@ class Superior extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
+          icon: Image.asset(
+            'assets/images/icons/voltar.png',
+            height: 25.h,
+            width: 25.w,
           ),
+          alignment: Alignment.centerLeft,
         ),
         Text(
           'Confirme os Dados',
@@ -145,15 +147,20 @@ class FormLivro extends StatelessWidget {
             controller: controladorISBN,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.deepPurple[600]),
+              ),
               contentPadding: EdgeInsets.only(
                 top: 20.r,
                 bottom: 20.r,
                 left: 15.r,
                 right: 15.r,
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide(color: Colors.yellow)),
               labelText: "ISBN",
               labelStyle: TextStyle(
                 color: Colors.black38,
@@ -169,15 +176,20 @@ class FormLivro extends StatelessWidget {
             controller: controladorTitulo,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.deepPurple[600]),
+              ),
               contentPadding: EdgeInsets.only(
                 top: 20.r,
                 bottom: 20.r,
                 left: 15.r,
                 right: 15.r,
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Colors.yellow)),
               labelText: "Título",
               labelStyle: TextStyle(
                 color: Colors.black38,
@@ -193,15 +205,20 @@ class FormLivro extends StatelessWidget {
             controller: controladorAutor,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.deepPurple[600]),
+              ),
               contentPadding: EdgeInsets.only(
                 top: 20.r,
                 bottom: 20.r,
                 left: 15.r,
                 right: 15.r,
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide(color: Colors.yellow)),
               labelText: "Autor",
               labelStyle: TextStyle(
                 color: Colors.black38,
@@ -217,15 +234,20 @@ class FormLivro extends StatelessWidget {
             controller: controladorEditora,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.deepPurple[600]),
+              ),
               contentPadding: EdgeInsets.only(
                 top: 20.r,
                 bottom: 20.r,
                 left: 15.r,
                 right: 15.r,
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide(color: Colors.yellow)),
               labelText: "Editora",
               labelStyle: TextStyle(
                 color: Colors.black38,
@@ -241,15 +263,20 @@ class FormLivro extends StatelessWidget {
             controller: controladorEdicao,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.deepPurple[600]),
+              ),
               contentPadding: EdgeInsets.only(
                 top: 20.r,
                 bottom: 20.r,
                 left: 15.r,
                 right: 15.r,
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide(color: Colors.yellow)),
               labelText: "Edição",
               labelStyle: TextStyle(
                 color: Colors.black38,
@@ -265,15 +292,20 @@ class FormLivro extends StatelessWidget {
             controller: controladorDtPub,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.deepPurple[600]),
+              ),
               contentPadding: EdgeInsets.only(
                 top: 20.r,
                 bottom: 20.r,
                 left: 15.r,
                 right: 15.r,
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide(color: Colors.yellow)),
               labelText: "Data de Publicação",
               labelStyle: TextStyle(
                 color: Colors.black38,
@@ -289,15 +321,20 @@ class FormLivro extends StatelessWidget {
             controller: controladorCategoria,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.deepPurple[600]),
+              ),
               contentPadding: EdgeInsets.only(
                 top: 20.r,
                 bottom: 20.r,
                 left: 15.r,
                 right: 15.r,
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Colors.yellow)),
               labelText: "Categoria",
               labelStyle: TextStyle(
                 color: Colors.black38,

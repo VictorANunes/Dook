@@ -60,13 +60,15 @@ class Superior extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
+          icon: Image.asset(
+            'assets/images/icons/voltar.png',
+            height: 25.h,
+            width: 25.w,
           ),
+          alignment: Alignment.centerLeft,
         ),
         Text(
           'Fotos',
@@ -206,7 +208,6 @@ class FotosState extends State<Fotos> {
 
   @override
   Widget build(BuildContext context) {
-    String aviso = '';
     return Container(
       child: Column(
         children: <Widget>[
@@ -505,18 +506,6 @@ class FotosState extends State<Fotos> {
             },
           ),
           SizedBox(
-            height: 10.h,
-          ),
-          Text(
-            'teste',
-            style: TextStyle(
-              fontFamily: 'Inter',
-              fontSize: 18.sp,
-              color: Colors.red,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          SizedBox(
             height: 30.h,
           ),
           ElevatedButton(
@@ -594,11 +583,7 @@ class FotosState extends State<Fotos> {
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
                             MenuInferiorScreen()));
-              } else {
-                setState(() {
-                  aviso = 'Insira todas as fotos';
-                });
-              }
+              } else {}
             },
             child: carregandoButton(),
           ),

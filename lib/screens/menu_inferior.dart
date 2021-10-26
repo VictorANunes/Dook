@@ -3,6 +3,7 @@ import 'package:dook/screens/interesse.dart';
 import 'package:dook/screens/acervo.dart';
 import 'package:dook/screens/chat/chat.dart';
 import 'package:dook/screens/menu.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuInferiorScreen extends StatefulWidget {
   @override
@@ -57,21 +58,54 @@ class MenuInferior extends State {
             elevation: 5,
             items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_rounded),
+                icon: (_indiceAtual == 0)
+                    ? Image.asset(
+                        'assets/images/icons/homeroxo.png',
+                        height: 32.h,
+                        width: 32.w,
+                      )
+                    : Image.asset(
+                        'assets/images/icons/home.png',
+                        height: 32.h,
+                        width: 32.w,
+                      ),
                 label: 'Inicio',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.auto_stories),
+                icon: (_indiceAtual == 1)
+                    ? Image.asset(
+                        'assets/images/icons/acervoroxo.png',
+                        height: 32.h,
+                        width: 32.w,
+                      )
+                    : Image.asset(
+                        'assets/images/icons/acervo.png',
+                        height: 32.h,
+                        width: 32.w,
+                      ),
                 //import_contacts_sharp
                 label: 'Acervo',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.question_answer_rounded),
-                //forum_outlined chat_bubble_outline_rounded
+                icon: (_indiceAtual == 2)
+                    ? Image.asset(
+                        'assets/images/icons/chatroxo.png',
+                        height: 32.h,
+                        width: 32.w,
+                      )
+                    : Image.asset(
+                        'assets/images/icons/chat.png',
+                        height: 32.h,
+                        width: 32.w,
+                      ),
                 label: 'Chat',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.menu_rounded),
+                icon: Image.asset(
+                  'assets/images/icons/menu.png',
+                  height: 32.h,
+                  width: 32.w,
+                ),
                 label: 'Menu',
               ),
             ],

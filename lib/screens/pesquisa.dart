@@ -126,14 +126,16 @@ class PesquisaCabecalho extends StatelessWidget {
           Row(children: <Widget>[
             Container(
               child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_rounded,
-                ),
-                alignment: Alignment.centerLeft,
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                },
-              ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Image.asset(
+            'assets/images/icons/voltar.png',
+            height: 25.h,
+            width: 25.w,
+          ),
+          alignment: Alignment.centerLeft,
+        ),
               width: 90.w,
             ),
             Container(

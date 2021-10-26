@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dook/models/obra_models.dart';
 import 'package:dook/models/user_models.dart';
+import 'package:dook/screens/livro/pagina_livro.dart';
+import 'package:dook/screens/livro/pagina_meu_livro.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,13 +52,15 @@ class ResultadoCabecalho extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Image.asset(
+                    'assets/images/icons/voltar.png',
+                    height: 25.h,
+                    width: 25.w,
                   ),
                   alignment: Alignment.centerLeft,
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                  },
                 ),
                 width: 90.w,
               ),
@@ -114,7 +118,23 @@ class ResultadoCorpo extends StatelessWidget {
                   var obra = firestore.getObra(isbn);
                   return ListTile(
                     onTap: () async {
-                      //mudar para tela de anuncio
+                      firestore.getEmail();
+                      if (snapshot.data.docs[index]['criador'] ==
+                          firestore.getEmail()) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    MeuLivroScreen(
+                                        exemplar:
+                                            snapshot.data.docs[index].id)));
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => LivroScreen(
+                                    exemplar: snapshot.data.docs[index].id)));
+                      }
                     },
                     title: StreamBuilder(
                       stream: obra,

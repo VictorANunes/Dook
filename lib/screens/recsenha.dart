@@ -1,6 +1,7 @@
 import 'package:dook/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RecSenhaScreen extends StatefulWidget {
   @override
@@ -42,9 +43,9 @@ class RecSenha extends State {
       body: Container(
         color: Colors.white,
         padding: EdgeInsets.only(
-          top: 40,
-          left: 5,
-          right: 25,
+          top: 30.r,
+          left: 25.r,
+          right: 25.r,
         ),
         child: ListView(children: <Widget>[
           Container(
@@ -52,18 +53,20 @@ class RecSenha extends State {
             child: Row(
               children: <Widget>[
                 Container(
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_rounded,
-                          size: 35, color: Colors.black),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+                  child: IconButton(
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Image.asset(
+                      'assets/images/icons/voltar.png',
+                      height: 25.h,
+                      width: 25.w,
                     ),
                     alignment: Alignment.centerLeft,
-                    width: 60,
-                    padding: EdgeInsets.only(
-                      bottom: 3,
-                    )),
+                  ),
+                  width: 60.w,
+                ),
                 Container(
                   //Texto Entrar
                   child: Text(
@@ -71,98 +74,83 @@ class RecSenha extends State {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       //fontFamily: 'Inter',
-                      fontSize: 38,
+                      fontSize: 38.sp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  width: 310,
+                  width: 295.w,
                 ),
               ],
             ),
           ),
           SizedBox(
-            height: 40,
+            height: 40.h,
           ),
           Container(
-            padding: EdgeInsets.only(
-              left: 20,
-            ),
             child: Text(
               'Email Cadastrado',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 10.h,
           ),
           Container(
-            padding: EdgeInsets.only(
-              left: 20,
-            ),
             child: TextFormField(
               //Input Email
               controller: email,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                     borderSide: BorderSide(color: Colors.yellow)),
                 labelText: "Email",
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  fontSize: 18.sp,
                 ),
               ),
             ),
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           Container(
-            padding: EdgeInsets.only(
-              left: 20,
-            ),
             child: Text(
               '$erro',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: Colors.red,
                 fontWeight: FontWeight.w400,
               ),
             ),
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           Container(
-            padding: EdgeInsets.only(
-              left: 20,
-            ),
             child: Text(
               'Será enviado um código de confirmação ao email inserido acima, como método de validação.',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.w400,
               ),
             ),
           ),
           SizedBox(
-            height: 35,
+            height: 35.h,
           ),
           Container(
-            padding: EdgeInsets.only(
-              left: 20,
-            ),
             child: ElevatedButton(
               //Botão Entrar
               onPressed: () async {
@@ -179,7 +167,7 @@ class RecSenha extends State {
               style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple[600],
                 minimumSize: Size(88, 50),
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16.r),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                 ),
@@ -187,7 +175,7 @@ class RecSenha extends State {
               child: Text(
                 'Confirmar',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   color: Colors.white,
                 ),
               ),

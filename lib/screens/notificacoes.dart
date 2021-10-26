@@ -41,13 +41,15 @@ class NotificacaoCabecalho extends StatelessWidget {
           Row(children: <Widget>[
             Container(
               child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_rounded,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Image.asset(
+                  'assets/images/icons/voltar.png',
+                  height: 25.h,
+                  width: 25.w,
                 ),
                 alignment: Alignment.centerLeft,
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                },
               ),
               width: 90.w,
             ),

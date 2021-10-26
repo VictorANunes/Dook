@@ -1,6 +1,7 @@
 import 'package:dook/models/user_models.dart';
 import 'package:dook/screens/anuncio/criar_anuncio_1.dart';
 import 'package:dook/screens/menu_inferior.dart';
+import 'package:dook/screens/meus_anuncios.dart';
 import 'package:dook/screens/perfil/meuperfil.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,6 @@ class MenuPerfil extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => Configuracoes()),
                   );*/
-                  firestore.getBook('1');
                 },
                 icon: Image.asset(
                   'assets/images/icons/settingsbranco.png',
@@ -220,10 +220,10 @@ class MenuLista extends StatelessWidget {
                 alignment: Alignment.centerLeft,
               ),
               onPressed: () {
-                /*Navigator.push(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MeusAnuncios()),
-                );*/
+                  MaterialPageRoute(builder: (context) => MeusAnunciosScreen()),
+                );
               },
               child: Text(
                 'Meus Anúncios',
