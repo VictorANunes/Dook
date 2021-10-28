@@ -1,3 +1,4 @@
+import 'package:dash_chat/dash_chat.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:dook/services/notification_service.dart';
 import 'package:flutter/material.dart';
@@ -75,61 +76,48 @@ class NotificacaoCabecalho extends StatelessWidget {
 }
 
 class NotificacaoCorpo extends StatelessWidget {
+  FirestoreService firestore = FirestoreService();
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 690.h,
       //color: Colors.yellow,
-      child: ListView(
-        children: ListTile.divideTiles(
-          context: context,
-          tiles: [
-            ListTile(
-              title: Text('Novo Interessado',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                  )),
-              subtitle: Text('aaaaaaaaaaaaaaaaaaaaaa',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                  )),
-              leading: Container(
-                child: Icon(
-                  Icons.ac_unit,
-                  color: Colors.black,
-                ),
-              ),
-              trailing: Text(
-                '8m',
-                style: TextStyle(fontSize: 15.sp, color: Colors.grey[600]),
-              ),
-              onTap: () {
-                NotificationService nf = new NotificationService();
-                nf.teste();
+      child: StreamBuilder(
+        stream: firestore.getNotification(firestore.getEmail()),
+        builder: (BuildContext context, AsyncSnapshot not) {
+          if (not.hasData) {
+            return ListView.separated(
+              itemCount: not.data.docs.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(not.data.docs[index]['titulo'],
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                      )),
+                  subtitle: Text(not.data.docs[index]['msg'],
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                      )),
+                  leading: Container(
+                    child: Icon(
+                      Icons.ac_unit,
+                      color: Colors.black,
+                    ),
+                  ),
+                  onTap: () {},
+                );
               },
-            ),
-            ListTile(
-              title: Text('Novo Interessado',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                  )),
-              subtitle: Text('aaaaaaaaaaaaaaaaaaaaaa',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                  )),
-              leading: Container(
-                child: Icon(
-                  Icons.ac_unit,
-                  color: Colors.black,
-                ),
-              ),
-              trailing: Text(
-                '8m',
-                style: TextStyle(fontSize: 15.sp, color: Colors.grey[600]),
-              ),
-            ),
-          ],
-        ).toList(),
+              separatorBuilder: (context, index) {
+                return Divider(
+                  height: 0,
+                  thickness: 1.1,
+                );
+              },
+            );
+          } else {
+            return Container();
+          }
+        },
       ),
     );
   }

@@ -19,16 +19,8 @@ class UserProvider with ChangeNotifier {
   String _cidade;
   String _uf;
   String _url;
-  String _generos1 = '';
-  String _generos2 = '';
-  String _generos3 = '';
-  String _generos4 = '';
-  String _generos5 = '';
-  String _livros1 = '';
-  String _livros2 = '';
-  String _livros3 = '';
-  String _livros4 = '';
-  String _livros5 = '';
+  List<String> _generos = [];
+  List<String> _livros = [];
   String _id;
 
   //Get
@@ -47,16 +39,8 @@ class UserProvider with ChangeNotifier {
   String get cidade => _cidade;
   String get uf => _uf;
   String get url => _url;
-  String get generos1 => _generos1;
-  String get generos2 => _generos2;
-  String get generos3 => _generos3;
-  String get generos4 => _generos4;
-  String get generos5 => _generos5;
-  String get livros1 => _livros1;
-  String get livros2 => _livros2;
-  String get livros3 => _livros3;
-  String get livros4 => _livros4;
-  String get livros5 => _livros5;
+  List<String> get generos => _generos;
+  List<String> get livros => _livros;
   String get id => _id;
 
   //Set
@@ -136,47 +120,13 @@ class UserProvider with ChangeNotifier {
   }
 
   changeGenerosInt(List<String> value) {
-    for (var i = 0; i < value.length; i++) {
-      switch (i) {
-        case 0:
-          _generos1 = value[0];
-          break;
-        case 1:
-          _generos2 = value[1];
-          break;
-        case 2:
-          _generos3 = value[2];
-          break;
-        case 3:
-          _generos4 = value[3];
-          break;
-        case 4:
-          _generos5 = value[4];
-          break;
-      }
-    }
+    _generos = generos;
     notifyListeners();
   }
 
   changeLivrosInt(List<String> value) {
-    for (var i = 0; i < value.length; i++) {
-      switch (i) {
-        case 0:
-          _livros1 = value[0];
-          break;
-        case 1:
-          _livros2 = value[1];
-          break;
-        case 2:
-          _livros3 = value[2];
-          break;
-        case 3:
-          _livros4 = value[3];
-          break;
-        case 4:
-          _livros5 = value[4];
-          break;
-      }
+    for (var i in value) {
+      _livros.add(i.toLowerCase());
     }
     notifyListeners();
   }
@@ -203,16 +153,8 @@ class UserProvider with ChangeNotifier {
         cidade: cidade,
         uf: uf,
         url: url,
-        generos1: generos1,
-        generos2: generos2,
-        generos3: generos3,
-        generos4: generos4,
-        generos5: generos5,
-        livros1: livros1,
-        livros2: livros2,
-        livros3: livros3,
-        livros4: livros4,
-        livros5: livros5,
+        generos: generos,
+        livros: livros,
         id: id);
     firestoreService.saveUser(newUser);
   }

@@ -1,5 +1,6 @@
 import 'package:dook/provider/exemplar_provider.dart';
 import 'package:dook/screens/menu_inferior.dart';
+import 'package:dook/services/firestore_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -577,6 +578,9 @@ class FotosState extends State<Fotos> {
                 exemplar.changeCorteSuperior(imageUrl);
 
                 exemplar.saveExemplar();
+
+                FirestoreService firestore = FirestoreService();
+                firestore.getUsersWithLivrosInt(exemplar.isbn);
 
                 Navigator.push(
                     context,

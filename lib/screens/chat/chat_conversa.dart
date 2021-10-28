@@ -3,6 +3,7 @@ import 'package:dook/models/user_models.dart';
 import 'package:dook/screens/chat/maleta_doador.dart';
 import 'package:dook/screens/chat/maleta_receptor.dart';
 import 'package:dook/services/firestore_service.dart';
+import 'package:dook/services/notification_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -220,7 +221,10 @@ class ConversaCorpo extends State {
 
   void enviarMsg(ChatMessage mensagem) {
     //Ao enviar mensagem chama essa função
+    NotificationService ns = NotificationService();
     firestore.salvarMensagem(mensagem, doador, receptor);
+    ns.sendNotification("Nova Mensagem", "${user.name}: ${mensagem.text}",
+        outroUser.uid, 'Mensagem');
   }
 
   Widget build(BuildContext context) {

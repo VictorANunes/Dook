@@ -1,11 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dook/models/exemplar_models.dart';
+import 'package:dook/models/notification_models.dart';
 import 'package:dook/models/obra_models.dart';
 import 'package:dook/models/user_models.dart';
+import 'package:dook/provider/notification_provider.dart';
 import 'package:dook/screens/anuncio/criar_anuncio_1.dart';
 import 'package:dook/screens/livro/pagina_livro.dart';
 import 'package:dook/screens/livro/pagina_meu_livro.dart';
 import 'package:dook/screens/notificacoes.dart';
 import 'package:dook/services/firestore_service.dart';
+import 'package:dook/services/notification_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dook/screens/pesquisa.dart';
@@ -16,6 +21,39 @@ class InteresseScreen extends StatefulWidget {
 }
 
 class Interesse extends State {
+  void initState() {
+    super.initState();
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final FirebaseMessaging _fcm = FirebaseMessaging();
+
+    _fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title']),
+              subtitle: Text(message['notification']['body']),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     FirestoreService firestore = new FirestoreService();
@@ -115,6 +153,15 @@ class IntCabecalho extends StatelessWidget {
                 size: 40,
               ),
               onPressed: () {
+                /*NotificationService ns = NotificationService();
+                ns.sendNotification('teste', 'teste', 'luis@gmail.com');
+                NotificationProvider not = NotificationProvider();
+                not.changeTitulo('oi');
+                not.changeMsg('oi');
+                not.changeTipoMensagem('Teste');
+                not.changeEmail('luis@gmail.com');
+                not.changeData(DateTime.now().millisecondsSinceEpoch);
+                not.saveNotification();*/
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -133,28 +180,25 @@ class IntGenerosInteresse extends StatelessWidget {
   FirestoreService firestore = FirestoreService();
 
   Widget build(BuildContext context) {
-    return Container(
-      width: 340.w,
-      height: 260.h,
-      child: Column(
-        children: <Widget>[
-          Row(children: <Widget>[
-            Text(
-              'Livros que Podem te Interessar',
-              style: TextStyle(fontSize: 27.sp, fontWeight: FontWeight.w500),
-              textAlign: TextAlign.start,
+    return StreamBuilder(
+      stream: firestore.getDadosUsuario(),
+      builder: (BuildContext context, AsyncSnapshot<Users> usuario) {
+        if (usuario.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.deepPurple[600],
+              valueColor: AlwaysStoppedAnimation(Colors.white),
             ),
-          ]),
-          SizedBox(
-            height: 15.h,
-          ),
-          Container(
-            height: 210.h,
-            alignment: Alignment.centerLeft,
-            child: StreamBuilder(
-              stream: firestore.getDadosUsuario(),
-              builder: (BuildContext context, AsyncSnapshot<Users> usuario) {
-                if (usuario.connectionState == ConnectionState.waiting) {
+          );
+        }
+        if (usuario.hasData) {
+          List<String> generos = usuario.data.generos;
+
+          if (!generos.isEmpty) {
+            return FutureBuilder(
+              future: firestore.getExemplaresGeneros(generos),
+              builder: (context, exemplares) {
+                if (exemplares.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.deepPurple[600],
@@ -162,40 +206,27 @@ class IntGenerosInteresse extends StatelessWidget {
                     ),
                   );
                 }
-                if (usuario.hasData) {
-                  List<String> generos = [];
-
-                  if (usuario.data.generos1 != '') {
-                    generos.add(usuario.data.generos1);
-                  }
-                  if (usuario.data.generos2 != '') {
-                    generos.add(usuario.data.generos2);
-                  }
-                  if (usuario.data.generos3 != '') {
-                    generos.add(usuario.data.generos3);
-                  }
-                  if (usuario.data.generos4 != '') {
-                    generos.add(usuario.data.generos4);
-                  }
-                  if (usuario.data.generos5 != '') {
-                    generos.add(usuario.data.generos5);
-                  }
-
-                  if (!generos.isEmpty) {
-                    return FutureBuilder(
-                      future: firestore.getExemplaresGeneros(generos),
-                      builder: (context, exemplares) {
-                        if (exemplares.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              backgroundColor: Colors.deepPurple[600],
-                              valueColor: AlwaysStoppedAnimation(Colors.white),
-                            ),
-                          );
-                        }
-                        if (exemplares.hasData) {
-                          return ListView.builder(
+                if (exemplares.hasData) {
+                  return Container(
+                    width: 340.w,
+                    height: 260.h,
+                    child: Column(
+                      children: <Widget>[
+                        Row(children: <Widget>[
+                          Text(
+                            'Livros que Podem te Interessar',
+                            style: TextStyle(
+                                fontSize: 27.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.start,
+                          ),
+                        ]),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        Container(
+                          height: 210.h,
+                          alignment: Alignment.centerLeft,
+                          child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: exemplares.data.length,
@@ -212,10 +243,10 @@ class IntGenerosInteresse extends StatelessWidget {
                                       builder: (BuildContext context,
                                           AsyncSnapshot<Obra> obra) {
                                         if (obra.hasData) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              if (exemplar.data.criador !=
-                                                  usuario.data.email) {
+                                          if (exemplar.data.criador !=
+                                              usuario.data.email) {
+                                            return GestureDetector(
+                                              onTap: () {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -226,211 +257,6 @@ class IntGenerosInteresse extends StatelessWidget {
                                                                 .data[index]),
                                                   ),
                                                 );
-                                              } else {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        MeuLivroScreen(
-                                                            exemplar: exemplares
-                                                                .data[index]),
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                            child: Container(
-                                              padding:
-                                                  EdgeInsets.only(right: 15.r),
-                                              width: 125.w,
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    height: 145.h,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10.r)),
-                                                        image: DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: NetworkImage(
-                                                                exemplar.data
-                                                                    .capa))),
-                                                  ),
-                                                  SizedBox(height: 5.h),
-                                                  Container(
-                                                    height: 50.h,
-                                                    child: Text(
-                                                      obra.data.titulo,
-                                                      style: TextStyle(
-                                                          fontSize: 17.sp,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          return Container();
-                                        }
-                                      },
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                },
-                              );
-                            },
-                          );
-                        } else {
-                          return Container();
-                        }
-                      },
-                    );
-                  } else {
-                    return Container();
-                  }
-                } else {
-                  return Container();
-                }
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class IntListaDesejos extends StatelessWidget {
-  FirestoreService firestore = FirestoreService();
-  Widget build(BuildContext contexto) {
-    return Container(
-      width: 340.w,
-      height: 275.h,
-      child: Column(
-        children: <Widget>[
-          Row(children: <Widget>[
-            Container(
-              width: 345.w,
-              child: Text(
-                'Lista de Desejos',
-                style: TextStyle(fontSize: 27.sp, fontWeight: FontWeight.w500),
-              ),
-            ),
-            Container(
-              child: IconButton(
-                icon: Image.asset('assets/images/icons/add.png',
-                    height: 30.h, width: 30.w),
-                onPressed: () {
-                  //Ir para alterar lista de desejos
-                },
-              ),
-            ),
-          ]),
-          SizedBox(
-            height: 15.h,
-          ),
-          Container(
-            height: 210.h,
-            alignment: Alignment.centerLeft,
-            child: StreamBuilder(
-              stream: firestore.getDadosUsuario(),
-              builder: (BuildContext context, AsyncSnapshot<Users> usuario) {
-                if (usuario.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.deepPurple[600],
-                      valueColor: AlwaysStoppedAnimation(Colors.white),
-                    ),
-                  );
-                }
-                if (usuario.hasData) {
-                  List<String> livros = [];
-
-                  if (usuario.data.livros1 != '') {
-                    livros.add(usuario.data.livros1);
-                  }
-                  if (usuario.data.livros2 != '') {
-                    livros.add(usuario.data.livros2);
-                  }
-                  if (usuario.data.livros3 != '') {
-                    livros.add(usuario.data.livros3);
-                  }
-                  if (usuario.data.livros4 != '') {
-                    livros.add(usuario.data.livros4);
-                  }
-                  if (usuario.data.livros5 != '') {
-                    livros.add(usuario.data.livros5);
-                  }
-
-                  if (!livros.isEmpty) {
-                    return FutureBuilder(
-                        future: firestore.getExemplaresLivros(livros),
-                        builder: (context, exemplares) {
-                          if (exemplares.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                backgroundColor: Colors.deepPurple[600],
-                                valueColor:
-                                    AlwaysStoppedAnimation(Colors.white),
-                              ),
-                            );
-                          }
-                          if (exemplares.hasData) {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: exemplares.data.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return StreamBuilder(
-                                  stream: firestore
-                                      .getExemplar(exemplares.data[index]),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<Exemplar> exemplar) {
-                                    if (exemplar.hasData) {
-                                      return StreamBuilder(
-                                        stream: firestore
-                                            .getObra(exemplar.data.isbn),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<Obra> obra) {
-                                          if (obra.hasData) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                if (exemplar.data.criador !=
-                                                    usuario.data.email) {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          LivroScreen(
-                                                              exemplar:
-                                                                  exemplares
-                                                                          .data[
-                                                                      index]),
-                                                    ),
-                                                  );
-                                                } else {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          MeuLivroScreen(
-                                                              exemplar:
-                                                                  exemplares
-                                                                          .data[
-                                                                      index]),
-                                                    ),
-                                                  );
-                                                }
                                               },
                                               child: Container(
                                                 padding: EdgeInsets.only(
@@ -472,30 +298,351 @@ class IntListaDesejos extends StatelessWidget {
                                           } else {
                                             return Container();
                                           }
-                                        },
-                                      );
-                                    } else {
-                                      return Container();
-                                    }
-                                  },
-                                );
-                              },
-                            );
-                          } else {
-                            return Container();
-                          }
-                        });
-                  } else {
-                    return Container();
-                  }
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 } else {
-                  return Container();
+                  return Container(
+                    width: 340.w,
+                    height: 150.h,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              'Livros que Podem te Interessar',
+                              style: TextStyle(
+                                  fontSize: 27.sp, fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        Center(
+                          child: Text(
+                            'No momento não temos nenhum livro cadastrado que seja do seu gênero de interesse!',
+                            style: TextStyle(
+                                fontSize: 19.sp, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 }
               },
+            );
+          } else {
+            return Container(
+              width: 340.w,
+              height: 150.h,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Livros que Podem te Interessar',
+                        style: TextStyle(
+                            fontSize: 27.sp, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Center(
+                    child: Text(
+                      'Nenhum gênero de interesse cadastrado!',
+                      style: TextStyle(
+                          fontSize: 20.sp, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  Center(
+                    child: Text(
+                      'Cadastre até 5 gêneros de interesse (Opção Meus Interesses no Menu) para que possamos mostrar livros de seu interesse!',
+                      style: TextStyle(fontSize: 15.sp),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+}
+
+class IntListaDesejos extends StatelessWidget {
+  FirestoreService firestore = FirestoreService();
+  Widget build(BuildContext contexto) {
+    return StreamBuilder(
+      stream: firestore.getDadosUsuario(),
+      builder: (BuildContext context, AsyncSnapshot<Users> usuario) {
+        if (usuario.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.deepPurple[600],
+              valueColor: AlwaysStoppedAnimation(Colors.white),
             ),
-          ),
-        ],
-      ),
+          );
+        }
+        if (usuario.hasData) {
+          List<String> livros = usuario.data.livros;
+
+          if (!livros.isEmpty) {
+            return FutureBuilder(
+              future: firestore.getExemplaresLivros(livros),
+              builder: (context, exemplares) {
+                if (exemplares.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.deepPurple[600],
+                      valueColor: AlwaysStoppedAnimation(Colors.white),
+                    ),
+                  );
+                }
+                if (exemplares.hasData) {
+                  return Container(
+                    width: 340.w,
+                    height: 275.h,
+                    child: Column(
+                      children: <Widget>[
+                        Row(children: <Widget>[
+                          Container(
+                            width: 345.w,
+                            child: Text(
+                              'Lista de Desejos',
+                              style: TextStyle(
+                                  fontSize: 27.sp, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          Container(
+                            child: IconButton(
+                              icon: Image.asset('assets/images/icons/add.png',
+                                  height: 30.h, width: 30.w),
+                              onPressed: () {
+                                //Ir para alterar lista de desejos
+                              },
+                            ),
+                          ),
+                        ]),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        Container(
+                          height: 210.h,
+                          alignment: Alignment.centerLeft,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: exemplares.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return StreamBuilder(
+                                stream: firestore
+                                    .getExemplar(exemplares.data[index]),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<Exemplar> exemplar) {
+                                  if (exemplar.hasData) {
+                                    return StreamBuilder(
+                                      stream:
+                                          firestore.getObra(exemplar.data.isbn),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<Obra> obra) {
+                                        if (obra.hasData) {
+                                          if (exemplar.data.criador !=
+                                              usuario.data.email) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        LivroScreen(
+                                                            exemplar: exemplares
+                                                                .data[index]),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    right: 15.r),
+                                                width: 125.w,
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 145.h,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      10.r)),
+                                                          image: DecorationImage(
+                                                              fit: BoxFit.cover,
+                                                              image: NetworkImage(
+                                                                  exemplar.data
+                                                                      .capa))),
+                                                    ),
+                                                    SizedBox(height: 5.h),
+                                                    Container(
+                                                      height: 50.h,
+                                                      child: Text(
+                                                        obra.data.titulo,
+                                                        style: TextStyle(
+                                                            fontSize: 17.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Container(
+                    width: 340.w,
+                    height: 150.h,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              width: 345.w,
+                              child: Text(
+                                'Lista de Desejos',
+                                style: TextStyle(
+                                    fontSize: 27.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            Container(
+                              child: IconButton(
+                                icon: Image.asset('assets/images/icons/add.png',
+                                    height: 30.h, width: 30.w),
+                                onPressed: () {
+                                  //Ir para alterar lista de desejos
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        Center(
+                          child: Text(
+                            'No momento não temos nenhum livro cadastrado que seja da sua lista de desejos!',
+                            style: TextStyle(
+                                fontSize: 19.sp, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            );
+          } else {
+            return Container(
+              width: 340.w,
+              height: 150.h,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 345.w,
+                        child: Text(
+                          'Lista de Desejos',
+                          style: TextStyle(
+                              fontSize: 27.sp, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Container(
+                        child: IconButton(
+                          icon: Image.asset('assets/images/icons/add.png',
+                              height: 30.h, width: 30.w),
+                          onPressed: () {
+                            //Ir para alterar lista de desejos
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Center(
+                    child: Text(
+                      'Nenhum livro de interesse cadastrado!',
+                      style: TextStyle(
+                          fontSize: 20.sp, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  Center(
+                    child: Text(
+                      'Cadastre até 5 livros de interesse (Opção Meus Interesses no Menu) para que possamos mostrar livros da sua lista de desejo!',
+                      style: TextStyle(fontSize: 15.sp),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        } else {
+          return Container();
+        }
+      },
     );
   }
 }
@@ -503,51 +650,55 @@ class IntListaDesejos extends StatelessWidget {
 class IntMeusAnuncios extends StatelessWidget {
   FirestoreService firestore = new FirestoreService();
   Widget build(BuildContext context) {
-    return Container(
-      width: 340.w,
-      height: 275.h,
-      child: Column(
-        children: <Widget>[
-          Row(children: <Widget>[
-            Container(
-              width: 345.w,
-              child: Text(
-                'Meus Anúncios',
-                style: TextStyle(fontSize: 27.sp, fontWeight: FontWeight.w500),
-              ),
+    return StreamBuilder(
+      stream: firestore.getMeusAnuncios(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.deepPurple[600],
+              valueColor: AlwaysStoppedAnimation(Colors.white),
             ),
-            Container(
-              child: IconButton(
-                icon: Image.asset('assets/images/icons/add.png',
-                    height: 30.h, width: 30.w),
-                onPressed: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              CriarAnuncio1Screen()));
-                },
-              ),
-            ),
-          ]),
-          SizedBox(
-            height: 15.h,
-          ),
-          Container(
-            height: 210.h,
-            child: StreamBuilder(
-                stream: firestore.getMeusAnuncios(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.deepPurple[600],
-                        valueColor: AlwaysStoppedAnimation(Colors.white),
+          );
+        }
+        if (snapshot.hasData) {
+          if (snapshot.data.docs.length != 0) {
+            return Container(
+              width: 340.w,
+              height: 275.h,
+              child: Column(
+                children: <Widget>[
+                  Row(children: <Widget>[
+                    Container(
+                      width: 345.w,
+                      child: Text(
+                        'Meus Anúncios',
+                        style: TextStyle(
+                            fontSize: 27.sp, fontWeight: FontWeight.w500),
                       ),
-                    );
-                  }
-                  if (snapshot.hasData) {
-                    return ListView.builder(
+                    ),
+                    Container(
+                      child: IconButton(
+                        icon: Image.asset('assets/images/icons/add.png',
+                            height: 30.h, width: 30.w),
+                        onPressed: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  CriarAnuncio1Screen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ]),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Container(
+                    height: 210.h,
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {
@@ -604,14 +755,63 @@ class IntMeusAnuncios extends StatelessWidget {
                           ),
                         );
                       },
-                    );
-                  } else {
-                    return Text('');
-                  }
-                }),
-          ),
-        ],
-      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Container(
+              width: 340.w,
+              height: 150.h,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 345.w,
+                        child: Text(
+                          'Meus Anuncios',
+                          style: TextStyle(
+                              fontSize: 27.sp, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Container(
+                        child: IconButton(
+                          icon: Image.asset('assets/images/icons/add.png',
+                              height: 30.h, width: 30.w),
+                          onPressed: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    CriarAnuncio1Screen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Center(
+                    child: Text(
+                      'Você ainda não criou nenhum anuncio para doação de livros!',
+                      style: TextStyle(
+                          fontSize: 19.sp, fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        } else {
+          return Text('');
+        }
+      },
     );
   }
 }

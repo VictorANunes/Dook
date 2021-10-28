@@ -337,16 +337,25 @@ class Cadastro2 extends State {
                   } else {
                     _sexo = '';
                   }
-                  //enviar dados
-                  user.changeCpf(cpf.text);
-                  user.changeDataNasc(data_nasc.text);
-                  user.changeSexo(_sexo);
-                  user.changeTelefone(telefone.text);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              CadastroScreen3(user: user)));
+                  if (data_nasc.text.length == 10) {
+                    if (telefone.text.length >= 13) {
+                      //enviar dados
+                      print(telefone.text);
+                      user.changeCpf(cpf.text);
+                      user.changeDataNasc(data_nasc.text);
+                      user.changeSexo(_sexo);
+                      user.changeTelefone(telefone.text);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  CadastroScreen3(user: user)));
+                    } else {
+                      mensagem = 'Insira um Telefone válido!';
+                    }
+                  } else {
+                    mensagem = 'Insira uma Data válida!';
+                  }
                 } else {
                   mensagem = 'Insira um CPF válido!';
                 }

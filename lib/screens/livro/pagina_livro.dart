@@ -5,6 +5,7 @@ import 'package:dook/provider/chat_provider.dart';
 import 'package:dook/screens/menu_inferior.dart';
 import 'package:dook/screens/perfil/perfil.dart';
 import 'package:dook/services/firestore_service.dart';
+import 'package:dook/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -320,6 +321,8 @@ class Livro extends State {
                         ),
                       ),
                       onPressed: () {
+                        NotificationService ns = NotificationService();
+
                         List<String> listaEspera = exemplar2.data.listaEspera;
                         var tamanho = 0;
                         if (listaEspera.isEmpty) {
@@ -336,6 +339,12 @@ class Livro extends State {
                           chat.saveChat();
 
                           showAlertDialog1(context);
+
+                          ns.sendNotification(
+                              'Primeiro Interessado 🥳',
+                              'Temos um primeiro interessado no seu livro e o CHAT já está aberto para conversarem!',
+                              exemplar2.data.criador,
+                              'Lista Espera');
                         } else {
                           //se não for vazio mandar alerta mandando posição da lista e adicionar ele na lista
                           tamanho = listaEspera.length + 1;
@@ -367,6 +376,7 @@ class Livro extends State {
                         ),
                       ),
                       onPressed: () async {
+                        NotificationService ns = NotificationService();
                         List<String> listaEspera = exemplar2.data.listaEspera;
 
                         if (listaEspera[0] == firestore.getEmail()) {
@@ -381,6 +391,17 @@ class Livro extends State {
                             chat.changeReceptor(listaEspera[1]);
                             chat.changeExemplar(exemplar);
                             chat.saveChat();
+                            ns.sendNotification(
+                                'Chegou sua Vez',
+                                'O Chat já está liberado para conversar com o doador!',
+                                listaEspera[1],
+                                'Lista Espera');
+
+                            ns.sendNotification(
+                                'Chat Liberado',
+                                'O Chat com o próximo da lista de espera já está disponível!',
+                                exemplar2.data.criador,
+                                'Lista Espera');
                             //mandar notificacao para listaEspera[1]
                           }
                         }

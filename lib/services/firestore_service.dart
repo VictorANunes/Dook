@@ -3,8 +3,10 @@ import 'package:dash_chat/dash_chat.dart';
 import 'package:dook/models/book_models.dart';
 import 'package:dook/models/chat_models.dart';
 import 'package:dook/models/exemplar_models.dart';
+import 'package:dook/models/notification_models.dart';
 import 'package:dook/models/obra_models.dart';
 import 'package:dook/provider/exemplar_provider.dart';
+import 'package:dook/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dook/models/user_models.dart';
 import 'package:flutter/cupertino.dart';
@@ -133,6 +135,28 @@ class FirestoreService extends ChangeNotifier {
     _db.collection('Usuario').doc(email).update({'cpf': cpf});
 
     _db.collection('Usuario').doc(email).update({'foto': url});
+  }
+
+  void getUsersWithLivrosInt(String isbn) async {
+    NotificationService ns = NotificationService();
+
+    var result = await _db.collection('Obra').doc(isbn).get();
+    String titulo = result.data()['titulo'];
+
+    titulo = titulo.toLowerCase();
+
+    var result2 = await _db
+        .collection('Usuario')
+        .where('livrosInteresse', arrayContains: titulo)
+        .get();
+
+    for (var i in result2.docs) {
+      ns.sendNotification(
+          'Livro Disponível',
+          'Um livro da sua lista de desejos está disponível!',
+          i.id,
+          'Livro Disponivel');
+    }
   }
 
   //----------OBRA----------//
@@ -353,8 +377,11 @@ class FirestoreService extends ChangeNotifier {
     }
 
     exemplares.shuffle();
-
-    return exemplares;
+    if (exemplares.isEmpty) {
+      return null;
+    } else {
+      return exemplares;
+    }
   }
 
   void deleteExemplar(String id) {
@@ -449,6 +476,18 @@ class FirestoreService extends ChangeNotifier {
     for (var i in result.docs) {
       _db.collection('Chat').doc(i.id).delete();
     }
+  }
+
+  void saveNotification(Notification2 not) {
+    _db.collection('Notificacao').doc().set(not.toMap());
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getNotification(String email) {
+    var result = _db
+        .collection('Notificacao')
+        .where('email', isEqualTo: email)
+        .snapshots();
+    return result;
   }
 
   //Recuperar dados e salvar em uma variável

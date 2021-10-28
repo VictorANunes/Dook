@@ -1,5 +1,6 @@
 import 'package:dook/provider/user_provider.dart';
 import 'package:dook/screens/login.dart';
+import 'package:dook/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -254,14 +255,14 @@ class Cadastro extends State {
                   onTap: () {
                     //Atualizar ao Clicar
                     setState(() {
-                      mostrarsenha = !mostrarsenha;
+                      mostrarsenha2 = !mostrarsenha2;
                     });
                   },
                   child: TextButton(
                     //Botao Mostrar no Input de Senha
                     child: Text(
                       //false = Mostrar e true = Esconder
-                      mostrarsenha == false ? 'Mostrar' : 'Esconder',
+                      mostrarsenha2 == false ? 'Mostrar' : 'Esconder',
                       style: TextStyle(
                         fontSize: 18.sp,
                         color: Color.fromRGBO(47, 128, 237, 1.0),
@@ -295,9 +296,7 @@ class Cadastro extends State {
             ),
             ElevatedButton(
               onPressed: () async {
-                var status = await OneSignal.shared.getDeviceState();
-                var playerId = status.userId;
-
+                NotificationService ns = NotificationService();
                 final _auth = FirebaseAuth.instance;
                 UserProvider user = new UserProvider();
 
@@ -320,7 +319,7 @@ class Cadastro extends State {
                             user.changeNome(nome.text);
                             user.changeEmail(email.text);
                             user.changeSenha(senha.text);
-                            user.changeId(playerId);
+                            user.changeId(await ns.getDeviceToken());
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

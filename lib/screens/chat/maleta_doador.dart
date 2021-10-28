@@ -1,7 +1,9 @@
 import 'package:dook/models/exemplar_models.dart';
 import 'package:dook/models/user_models.dart';
+import 'package:dook/provider/chat_provider.dart';
 import 'package:dook/screens/menu_inferior.dart';
 import 'package:dook/services/firestore_service.dart';
+import 'package:dook/services/notification_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -113,7 +115,6 @@ class MaletaDoadorCorpo extends StatelessWidget {
   List<String> listaEspera;
 
   Widget build(BuildContext context) {
-    try {} catch (e) {}
     return ListView(
       shrinkWrap: true,
       children: [
@@ -148,6 +149,13 @@ class MaletaDoadorCorpo extends StatelessWidget {
                                       fontWeight: FontWeight.normal),
                                 ),
                                 onPressed: () {
+                                  NotificationService ns =
+                                      NotificationService();
+                                  ns.sendNotification(
+                                      'O Livro foi Enviado',
+                                      'O livro já foi enviado pelo doador!',
+                                      receptor,
+                                      'Livro Enviado');
                                   firestore.updateStatusExemplar(
                                       idExemplar, 'enviado');
                                 },
@@ -172,7 +180,32 @@ class MaletaDoadorCorpo extends StatelessWidget {
                                       fontWeight: FontWeight.normal),
                                 ),
                                 onPressed: () {
+                                  NotificationService ns =
+                                      NotificationService();
                                   listaEspera = exemplar.data.listaEspera;
+                                  var tamanho = listaEspera.length;
+
+                                  if (tamanho > 1) {
+                                    ChatProvider chat = new ChatProvider();
+                                    chat.changeData(
+                                        DateTime.now().millisecondsSinceEpoch);
+                                    chat.changeDoador(doador);
+                                    chat.changeReceptor(listaEspera[1]);
+                                    chat.changeExemplar(idExemplar);
+                                    chat.saveChat();
+                                    ns.sendNotification(
+                                        'Chegou sua Vez',
+                                        'O Chat já está liberado para conversar com o doador!',
+                                        listaEspera[1],
+                                        'Chat Liberado');
+
+                                    ns.sendNotification(
+                                        'Chat Liberado',
+                                        'O Chat com o próximo da lista de espera já está disponível!',
+                                        doador,
+                                        'Chat Liberado');
+                                    //mandar notificacao para listaEspera[1]
+                                  }
                                   listaEspera.removeAt(0);
 
                                   firestore.updateListaEspera(

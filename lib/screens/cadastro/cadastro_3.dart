@@ -22,7 +22,39 @@ class Cadastro3 extends State {
   final numero = TextEditingController();
   final complemento = TextEditingController();
   final cidade = TextEditingController();
-  final uf = TextEditingController();
+  //final uf = TextEditingController();
+
+  String uf;
+  List<String> ufs = [
+    'AC',
+    'AL',
+    'AM',
+    'AP',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MT',
+    'MS',
+    'MG',
+    'PA',
+    'PB',
+    'PR',
+    'PE',
+    'PI',
+    'RJ',
+    'RN',
+    'RS',
+    'RO',
+    'RR',
+    'SC',
+    'SP',
+    'SE',
+    'TO'
+  ];
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -289,13 +321,7 @@ class Cadastro3 extends State {
                 ),
                 Container(
                   width: 135.w,
-                  child: TextFormField(
-                    inputFormatters: [
-                      MaskedTextInputFormatterShifter(
-                          maskONE: "XX", maskTWO: "XX"),
-                    ],
-                    controller: uf,
-                    keyboardType: TextInputType.text,
+                  child: DropdownButtonFormField(
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(
                         top: 20.r,
@@ -304,15 +330,30 @@ class Cadastro3 extends State {
                         right: 15.r,
                       ),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.yellow)),
-                      labelText: "Digite...",
-                      labelStyle: TextStyle(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      hintStyle: TextStyle(
                         color: Colors.black38,
                         fontWeight: FontWeight.w400,
                         fontSize: 18.sp,
                       ),
+                      hintText: "UF",
                     ),
+                    value: uf,
+                    onChanged: (String Value) {
+                      setState(() {
+                        uf = Value;
+                      });
+                    },
+                    items: ufs
+                        .map(
+                          (ufs) => DropdownMenuItem(
+                            value: ufs,
+                            child: Text("$ufs"),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
               ],
@@ -340,24 +381,20 @@ class Cadastro3 extends State {
                     bairro.text != '' &&
                     numero.text != '' &&
                     cidade.text != '' &&
-                    uf.text != '') {
+                    uf != null) {
                   if (cep.text.length == 9) {
-                    if (uf.text.length == 2) {
-                      user.changeCep(cep.text);
-                      user.changeRua(rua.text);
-                      user.changeBairro(bairro.text);
-                      user.changeNumero(numero.text);
-                      user.changeComplemento(complemento.text);
-                      user.changeCidade(cidade.text);
-                      user.changeUf(uf.text);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  CadastroScreen4(user: user)));
-                    } else {
-                      mensagem = 'Insira um UF válido';
-                    }
+                    user.changeCep(cep.text);
+                    user.changeRua(rua.text);
+                    user.changeBairro(bairro.text);
+                    user.changeNumero(numero.text);
+                    user.changeComplemento(complemento.text);
+                    user.changeCidade(cidade.text);
+                    user.changeUf(uf);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                CadastroScreen4(user: user)));
                   } else {
                     mensagem = 'Insira um Cep válido!';
                   }
