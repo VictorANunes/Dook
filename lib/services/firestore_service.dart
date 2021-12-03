@@ -320,7 +320,7 @@ class FirestoreService extends ChangeNotifier {
     //Salvar Exemplar no Firebase
     var lastId = await _db
         .collection("Exemplar")
-        .orderBy("", descending: false)
+        .orderBy(FieldPath.documentId, descending: false)
         .get()
         .then((value) => value.docs.last.id);
 
