@@ -20,6 +20,7 @@ class Users {
   List<String> livrosDoados = [];
   List<String> livrosRecebidos = [];
   List<int> avaliacao = [];
+  bool notificacao;
 
   Users(
       {this.nome,
@@ -39,9 +40,7 @@ class Users {
       this.url,
       this.generos,
       this.livros,
-      this.id,
-      this.livrosDoados,
-      this.livrosRecebidos});
+      this.id});
 
   Map<String, dynamic> toMap() {
     return {
@@ -65,7 +64,8 @@ class Users {
       'livrosInteresse': livros,
       'livrosDoados': [],
       'livrosRecebidos': [],
-      'avaliacao': []
+      'avaliacao': [],
+      'notificacao': true
     };
   }
 
@@ -90,5 +90,6 @@ class Users {
         id = firestore['id'],
         livrosDoados = List.from(firestore['livrosDoados']),
         livrosRecebidos = List.from(firestore['livrosRecebidos']),
-        avaliacao = List.from(firestore['avaliacao']);
+        avaliacao = List.from(firestore['avaliacao']),
+        notificacao = firestore['notificacao'];
 }

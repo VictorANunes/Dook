@@ -1,26 +1,37 @@
 import 'package:dook/provider/user_provider.dart';
+import 'package:dook/screens/menu_inferior.dart';
+import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
-import 'package:dook/screens/cadastro/cadastro_6.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CadastroScreen5 extends StatefulWidget {
-  UserProvider user;
-  CadastroScreen5({this.user});
+class MeusInteresses2Screen extends StatefulWidget {
+  List<String> livros2;
+  MeusInteresses2Screen({this.livros2});
   @override
-  Cadastro5 createState() => Cadastro5(user: user);
+  MeusInteresses2 createState() => MeusInteresses2(livros2: livros2);
 }
 
-class Cadastro5 extends State {
-  UserProvider user;
-  Cadastro5({this.user});
+class MeusInteresses2 extends State {
+  List<String> livros2;
+  MeusInteresses2({this.livros2});
+
   @override
+  FirestoreService firestore = FirestoreService();
   bool value = false;
   List<String> livros = [];
   int qtdLivros = 0;
   final livro = TextEditingController();
+
+  void initState() {
+    super.initState();
+    livros = livros2;
+    qtdLivros = livros2.length;
+  }
+
   Widget build(BuildContext context) {
     void addLivro() {
       var livrotexto = livro.text;
+      //print(livrotexto);
       if (livros.length >= 5) {
         return;
       } else {
@@ -175,6 +186,7 @@ class Cadastro5 extends State {
                                     setState(() {
                                       livros.removeAt(index);
                                       qtdLivros = qtdLivros - 1;
+                                      print(livros);
                                     });
                                   }),
                             ),
@@ -186,17 +198,16 @@ class Cadastro5 extends State {
             ]),
           ),
           SizedBox(
-            height: 3.h,
+            height: 30.h,
           ),
           ElevatedButton(
             onPressed: () {
               print(livros);
-              user.changeLivrosInt(livros);
+              firestore.updateLivrosInt(livros);
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          CadastroScreen6(user: user)));
+                      builder: (context) => MenuInferiorScreen()));
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.deepPurple[600],
@@ -206,31 +217,12 @@ class Cadastro5 extends State {
               ),
             ),
             child: Text(
-              'Próximo',
+              'Salvar',
               style: TextStyle(
                 fontSize: 18.ssp,
                 color: Colors.white,
               ),
             ),
-          ),
-          TextButton(
-            child: Text(
-              'Escolher Depois',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 17.ssp,
-                color: Color.fromRGBO(47, 128, 237, 1.0),
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            onPressed: () {
-              user.changeLivrosInt([]);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          CadastroScreen6(user: user)));
-            },
           ),
         ]),
       ),

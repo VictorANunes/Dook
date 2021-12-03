@@ -68,8 +68,61 @@ class FirestoreService extends ChangeNotifier {
         .toList());
   }
 
-  Future<void> removeUser(String id) {
-    return _db.collection('userteste').doc(id).delete();
+  void removeUser() async {
+    var email = getEmail();
+    _db.collection('Usuario').doc(email).delete();
+
+    var not = await _db
+        .collection('Notificacao')
+        .where('email', isEqualTo: email)
+        .get();
+
+    for (var i = 0; i < not.docs.length; i++) {
+      _db.collection('Notificacao').doc(not.docs[i].id).delete();
+    }
+
+    var exe1 = await _db
+        .collection('Exemplar')
+        .where('criador', isEqualTo: email)
+        .get();
+
+    for (var i = 0; i < exe1.docs.length; i++) {
+      _db.collection('Exemplar').doc(exe1.docs[i].id).delete();
+    }
+
+    var result = await _db
+        .collection('Exemplar')
+        .where('listaEspera', arrayContains: email)
+        .get();
+
+    for (var i = 0; i < result.docs.length; i++) {
+      List<String> lista = List<String>.from(result.docs[i]['listaEspera']);
+      for (var j = 0; j < lista.length; j++) {
+        if (lista[j] == email) {
+          lista.removeAt(j);
+          updateListaEspera(result.docs[i].id, lista);
+        }
+      }
+    }
+
+    var chat1 =
+        await _db.collection('Chat').where('doador', isEqualTo: email).get();
+    for (var i = 0; i < chat1.docs.length; i++) {
+      _db.collection('Chat').doc(chat1.docs[i].id).delete();
+    }
+
+    var chat2 =
+        await _db.collection('Chat').where('receptor', isEqualTo: email).get();
+    for (var i = 0; i < chat2.docs.length; i++) {
+      _db.collection('Chat').doc(chat2.docs[i].id).delete();
+    }
+
+    try {
+      FirebaseAuth.instance.currentUser.delete();
+    } catch (e) {
+      print(e.toString());
+    }
+    SignOut();
   }
 
   Stream<Users> getDadosUsuario() {
@@ -91,6 +144,39 @@ class FirestoreService extends ChangeNotifier {
         .snapshots()
         .map((event) => Users.fromFirestore(event.data(), event.id));
     return result;
+  }
+
+  void updateListaDoados(String email, String exemplar) async {
+    var result = await _db.collection('Usuario').doc(email).get();
+    var livrosDoados = await result.data()['livrosDoados'];
+    livrosDoados.add(exemplar);
+    print(livrosDoados);
+    _db.collection('Usuario').doc(email).update({'livrosDoados': livrosDoados});
+  }
+
+  void updateListaRecebido(String email, String exemplar) async {
+    var result = await _db.collection('Usuario').doc(email).get();
+    var livrosRecebidos = await result.data()['livrosRecebidos'];
+    livrosRecebidos.add(exemplar);
+    print(livrosRecebidos);
+    _db
+        .collection('Usuario')
+        .doc(email)
+        .update({'livrosRecebidos': livrosRecebidos});
+  }
+
+  void updateGenInt(List<String> generos) {
+    _db
+        .collection('Usuario')
+        .doc(getEmail())
+        .update({'generosInteresse': generos});
+  }
+
+  void updateLivrosInt(List<String> livros) {
+    _db
+        .collection('Usuario')
+        .doc(getEmail())
+        .update({'livrosInteresse': livros});
   }
 
   void updateAvaliacao(String email, List<int> avaliacao) {
@@ -233,7 +319,8 @@ class FirestoreService extends ChangeNotifier {
   Future<void> saveExemplar(Exemplar exemplar) async {
     //Salvar Exemplar no Firebase
     var lastId = await _db
-        .collection('Exemplar')
+        .collection("Exemplar")
+        .orderBy("", descending: false)
         .get()
         .then((value) => value.docs.last.id);
 
@@ -482,12 +569,17 @@ class FirestoreService extends ChangeNotifier {
     _db.collection('Notificacao').doc().set(not.toMap());
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getNotification(String email) {
-    var result = _db
+  Future<QuerySnapshot<Map<String, dynamic>>> getNotification(
+      String email) async {
+    var result = await _db
         .collection('Notificacao')
         .where('email', isEqualTo: email)
-        .snapshots();
+        .get();
     return result;
+  }
+
+  void updateNotificacao(bool status) {
+    _db.collection('Usuario').doc(getEmail()).update({'notificacao': status});
   }
 
   //Recuperar dados e salvar em uma variável

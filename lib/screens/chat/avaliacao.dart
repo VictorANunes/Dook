@@ -50,7 +50,7 @@ class AvaliacaoCabecalho extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 'Avaliar',
-                style: TextStyle(fontSize: 38.sp, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 38.ssp, fontWeight: FontWeight.bold),
               ),
             ),
           )
@@ -60,13 +60,13 @@ class AvaliacaoCabecalho extends StatelessWidget {
   }
 }
 
+TextEditingController comentario = TextEditingController();
+
 class AvaliacaoCorpo extends StatelessWidget {
   var doador;
   AvaliacaoCorpo({this.doador});
 
   FirestoreService firestore = FirestoreService();
-
-  final TextEditingController text = TextEditingController();
 
   var nota = 5.0;
 
@@ -111,7 +111,7 @@ class AvaliacaoCorpo extends StatelessWidget {
                     minRating: 1,
                     direction: Axis.horizontal,
                     itemCount: 5,
-                    itemSize: 40.sp,
+                    itemSize: 40.ssp,
                     itemBuilder: (context, _) => Icon(
                       Icons.star,
                       color: Colors.deepPurple[600],
@@ -128,7 +128,7 @@ class AvaliacaoCorpo extends StatelessWidget {
                   child: Text(
                     'Deixe um comentário:',
                     style: TextStyle(
-                      fontSize: 27.sp,
+                      fontSize: 27.ssp,
                     ),
                   ),
                 ),
@@ -136,9 +136,9 @@ class AvaliacaoCorpo extends StatelessWidget {
                   height: 20.h,
                 ),
                 TextFormField(
-                  controller: text,
+                  controller: comentario,
                   minLines: 7,
-                  maxLines: null,
+                  maxLines: 7,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(
@@ -154,7 +154,7 @@ class AvaliacaoCorpo extends StatelessWidget {
                     labelStyle: TextStyle(
                       color: Colors.black38,
                       fontWeight: FontWeight.w400,
-                      fontSize: 18.sp,
+                      fontSize: 18.ssp,
                     ),
                   ),
                 ),
@@ -170,6 +170,7 @@ class AvaliacaoCorpo extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
+                    print(comentario.text);
                     print(nota.toInt());
                     List<int> avaliacao = usuario.data.avaliacao;
                     avaliacao.add(nota.toInt());
@@ -179,10 +180,11 @@ class AvaliacaoCorpo extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => MenuInferiorScreen()));
+                    comentario.text = '';
                   },
                   child: Text(
                     'Enviar',
-                    style: TextStyle(fontSize: 18.sp),
+                    style: TextStyle(fontSize: 18.ssp),
                   ),
                 ),
               ],

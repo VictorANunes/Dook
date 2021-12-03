@@ -87,7 +87,7 @@ class MaletaReceptorCabecalho extends StatelessWidget {
                         child: Text(
                           nome3,
                           style: TextStyle(
-                              fontSize: 30.sp, fontWeight: FontWeight.w600),
+                              fontSize: 30.ssp, fontWeight: FontWeight.w600),
                         ),
                       );
                     } else {
@@ -146,7 +146,7 @@ class MaletaReceptorCorpo extends StatelessWidget {
                                 child: Text(
                                   'Confirmar Recebimento',
                                   style: TextStyle(
-                                      fontSize: 18.sp,
+                                      fontSize: 18.ssp,
                                       color: Colors.white,
                                       fontWeight: FontWeight.normal),
                                 ),
@@ -161,11 +161,16 @@ class MaletaReceptorCorpo extends StatelessWidget {
                                   firestore.updateStatusExemplar(
                                       idExemplar, 'fechado');
 
-                                  listaEspera = exemplar.data.listaEspera;
-                                  listaEspera.removeAt(0);
+                                  //listaEspera = exemplar.data.listaEspera;
+                                  //listaEspera.removeAt(0);
 
-                                  firestore.updateListaEspera(
-                                      idExemplar, listaEspera);
+                                  firestore.updateListaDoados(
+                                      doador, idExemplar);
+                                  firestore.updateListaRecebido(
+                                      receptor, idExemplar);
+
+                                  //firestore.updateListaEspera(
+                                  //    idExemplar, listaEspera);
 
                                   firestore.removeChat(doador, receptor);
 
@@ -191,7 +196,7 @@ class MaletaReceptorCorpo extends StatelessWidget {
                                 child: Text(
                                   'Encerrar Chat',
                                   style: TextStyle(
-                                      fontSize: 18.sp,
+                                      fontSize: 18.ssp,
                                       color: Colors.white,
                                       fontWeight: FontWeight.normal),
                                 ),
@@ -253,7 +258,7 @@ class MaletaReceptorCorpo extends StatelessWidget {
                             child: Text(
                               'Encerrar Chat',
                               style: TextStyle(
-                                  fontSize: 18.sp,
+                                  fontSize: 18.ssp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal),
                             ),

@@ -69,7 +69,7 @@ class ResultadoCabecalho extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 38.sp,
+                      fontSize: 38.ssp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     )),
@@ -96,107 +96,124 @@ class ResultadoCorpo extends StatelessWidget {
         stream: firestore.pesquisaExemplar(isbn),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            return Center(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (BuildContext context, int index) {
-                  double media = (int.parse(
-                              snapshot.data.docs[index]['respostas']['resp1']) +
-                          int.parse(
-                              snapshot.data.docs[index]['respostas']['resp2']) +
-                          int.parse(
-                              snapshot.data.docs[index]['respostas']['resp3']) +
-                          int.parse(
-                              snapshot.data.docs[index]['respostas']['resp4']) +
-                          int.parse(snapshot.data.docs[index]['respostas']
-                              ['resp5'])) /
-                      5;
+            if (!snapshot.data.docs.isEmpty) {
+              return Center(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    double media = (int.parse(snapshot.data.docs[index]
+                                ['respostas']['resp1']) +
+                            int.parse(snapshot.data.docs[index]['respostas']
+                                ['resp2']) +
+                            int.parse(snapshot.data.docs[index]['respostas']
+                                ['resp3']) +
+                            int.parse(snapshot.data.docs[index]['respostas']
+                                ['resp4']) +
+                            int.parse(snapshot.data.docs[index]['respostas']
+                                ['resp5'])) /
+                        5;
 
-                  int mediaRound = media.round();
-                  var obra = firestore.getObra(isbn);
-                  return ListTile(
-                    onTap: () async {
-                      firestore.getEmail();
-                      if (snapshot.data.docs[index]['criador'] ==
-                          firestore.getEmail()) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    MeuLivroScreen(
-                                        exemplar:
-                                            snapshot.data.docs[index].id)));
-                      } else {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => LivroScreen(
-                                    exemplar: snapshot.data.docs[index].id)));
-                      }
-                    },
-                    title: StreamBuilder(
-                      stream: obra,
-                      builder:
-                          (BuildContext context, AsyncSnapshot<Obra> obra) {
-                        if (obra.hasData) {
-                          return Text(obra.data.titulo,
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                              ));
+                    int mediaRound = media.round();
+                    var obra = firestore.getObra(isbn);
+                    return ListTile(
+                      onTap: () async {
+                        firestore.getEmail();
+                        if (snapshot.data.docs[index]['criador'] ==
+                            firestore.getEmail()) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      MeuLivroScreen(
+                                          exemplar:
+                                              snapshot.data.docs[index].id)));
                         } else {
-                          return Text('');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      LivroScreen(
+                                          exemplar:
+                                              snapshot.data.docs[index].id)));
                         }
                       },
-                    ),
-                    subtitle: StreamBuilder(
-                      stream: firestore
-                          .getUsuario(snapshot.data.docs[index]['criador']),
-                      builder:
-                          (BuildContext context, AsyncSnapshot<Users> usuario) {
-                        if (usuario.hasData) {
-                          return Text(
-                              usuario.data.cidade + " - " + usuario.data.uf,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                              ));
-                        } else {
-                          return Text('');
-                        }
-                      },
-                    ),
-                    leading: Container(
-                      width: 50.w,
-                      height: 60.h,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              snapshot.data.docs[index]['fotos']['capa']),
+                      title: StreamBuilder(
+                        stream: obra,
+                        builder:
+                            (BuildContext context, AsyncSnapshot<Obra> obra) {
+                          if (obra.hasData) {
+                            return Text(obra.data.titulo,
+                                style: TextStyle(
+                                  fontSize: 20.ssp,
+                                ));
+                          } else {
+                            return Text('');
+                          }
+                        },
+                      ),
+                      subtitle: StreamBuilder(
+                        stream: firestore
+                            .getUsuario(snapshot.data.docs[index]['criador']),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Users> usuario) {
+                          if (usuario.hasData) {
+                            return Text(
+                                usuario.data.cidade + " - " + usuario.data.uf,
+                                style: TextStyle(
+                                  fontSize: 14.ssp,
+                                ));
+                          } else {
+                            return Text('');
+                          }
+                        },
+                      ),
+                      leading: Container(
+                        width: 50.w,
+                        height: 60.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                snapshot.data.docs[index]['fotos']['capa']),
+                          ),
                         ),
                       ),
-                    ),
-                    trailing: Container(
-                      child: RatingBarIndicator(
-                        rating: media,
-                        itemBuilder: (context, index) => Icon(
-                          Icons.star,
-                          color: Colors.deepPurple[600],
+                      trailing: Container(
+                        child: RatingBarIndicator(
+                          rating: media,
+                          itemBuilder: (context, index) => Icon(
+                            Icons.star,
+                            color: Colors.deepPurple[600],
+                          ),
+                          itemCount: 5,
+                          itemSize: 19.0,
+                          direction: Axis.horizontal,
                         ),
-                        itemCount: 5,
-                        itemSize: 19.0,
-                        direction: Axis.horizontal,
                       ),
-                    ),
-                  );
-                },
-              ),
-            );
+                    );
+                  },
+                ),
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'Não tem nenhum Exemplar desta Obra disponível no momento!',
+                  style:
+                      TextStyle(fontSize: 19.ssp, fontWeight: FontWeight.w400),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
           } else {
             return Center(
-              child: Text(''),
+              child: Text(
+                'Não tem nenhum Exemplar desta Obra disponível no momento!',
+                style: TextStyle(fontSize: 19.ssp, fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center,
+              ),
             );
           }
         },

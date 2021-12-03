@@ -20,36 +20,35 @@ class NotificationService {
   void sendNotification(
       String titulo, String msg, String email, String tipoMensagem) async {
     var result = await _db.collection('Usuario').doc(email).get();
+    if (result.data()['notificacao']) {
+      String fcmToken = result.data()['id'];
 
-    String fcmToken = result.data()['id'];
+      print(fcmToken);
 
-    print(fcmToken);
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$fcmKey',
+      };
 
-    String fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-    String fcmKey =
-        'AAAAMJBh8d0:APA91bGkIEONQz1smldPGTWCTP6Di9xoxeR84PdbaXFtdnYPvXLMb25SMjdv4DL1owJzyYHo8f9JIEEDadA293WhEW9gyRNnZq1RGUskagBWgBhYiqsINd4A2XK05FfPdUSYlowdPkbz';
+      var request = http.Request('POST', Uri.parse(fcmUrl));
 
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'key=$fcmKey',
-    };
+      request.body =
+          '''{"to":"$fcmToken","priority":"high","notification":{"title":"$titulo","body":"$msg","sound": "default","click_action": "FLUTTER_NOTIFICATION_CLICK",},}''';
+      request.headers.addAll(headers);
 
-    var request = http.Request('POST', Uri.parse(fcmUrl));
+      await request.send();
 
-    request.body =
-        '''{"to":"$fcmToken","priority":"high","notification":{"title":"$titulo","body":"$msg","sound": "default","click_action": "FLUTTER_NOTIFICATION_CLICK",},}''';
-    request.headers.addAll(headers);
+      NotificationProvider not = new NotificationProvider();
 
-    await request.send();
-
-    NotificationProvider not = new NotificationProvider();
-
-    not.changeTitulo('oi');
-    not.changeMsg('oi');
-    not.changeTipoMensagem('Teste');
-    not.changeEmail('luis@gmail.com');
-    not.changeData(DateTime.now().millisecondsSinceEpoch);
-    not.saveNotification();
+      not.changeTitulo(titulo);
+      not.changeMsg(msg);
+      not.changeTipoMensagem(tipoMensagem);
+      not.changeEmail(email);
+      not.changeData(DateTime.now().millisecondsSinceEpoch);
+      not.saveNotification();
+    } else {
+      print('notify off');
+    }
   }
 
   void verifyToken() async {

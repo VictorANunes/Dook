@@ -74,7 +74,7 @@ class RecSenha extends State {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       //fontFamily: 'Inter',
-                      fontSize: 38.sp,
+                      fontSize: 38.ssp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
@@ -92,7 +92,7 @@ class RecSenha extends State {
               'Email Cadastrado',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
@@ -114,7 +114,7 @@ class RecSenha extends State {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                 ),
               ),
             ),
@@ -127,7 +127,7 @@ class RecSenha extends State {
               '$erro',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.red,
                 fontWeight: FontWeight.w400,
               ),
@@ -141,7 +141,7 @@ class RecSenha extends State {
               'Será enviado um código de confirmação ao email inserido acima, como método de validação.',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.black,
                 fontWeight: FontWeight.w400,
               ),
@@ -175,7 +175,7 @@ class RecSenha extends State {
               child: Text(
                 'Confirmar',
                 style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                   color: Colors.white,
                 ),
               ),

@@ -44,25 +44,24 @@ class ChatCabecalho extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                width: 155.w,
                 child: Text(''),
               ),
               Container(
-                width: 200.w,
                 child: Text(
                   'Chat',
                   style: TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 38.sp,
+                    fontSize: 38.ssp,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               Container(
-                width: 25.w,
                 child: Text(''),
               ),
             ],
@@ -93,6 +92,7 @@ class ChatConversas extends StatelessWidget {
                     listaConversas = snapshot1.data.docs +
                         snapshot2.data
                             .docs; //Juntar os dois resultados da query e colocar em uma lista
+
                     if (listaConversas.isEmpty == false) {
                       listaConversas.sort((a, b) => b['data'].compareTo(a[
                           'data'])); //Ordenar a lista pela Data que vai atualizar de acordo com a ultima mensagem enviada
@@ -211,7 +211,8 @@ class ChatConversas extends StatelessWidget {
                                                           child: Text(
                                                             nome3,
                                                             style: TextStyle(
-                                                                fontSize: 25.sp,
+                                                                fontSize:
+                                                                    25.ssp,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400),
@@ -254,7 +255,7 @@ class ChatConversas extends StatelessWidget {
                                                                               Text(
                                                                             obra.data.titulo,
                                                                             style:
-                                                                                TextStyle(fontSize: 16.sp),
+                                                                                TextStyle(fontSize: 16.ssp),
                                                                           ),
                                                                         );
                                                                       } else {
@@ -298,24 +299,21 @@ class ChatConversas extends StatelessWidget {
                                 });
                           });
                     } else {
-                      return Text('');
+                      return Center(
+                        child: Text(
+                          'Você ainda não tem nenhuma negociação em andamento!',
+                          style: TextStyle(
+                              fontSize: 19.ssp, fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.center,
+                        ),
+                      );
                     }
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.deepPurple[600],
-                        valueColor: AlwaysStoppedAnimation(Colors.white),
-                      ),
-                    );
+                    return Center();
                   }
                 });
           } else {
-            return Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.deepPurple[600],
-                valueColor: AlwaysStoppedAnimation(Colors.white),
-              ),
-            );
+            return Center();
           }
         });
   }

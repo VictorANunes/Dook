@@ -19,8 +19,8 @@ class UserProvider with ChangeNotifier {
   String _cidade;
   String _uf;
   String _url;
-  List<String> _generos = [];
-  List<String> _livros = [];
+  List<String> _generos;
+  List<String> _livros;
   String _id;
 
   //Get
@@ -120,14 +120,16 @@ class UserProvider with ChangeNotifier {
   }
 
   changeGenerosInt(List<String> value) {
-    _generos = generos;
+    _generos = value;
     notifyListeners();
   }
 
   changeLivrosInt(List<String> value) {
+    _livros = [];
     for (var i in value) {
       _livros.add(i.toLowerCase());
     }
+    print(_livros);
     notifyListeners();
   }
 

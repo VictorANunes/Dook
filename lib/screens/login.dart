@@ -68,7 +68,7 @@ class Login extends State {
                       'Entrar',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 35.sp,
+                        fontSize: 35.ssp,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -81,7 +81,7 @@ class Login extends State {
                         'Cadastrar',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                          fontSize: 18.sp,
+                          fontSize: 18.ssp,
                           color: Color.fromRGBO(47, 128, 237, 1.0),
                           fontWeight: FontWeight.normal,
                         ),
@@ -116,7 +116,7 @@ class Login extends State {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                 ),
               ),
             ),
@@ -140,7 +140,7 @@ class Login extends State {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                 ),
                 suffix: GestureDetector(
                   onTap: () {
@@ -155,7 +155,7 @@ class Login extends State {
                       //false = Mostrar e true = Esconder
                       mostrarsenha == false ? 'Mostrar' : 'Esconder',
                       style: TextStyle(
-                        fontSize: 18.sp,
+                        fontSize: 18.ssp,
                         color: Color.fromRGBO(47, 128, 237, 1.0),
                         fontWeight: FontWeight.normal,
                       ),
@@ -176,7 +176,7 @@ class Login extends State {
             Text('$erro',
                 style: TextStyle(
                   //fontFamily: 'Inter',
-                  fontSize: 17.sp,
+                  fontSize: 17.ssp,
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
                 )),
@@ -198,7 +198,7 @@ class Login extends State {
               child: Text(
                 'Entrar',
                 style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                   color: Colors.white,
                 ),
               ),
@@ -212,7 +212,7 @@ class Login extends State {
                 'Esqueceu sua Senha?',
                 style: TextStyle(
                   color: Color.fromRGBO(47, 128, 237, 1.0),
-                  fontSize: 16.sp,
+                  fontSize: 16.ssp,
                 ),
               ),
               onPressed: telaRecSenha,

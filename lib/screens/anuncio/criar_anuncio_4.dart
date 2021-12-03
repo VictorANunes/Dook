@@ -38,7 +38,7 @@ class CriarAnuncio4 extends State {
             Text(
               '* Corte: parte visível das páginas quando o livro está fechado.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18.sp),
+              style: TextStyle(fontSize: 18.ssp),
             ),
             SizedBox(
               height: 20.h,
@@ -76,7 +76,7 @@ class Superior extends StatelessWidget {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
-            fontSize: 33.sp,
+            fontSize: 33.ssp,
           ),
         ),
         Padding(
@@ -114,7 +114,10 @@ class FotosState extends State<Fotos> {
 
   final ImagePicker imagePicker = ImagePicker();
   Future getImageGallery(String img) async {
-    var image = await imagePicker.pickImage(source: ImageSource.gallery);
+    var image = await imagePicker.pickImage(
+      imageQuality: 70,
+      source: ImageSource.gallery,
+    );
 
     setState(() {
       if (img == "Capa") {
@@ -139,7 +142,10 @@ class FotosState extends State<Fotos> {
   }
 
   Future getImageCamera(String img) async {
-    var image = await imagePicker.pickImage(source: ImageSource.camera);
+    var image = await imagePicker.pickImage(
+      imageQuality: 70,
+      source: ImageSource.camera,
+    );
 
     setState(() {
       if (img == "Capa") {
@@ -202,7 +208,7 @@ class FotosState extends State<Fotos> {
     } else {
       return Text(
         'Próximo',
-        style: TextStyle(fontSize: 18.sp),
+        style: TextStyle(fontSize: 18.ssp),
       );
     }
   }
@@ -216,7 +222,7 @@ class FotosState extends State<Fotos> {
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Text(
               'Capa',
-              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 25.ssp, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -252,7 +258,7 @@ class FotosState extends State<Fotos> {
               'Adicionar Foto',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 17.sp,
+                fontSize: 17.ssp,
                 color: Colors.deepPurple[600],
                 fontWeight: FontWeight.w500,
               ),
@@ -265,7 +271,7 @@ class FotosState extends State<Fotos> {
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Text(
               'Contracapa',
-              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 25.ssp, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -301,7 +307,7 @@ class FotosState extends State<Fotos> {
               'Adicionar Foto',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 17.sp,
+                fontSize: 17.ssp,
                 color: Colors.deepPurple[600],
                 fontWeight: FontWeight.w500,
               ),
@@ -314,7 +320,7 @@ class FotosState extends State<Fotos> {
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Text(
               'Lombada',
-              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 25.ssp, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -350,7 +356,7 @@ class FotosState extends State<Fotos> {
               'Adicionar Foto',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 17.sp,
+                fontSize: 17.ssp,
                 color: Colors.deepPurple[600],
                 fontWeight: FontWeight.w500,
               ),
@@ -363,7 +369,7 @@ class FotosState extends State<Fotos> {
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Text(
               'Corte Superior',
-              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 25.ssp, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -399,7 +405,7 @@ class FotosState extends State<Fotos> {
               'Adicionar Foto',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 17.sp,
+                fontSize: 17.ssp,
                 color: Colors.deepPurple[600],
                 fontWeight: FontWeight.w500,
               ),
@@ -412,7 +418,7 @@ class FotosState extends State<Fotos> {
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Text(
               'Corte Dianteiro',
-              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 25.ssp, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -448,7 +454,7 @@ class FotosState extends State<Fotos> {
               'Adicionar Foto',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 17.sp,
+                fontSize: 17.ssp,
                 color: Colors.deepPurple[600],
                 fontWeight: FontWeight.w500,
               ),
@@ -461,7 +467,7 @@ class FotosState extends State<Fotos> {
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Text(
               'Corte Inferior',
-              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 25.ssp, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -497,7 +503,7 @@ class FotosState extends State<Fotos> {
               'Adicionar Foto',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 17.sp,
+                fontSize: 17.ssp,
                 color: Colors.deepPurple[600],
                 fontWeight: FontWeight.w500,
               ),

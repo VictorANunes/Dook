@@ -1,5 +1,6 @@
 import 'package:dook/models/obra_models.dart';
 import 'package:dook/models/user_models.dart';
+import 'package:dook/screens/anuncio/criar_anuncio_1.dart';
 import 'package:dook/screens/livro/pagina_meu_livro.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,7 +61,7 @@ class MeusAnunciosCabecalho extends StatelessWidget {
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w600,
-              fontSize: 33.sp,
+              fontSize: 33.ssp,
             ),
           ),
         ),
@@ -141,7 +142,7 @@ class MeusAnunciosCorpo extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   obra.data.titulo,
-                                  style: TextStyle(fontSize: 22.sp),
+                                  style: TextStyle(fontSize: 22.ssp),
                                 ),
                               ),
                             ),
@@ -157,7 +158,46 @@ class MeusAnunciosCorpo extends StatelessWidget {
             },
           );
         } else {
-          return Container();
+          return Column(
+            children: [
+              Text(
+                'Você ainda não anunciou nenhum livro!',
+                style: TextStyle(fontSize: 19.ssp, fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Container(
+                width: 200.w,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            CriarAnuncio1Screen(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.deepPurple[600],
+                    minimumSize: Size(88.h, 45.h),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                  ),
+                  child: Text(
+                    'Anuncie Agora',
+                    style: TextStyle(
+                      fontSize: 18.ssp,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
         }
       },
     );

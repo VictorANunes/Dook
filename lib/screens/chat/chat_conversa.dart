@@ -115,7 +115,7 @@ class ConversaCabecalho extends StatelessWidget {
                         child: Text(
                           nome3,
                           style: TextStyle(
-                              fontSize: 30.sp, fontWeight: FontWeight.w600),
+                              fontSize: 30.ssp, fontWeight: FontWeight.w600),
                         ),
                       );
                     } else {
@@ -247,7 +247,7 @@ class ConversaCorpo extends State {
           }
           return DashChat(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 120.h,
+            height: MediaQuery.of(context).size.height - 125.h,
             messages: mensagens,
             user: user,
             onSend: enviarMsg,

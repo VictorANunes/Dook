@@ -1,21 +1,27 @@
-import 'package:dook/provider/user_provider.dart';
+import 'package:dook/screens/meus_interesses/meus_interesses2.dart';
+import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
-import 'package:dook/screens/cadastro/cadastro_5.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CadastroScreen4 extends StatefulWidget {
-  UserProvider user;
-  CadastroScreen4({this.user});
+class MeusInteresses1Screen extends StatefulWidget {
+  List<String> generos2;
+  List<String> livros2;
+  MeusInteresses1Screen({this.generos2, this.livros2});
   @override
-  Cadastro4 createState() => Cadastro4(user: user);
+  MeusInteresses createState() =>
+      MeusInteresses(generos2: generos2, livros2: livros2);
 }
 
-class Cadastro4 extends State {
-  UserProvider user;
-  Cadastro4({this.user});
+class MeusInteresses extends State {
+  List<String> generos2;
+  List<String> livros2;
+  MeusInteresses({this.generos2, this.livros2});
+
+  FirestoreService firestore = FirestoreService();
   int qtdGen = 0;
   String valuee;
   String dropDownValue;
+  var cont = 0;
   List<String> generosInt = [];
   List<String> generos = [
     'Ação',
@@ -47,6 +53,7 @@ class Cadastro4 extends State {
     'Literatura Infanto-juvenil',
     'New Adult',
     'Realismo Mágico',
+    'Terror',
     'Thriller ou suspense',
     'Conspiração',
     'Época',
@@ -56,9 +63,14 @@ class Cadastro4 extends State {
     'Psicológico',
     'Romântico',
     'Suspense',
-    'Ficção',
-    'Juvenil'
+    'Ficção'
   ];
+
+  void initState() {
+    super.initState();
+    generosInt = generos2;
+    qtdGen = generos2.length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +79,7 @@ class Cadastro4 extends State {
         return;
       } else {
         setState(() {
-          var cont = 0;
+          cont = 0;
           for (var i = 0; i < generosInt.length; i++) {
             if (dropDownValue == generosInt[i]) {
               cont = cont + 1;
@@ -187,6 +199,7 @@ class Cadastro4 extends State {
               height: 400.h,
               child: Column(children: [
                 //Parte que percorre a lista e cria Widgets Dinamicamente
+
                 (generosInt != null)
                     ? ListView.builder(
                         shrinkWrap: true,
@@ -232,17 +245,16 @@ class Cadastro4 extends State {
               ]),
             ),
             SizedBox(
-              height: 40.h,
+              height: 65.h,
             ),
             ElevatedButton(
               onPressed: () {
-                print(generosInt);
-                user.changeGenerosInt(generosInt);
+                firestore.updateGenInt(generosInt);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            CadastroScreen5(user: user)));
+                        builder: (context) =>
+                            MeusInteresses2Screen(livros2: livros2)));
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple[600],
@@ -258,25 +270,6 @@ class Cadastro4 extends State {
                   color: Colors.white,
                 ),
               ),
-            ),
-            TextButton(
-              child: Text(
-                'Escolher Depois',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 17.ssp,
-                  color: Color.fromRGBO(47, 128, 237, 1.0),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onPressed: () {
-                user.changeGenerosInt([]);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            CadastroScreen5(user: user)));
-              },
             ),
           ],
         ),

@@ -7,7 +7,6 @@ import 'package:dook/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:dook/screens/login.dart';
-import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,21 +42,21 @@ class LoginApp extends StatelessWidget {
     final firestoreService = FirestoreService();
     return ScreenUtilInit(
       designSize: Size(432, 816),
-      builder: () => MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => UserProvider()),
-          StreamProvider(
-            create: (context) => firestoreService.getDataUser(email),
-          ),
-        ],
-        child: MaterialApp(
-          title: 'Flutter Demo',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primaryColor: Colors.deepPurple[600],
-          ),
-          home: LoginScreen(),
+      builder: () => MaterialApp(
+        builder: (context, widget) {
+          return MediaQuery(
+            //Setting font does not change with system font size
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: widget,
+          );
+        },
+        title: 'Login',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Colors.deepPurple[600],
+          textTheme: TextTheme(button: TextStyle(fontSize: 45.sp)),
         ),
+        home: LoginScreen(),
       ),
     );
   }
@@ -91,21 +90,22 @@ class MenuApp extends StatelessWidget {
     }
     return ScreenUtilInit(
       designSize: Size(432, 816),
-      builder: () => MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => UserProvider()),
-          StreamProvider(
-            create: (context) => firestoreService.getDataUser(email),
+      builder: () => MaterialApp(
+        builder: (context, widget) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: widget,
+          );
+        },
+        title: 'Menu',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          textTheme: TextTheme(
+            button: TextStyle(fontSize: 45.sp),
           ),
-        ],
-        child: MaterialApp(
-          title: 'Flutter Demo',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: MenuInferiorScreen(),
         ),
+        home: MenuInferiorScreen(),
       ),
     );
   }

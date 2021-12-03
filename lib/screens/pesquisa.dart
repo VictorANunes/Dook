@@ -59,7 +59,7 @@ class Pesquisa extends State {
                     labelStyle: TextStyle(
                       color: Colors.black38,
                       fontWeight: FontWeight.w400,
-                      fontSize: 16.sp,
+                      fontSize: 16.ssp,
                     ),
                   ),
                   onChanged: (texto) {
@@ -94,12 +94,12 @@ class Pesquisa extends State {
                                 },
                                 title: Text(snapshot.data.docs[index]['titulo'],
                                     style: TextStyle(
-                                      fontSize: 20.sp,
+                                      fontSize: 20.ssp,
                                     )),
                                 subtitle:
                                     Text(snapshot.data.docs[index]['autor'],
                                         style: TextStyle(
-                                          fontSize: 15.sp,
+                                          fontSize: 15.ssp,
                                         )),
                               );
                             },
@@ -123,36 +123,39 @@ class PesquisaCabecalho extends StatelessWidget {
     return Container(
       child: Column(
         children: <Widget>[
-          Row(children: <Widget>[
-            Container(
-              child: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Image.asset(
-            'assets/images/icons/voltar.png',
-            height: 25.h,
-            width: 25.w,
-          ),
-          alignment: Alignment.centerLeft,
-        ),
-              width: 90.w,
-            ),
-            Container(
-              child: Text('Pesquisa',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 38.sp,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  )),
-              width: 200.w,
-            ),
-            Container(
-              width: 90.w,
-            ),
-          ]),
+          Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Image.asset(
+                      'assets/images/icons/voltar.png',
+                      height: 25.h,
+                      width: 25.w,
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  width: 90.w,
+                ),
+                Container(
+                  child: Text('Pesquisa',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 38.ssp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  width: 200.w,
+                ),
+                Container(
+                  width: 90.w,
+                ),
+              ]),
         ],
       ),
     );

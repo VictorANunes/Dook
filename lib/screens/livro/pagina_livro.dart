@@ -52,7 +52,7 @@ class Livro extends State {
             ),
             Text(
               'Parabéns',
-              style: TextStyle(fontSize: 27.sp),
+              style: TextStyle(fontSize: 27.ssp),
             ),
             SizedBox(
               height: 7.h,
@@ -61,7 +61,7 @@ class Livro extends State {
               padding: EdgeInsets.only(left: 20.r, right: 20.r),
               child: Text(
                 'Você é o primeiro interessado neste livro e o chat com o doador já está disponível.',
-                style: TextStyle(fontSize: 15.sp),
+                style: TextStyle(fontSize: 15.ssp),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -70,7 +70,7 @@ class Livro extends State {
             ),
             InkWell(
               child: Container(
-                width: 300.w,
+                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(top: 6.r, bottom: 6.r),
                 decoration: BoxDecoration(
                   color: Colors.deepPurple[600],
@@ -89,7 +89,7 @@ class Livro extends State {
                   },
                   child: Text(
                     'Ok',
-                    style: TextStyle(color: Colors.white, fontSize: 17.sp),
+                    style: TextStyle(color: Colors.white, fontSize: 17.ssp),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -137,7 +137,7 @@ class Livro extends State {
             ),
             Text(
               'Parabéns',
-              style: TextStyle(fontSize: 27.sp),
+              style: TextStyle(fontSize: 27.ssp),
             ),
             SizedBox(
               height: 7.h,
@@ -146,7 +146,7 @@ class Livro extends State {
               padding: EdgeInsets.only(left: 20.r, right: 20.r),
               child: Text(
                 'Você entrou na Lista de Espera deste livro, sua posição na fila é a $tamanhoº. Assim que chegar a sua vez você será notificado.',
-                style: TextStyle(fontSize: 15.sp),
+                style: TextStyle(fontSize: 15.ssp),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -155,7 +155,7 @@ class Livro extends State {
             ),
             InkWell(
               child: Container(
-                width: 300.w,
+                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(top: 6.r, bottom: 6.r),
                 decoration: BoxDecoration(
                   color: Colors.deepPurple[600],
@@ -174,7 +174,7 @@ class Livro extends State {
                   },
                   child: Text(
                     'Ok',
-                    style: TextStyle(color: Colors.white, fontSize: 17.sp),
+                    style: TextStyle(color: Colors.white, fontSize: 17.ssp),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -222,7 +222,7 @@ class Livro extends State {
             ),
             Text(
               'Que Pena',
-              style: TextStyle(fontSize: 27.sp),
+              style: TextStyle(fontSize: 27.ssp),
             ),
             SizedBox(
               height: 7.h,
@@ -231,7 +231,7 @@ class Livro extends State {
               padding: EdgeInsets.only(left: 20.r, right: 20.r),
               child: Text(
                 'Você se retirou da Lista de Espera deste Livro.',
-                style: TextStyle(fontSize: 15.sp),
+                style: TextStyle(fontSize: 15.ssp),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -240,7 +240,7 @@ class Livro extends State {
             ),
             InkWell(
               child: Container(
-                width: 300.w,
+                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(top: 6.r, bottom: 6.r),
                 decoration: BoxDecoration(
                   color: Colors.deepPurple[600],
@@ -259,7 +259,7 @@ class Livro extends State {
                   },
                   child: Text(
                     'Ok',
-                    style: TextStyle(color: Colors.white, fontSize: 17.sp),
+                    style: TextStyle(color: Colors.white, fontSize: 17.ssp),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -357,7 +357,7 @@ class Livro extends State {
                       },
                       child: Text(
                         'Tenho Interesse',
-                        style: TextStyle(fontSize: 18.sp),
+                        style: TextStyle(fontSize: 18.ssp),
                       ),
                     ),
                   );
@@ -412,7 +412,7 @@ class Livro extends State {
                       },
                       child: Text(
                         'Cancelar Interesse',
-                        style: TextStyle(fontSize: 18.sp),
+                        style: TextStyle(fontSize: 18.ssp),
                       ),
                     ),
                   );
@@ -467,7 +467,7 @@ class Superior extends StatelessWidget {
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w600,
-              fontSize: 33.sp,
+              fontSize: 33.ssp,
             ),
           ),
         ),
@@ -499,6 +499,13 @@ class Carrossel extends StatelessWidget {
             );
           }
           if (exemplar2.hasData) {
+            List<String> images = [];
+            images.add(exemplar2.data.capa);
+            images.add(exemplar2.data.contracapa);
+            images.add(exemplar2.data.corteDianteiro);
+            images.add(exemplar2.data.corteInferior);
+            images.add(exemplar2.data.corteSuperior);
+            images.add(exemplar2.data.lombada);
             return Column(
               children: <Widget>[
                 // Carrossel de imagens
@@ -506,15 +513,9 @@ class Carrossel extends StatelessWidget {
                   options: CarouselOptions(
                     height: 410.h,
                     enlargeCenterPage: true,
+                    autoPlay: false,
                   ),
-                  items: [
-                    exemplar2.data.capa,
-                    exemplar2.data.contracapa,
-                    exemplar2.data.corteDianteiro,
-                    exemplar2.data.corteInferior,
-                    exemplar2.data.corteSuperior,
-                    exemplar2.data.lombada
-                  ].map((i) {
+                  items: images.map((i) {
                     // Itens
                     return Container(
                       width: MediaQuery.of(context).size.width,
@@ -597,7 +598,7 @@ class InfoLivro extends StatelessWidget {
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 25.sp,
+                                  fontSize: 25.ssp,
                                 ),
                               ),
                             ),
@@ -643,7 +644,7 @@ class InfoLivro extends StatelessWidget {
                                     width: 12.w,
                                   ),
                                   Text(usuario.data.nome,
-                                      style: TextStyle(fontSize: 19.sp))
+                                      style: TextStyle(fontSize: 19.ssp))
                                 ],
                               ),
                             ),
@@ -655,13 +656,13 @@ class InfoLivro extends StatelessWidget {
                                 Text(
                                   'ISBN: ',
                                   style: TextStyle(
-                                      fontSize: 20.sp,
+                                      fontSize: 20.ssp,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   exemplar2.data.isbn,
                                   style: TextStyle(
-                                    fontSize: 20.sp,
+                                    fontSize: 20.ssp,
                                   ),
                                 ),
                               ],
@@ -674,7 +675,7 @@ class InfoLivro extends StatelessWidget {
                                 Text(
                                   'Autor: ',
                                   style: TextStyle(
-                                      fontSize: 20.sp,
+                                      fontSize: 20.ssp,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Flexible(
@@ -683,7 +684,7 @@ class InfoLivro extends StatelessWidget {
                                     child: Text(
                                       obra.data.autor,
                                       style: TextStyle(
-                                        fontSize: 20.sp,
+                                        fontSize: 20.ssp,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -699,13 +700,13 @@ class InfoLivro extends StatelessWidget {
                                 Text(
                                   'Editora: ',
                                   style: TextStyle(
-                                      fontSize: 20.sp,
+                                      fontSize: 20.ssp,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   obra.data.editora,
                                   style: TextStyle(
-                                    fontSize: 20.sp,
+                                    fontSize: 20.ssp,
                                   ),
                                 ),
                               ],
@@ -718,13 +719,13 @@ class InfoLivro extends StatelessWidget {
                                 Text(
                                   'Edição: ',
                                   style: TextStyle(
-                                      fontSize: 20.sp,
+                                      fontSize: 20.ssp,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   obra.data.edicao,
                                   style: TextStyle(
-                                    fontSize: 20.sp,
+                                    fontSize: 20.ssp,
                                   ),
                                 ),
                               ],
@@ -735,15 +736,15 @@ class InfoLivro extends StatelessWidget {
                             Row(
                               children: <Widget>[
                                 Text(
-                                  'Data de Publicação: ',
+                                  'Ano de Publicação: ',
                                   style: TextStyle(
-                                      fontSize: 20.sp,
+                                      fontSize: 20.ssp,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   obra.data.dataPubli,
                                   style: TextStyle(
-                                    fontSize: 20.sp,
+                                    fontSize: 20.ssp,
                                   ),
                                 ),
                               ],
@@ -756,7 +757,7 @@ class InfoLivro extends StatelessWidget {
                                 Text(
                                   'Categoria: ',
                                   style: TextStyle(
-                                      fontSize: 20.sp,
+                                      fontSize: 20.ssp,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Container(
@@ -767,7 +768,7 @@ class InfoLivro extends StatelessWidget {
                                         .replaceAll('[', '')
                                         .replaceAll(']', ''),
                                     style: TextStyle(
-                                      fontSize: 20.sp,
+                                      fontSize: 20.ssp,
                                     ),
                                   ),
                                 ),
@@ -825,7 +826,7 @@ class Condicao extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
-                    fontSize: 25.sp,
+                    fontSize: 25.ssp,
                   ),
                 ),
                 SizedBox(
@@ -838,7 +839,7 @@ class Condicao extends StatelessWidget {
                       child: Text(
                         'O livro está em excelente estado geral',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18.sp),
+                        style: TextStyle(fontSize: 18.ssp),
                       ),
                     ),
                     Container(
@@ -862,7 +863,7 @@ class Condicao extends StatelessWidget {
                       child: Text(
                         'O livro não possui nenhum sinal de uso',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18.sp),
+                        style: TextStyle(fontSize: 18.ssp),
                       ),
                     ),
                     Slider(
@@ -883,7 +884,7 @@ class Condicao extends StatelessWidget {
                       child: Text(
                         'O livro não possui nenhuma rasura',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18.sp),
+                        style: TextStyle(fontSize: 18.ssp),
                       ),
                     ),
                     Slider(
@@ -904,7 +905,7 @@ class Condicao extends StatelessWidget {
                       child: Text(
                         'O livro não possui nenhuma pagina rasgada ou faltando',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18.sp),
+                        style: TextStyle(fontSize: 18.ssp),
                       ),
                     ),
                     Slider(
@@ -923,9 +924,9 @@ class Condicao extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: Text(
-                        'O livro tem menos de um ano desde que foi adquirido.',
+                        'O livro não possui marcas de desgate do tempo.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18.sp),
+                        style: TextStyle(fontSize: 18.ssp),
                       ),
                     ),
                     Slider(

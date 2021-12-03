@@ -61,7 +61,7 @@ class Cadastro extends State {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 38.sp,
+                        fontSize: 38.ssp,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       )),
@@ -73,7 +73,7 @@ class Cadastro extends State {
                       'Entrar',
                       textAlign: TextAlign.right,
                       style: TextStyle(
-                        fontSize: 18.sp,
+                        fontSize: 18.ssp,
                         color: Color.fromRGBO(47, 128, 237, 1.0),
                         fontWeight: FontWeight.normal,
                       ),
@@ -94,7 +94,7 @@ class Cadastro extends State {
               'Nome *',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
@@ -104,7 +104,7 @@ class Cadastro extends State {
             ),
             TextFormField(
               controller: nome,
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.name,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(
                   top: 20.r,
@@ -119,7 +119,7 @@ class Cadastro extends State {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                 ),
               ),
             ),
@@ -130,7 +130,7 @@ class Cadastro extends State {
               'Email *',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
@@ -155,7 +155,7 @@ class Cadastro extends State {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                 ),
               ),
             ),
@@ -166,7 +166,7 @@ class Cadastro extends State {
               'Senha *',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
@@ -190,7 +190,7 @@ class Cadastro extends State {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                 ),
                 suffix: GestureDetector(
                   onTap: () {
@@ -205,7 +205,7 @@ class Cadastro extends State {
                       //false = Mostrar e true = Esconder
                       mostrarsenha == false ? 'Mostrar' : 'Esconder',
                       style: TextStyle(
-                        fontSize: 18.sp,
+                        fontSize: 18.ssp,
                         color: Color.fromRGBO(47, 128, 237, 1.0),
                         fontWeight: FontWeight.normal,
                       ),
@@ -225,7 +225,7 @@ class Cadastro extends State {
               'Repetir Senha *',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
@@ -249,7 +249,7 @@ class Cadastro extends State {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                 ),
                 suffix: GestureDetector(
                   onTap: () {
@@ -264,7 +264,7 @@ class Cadastro extends State {
                       //false = Mostrar e true = Esconder
                       mostrarsenha2 == false ? 'Mostrar' : 'Esconder',
                       style: TextStyle(
-                        fontSize: 18.sp,
+                        fontSize: 18.ssp,
                         color: Color.fromRGBO(47, 128, 237, 1.0),
                         fontWeight: FontWeight.normal,
                       ),
@@ -286,7 +286,7 @@ class Cadastro extends State {
               '$aviso',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.red,
                 fontWeight: FontWeight.w500,
               ),
@@ -361,7 +361,7 @@ class Cadastro extends State {
               child: Text(
                 'Próximo',
                 style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                   color: Colors.white,
                 ),
               ),

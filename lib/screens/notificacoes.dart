@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat/dash_chat.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:dook/services/notification_service.dart';
@@ -59,7 +60,7 @@ class NotificacaoCabecalho extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 35.sp,
+                    fontSize: 35.ssp,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   )),
@@ -77,32 +78,68 @@ class NotificacaoCabecalho extends StatelessWidget {
 
 class NotificacaoCorpo extends StatelessWidget {
   FirestoreService firestore = FirestoreService();
+  List<DocumentSnapshot> notify = <DocumentSnapshot>[];
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 690.h,
-      //color: Colors.yellow,
-      child: StreamBuilder(
-        stream: firestore.getNotification(firestore.getEmail()),
+      child: FutureBuilder(
+        future: firestore.getNotification(firestore.getEmail()),
         builder: (BuildContext context, AsyncSnapshot not) {
           if (not.hasData) {
+            notify = not.data.docs;
+            notify.sort((a, b) => b['data'].compareTo(a['data']));
             return ListView.separated(
-              itemCount: not.data.docs.length,
+              itemCount: notify.length,
               itemBuilder: (BuildContext context, int index) {
+                Widget icone = Image.asset(
+                  'assets/images/icons/voltar.png',
+                  height: 25.h,
+                  width: 25.w,
+                );
+                if (notify[index]['tipoMensagem'] == 'Lista Espera') {
+                  icone = Image.asset(
+                    'assets/images/icons/acervo.png',
+                    height: 25.h,
+                    width: 25.w,
+                  );
+                } else {
+                  if (notify[index]['tipoMensagem'] == 'Mensagem') {
+                    icone = Image.asset(
+                      'assets/images/icons/chat.png',
+                      height: 25.h,
+                      width: 25.w,
+                    );
+                  } else {
+                    if (notify[index]['tipoMensagem'] == 'Livro Enviado' ||
+                        notify[index]['tipoMensagem'] == 'Livro Recebido') {
+                      icone = Image.asset(
+                        'assets/images/icons/pin.png',
+                        height: 25.h,
+                        width: 25.w,
+                      );
+                    } else {
+                      if (notify[index]['tipoMensagem'] == 'Livro Disponivel') {
+                        icone = Image.asset(
+                          'assets/images/icons/acervo.png',
+                          height: 25.h,
+                          width: 25.w,
+                        );
+                      }
+                    }
+                  }
+                }
                 return ListTile(
-                  title: Text(not.data.docs[index]['titulo'],
+                  title: Text(notify[index]['titulo'],
                       style: TextStyle(
-                        fontSize: 20.sp,
+                        fontSize: 20.ssp,
                       )),
-                  subtitle: Text(not.data.docs[index]['msg'],
+                  subtitle: Text(notify[index]['msg'],
                       style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 14.ssp,
                       )),
                   leading: Container(
-                    child: Icon(
-                      Icons.ac_unit,
-                      color: Colors.black,
-                    ),
+                    child: icone,
                   ),
                   onTap: () {},
                 );

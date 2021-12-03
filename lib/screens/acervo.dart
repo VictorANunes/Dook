@@ -1,7 +1,6 @@
 import 'package:dook/models/exemplar_models.dart';
 import 'package:dook/models/obra_models.dart';
 import 'package:dook/screens/livro/pagina_livro.dart';
-import 'package:dook/screens/livro/pagina_meu_livro.dart';
 import 'package:dook/screens/notificacoes.dart';
 import 'package:dook/screens/pesquisa.dart';
 import 'package:dook/services/firestore_service.dart';
@@ -31,7 +30,7 @@ class Acervo extends State {
             SizedBox(
               height: 10.h,
             ),
-            AcervoCorpo() //Ação, Romance, Suspense, Ficção, Educação
+            AcervoCorpo()
           ],
         ),
       ),
@@ -44,9 +43,11 @@ class AcervoCabecalho extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            width: 340.w,
+            width: 335.w,
             child: TextFormField(
               cursorColor: Colors.deepPurple[600],
               controller: pesquisa,
@@ -68,7 +69,7 @@ class AcervoCabecalho extends StatelessWidget {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 16.sp,
+                  fontSize: 16.ssp,
                 ),
                 suffixIcon: IconButton(
                   //ou prefix
@@ -92,17 +93,15 @@ class AcervoCabecalho extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: 7.w,
-          ),
           Container(
-            width: 40.w,
-            padding: EdgeInsets.only(bottom: 10.r),
+            width: 55.w,
+            alignment: Alignment.centerRight,
+            padding: EdgeInsets.only(bottom: 0.r),
             child: IconButton(
-              icon: Icon(
-                Icons.notifications,
-                color: Colors.deepPurple[600],
-                size: 40,
+              icon: Image.asset(
+                'assets/images/icons/notificacaoroxo.png',
+                height: 65.h,
+                width: 65.w,
               ),
               onPressed: () {
                 Navigator.push(
@@ -196,7 +195,7 @@ class AcervoCorpo extends StatelessWidget {
                           Text(
                             generos[index],
                             style: TextStyle(
-                                fontSize: 27.sp, fontWeight: FontWeight.w500),
+                                fontSize: 27.ssp, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.start,
                           ),
                         ],
@@ -224,60 +223,54 @@ class AcervoCorpo extends StatelessWidget {
                                     builder: (BuildContext context,
                                         AsyncSnapshot<Obra> obra) {
                                       if (obra.hasData) {
-                                        if (exemplar.data.criador !=
-                                            firestore.getEmail()) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (BuildContext
-                                                          context) =>
-                                                      LivroScreen(
-                                                          exemplar: exemplares
-                                                              .data[index2]),
-                                                ),
-                                              );
-                                            },
-                                            child: Container(
-                                              padding:
-                                                  EdgeInsets.only(right: 15.r),
-                                              width: 125.w,
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    height: 145.h,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10.r)),
-                                                        image: DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: NetworkImage(
-                                                                exemplar.data
-                                                                    .capa))),
-                                                  ),
-                                                  SizedBox(height: 5.h),
-                                                  Container(
-                                                    height: 50.h,
-                                                    child: Text(
-                                                      obra.data.titulo,
-                                                      style: TextStyle(
-                                                          fontSize: 17.sp,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                ],
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        LivroScreen(
+                                                            exemplar: exemplares
+                                                                .data[index2]),
                                               ),
+                                            );
+                                          },
+                                          child: Container(
+                                            padding:
+                                                EdgeInsets.only(right: 15.r),
+                                            width: 125.w,
+                                            child: Column(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: 145.h,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10.r)),
+                                                      image: DecorationImage(
+                                                          fit: BoxFit.cover,
+                                                          image: NetworkImage(
+                                                              exemplar
+                                                                  .data.capa))),
+                                                ),
+                                                SizedBox(height: 5.h),
+                                                Container(
+                                                  height: 50.h,
+                                                  child: Text(
+                                                    obra.data.titulo,
+                                                    style: TextStyle(
+                                                        fontSize: 17.ssp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          );
-                                        } else {
-                                          return Container();
-                                        }
+                                          ),
+                                        );
                                       } else {
                                         return Container();
                                       }

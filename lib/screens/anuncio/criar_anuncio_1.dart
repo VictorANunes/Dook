@@ -44,7 +44,7 @@ class CriarAnuncio1 extends State {
             TextField(
               controller: _controladorISBN,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22.sp),
+              style: TextStyle(fontSize: 22.ssp),
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),
@@ -61,7 +61,7 @@ class CriarAnuncio1 extends State {
               '$aviso',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.red,
                 fontWeight: FontWeight.w500,
               ),
@@ -97,7 +97,7 @@ class CriarAnuncio1 extends State {
                 },
                 child: Text(
                   'Próximo',
-                  style: TextStyle(fontSize: 18.sp),
+                  style: TextStyle(fontSize: 18.ssp),
                 ),
                 //color: Colors.deepPurple[600],
               ),
@@ -131,7 +131,7 @@ class Superior extends StatelessWidget {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
-            fontSize: 35.sp,
+            fontSize: 35.ssp,
           ),
         ),
         Padding(

@@ -52,7 +52,10 @@ class EditarPerfilCabecalho extends State {
 
   final ImagePicker imagePicker = ImagePicker();
   Future getImageGallery() async {
-    var image = await imagePicker.pickImage(source: ImageSource.gallery);
+    var image = await imagePicker.pickImage(
+      imageQuality: 70,
+      source: ImageSource.gallery,
+    );
 
     setState(() {
       _image = File(image.path);
@@ -60,7 +63,10 @@ class EditarPerfilCabecalho extends State {
   }
 
   Future getImageCamera() async {
-    var image = await imagePicker.pickImage(source: ImageSource.camera);
+    var image = await imagePicker.pickImage(
+      imageQuality: 70,
+      source: ImageSource.camera,
+    );
 
     setState(() {
       _image = File(image.path);
@@ -145,7 +151,7 @@ class EditarPerfilCabecalho extends State {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 35.sp,
+                    fontSize: 35.ssp,
                   ),
                 ),
               ),
@@ -195,7 +201,7 @@ class EditarPerfilCabecalho extends State {
                   'Editar Foto',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 17.sp,
+                    fontSize: 17.ssp,
                     color: Colors.deepPurple[600],
                     fontWeight: FontWeight.w500,
                   ),
@@ -220,7 +226,10 @@ class EditarPerfilCorpoState extends StatefulWidget {
 
 class EditarPerfilCorpo extends State {
   var usuario;
-  EditarPerfilCorpo({this.usuario});
+  String uf;
+  EditarPerfilCorpo({this.usuario}) {
+    uf = usuario.uf;
+  }
 
   FirestoreService firestore = FirestoreService();
 
@@ -234,7 +243,36 @@ class EditarPerfilCorpo extends State {
   final TextEditingController numeroController = TextEditingController();
   final TextEditingController complementoController = TextEditingController();
   final TextEditingController cidadeController = TextEditingController();
-  final TextEditingController ufController = TextEditingController();
+
+  List<String> ufs = [
+    'AC',
+    'AL',
+    'AM',
+    'AP',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MT',
+    'MS',
+    'MG',
+    'PA',
+    'PB',
+    'PR',
+    'PE',
+    'PI',
+    'RJ',
+    'RN',
+    'RS',
+    'RO',
+    'RR',
+    'SC',
+    'SP',
+    'SE',
+    'TO'
+  ];
 
   Widget build(BuildContext context) {
     String aviso = '';
@@ -249,7 +287,6 @@ class EditarPerfilCorpo extends State {
     numeroController.text = usuario.numero;
     complementoController.text = usuario.complemento;
     cidadeController.text = usuario.cidade;
-    ufController.text = usuario.uf;
 
     return Container(
       padding: EdgeInsets.only(
@@ -268,7 +305,7 @@ class EditarPerfilCorpo extends State {
                 textInputAction: TextInputAction.next,
                 controller: nameController,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 22.sp),
+                style: TextStyle(fontSize: 22.ssp),
               ),
             ),
           ),
@@ -293,7 +330,7 @@ class EditarPerfilCorpo extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -318,7 +355,7 @@ class EditarPerfilCorpo extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -343,7 +380,7 @@ class EditarPerfilCorpo extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -353,7 +390,7 @@ class EditarPerfilCorpo extends State {
           Center(
             child: Text(
               'Endereço',
-              style: TextStyle(fontSize: 24.sp),
+              style: TextStyle(fontSize: 24.ssp),
             ),
           ),
           SizedBox(
@@ -377,7 +414,7 @@ class EditarPerfilCorpo extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -402,7 +439,7 @@ class EditarPerfilCorpo extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -427,7 +464,7 @@ class EditarPerfilCorpo extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -452,7 +489,7 @@ class EditarPerfilCorpo extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -477,7 +514,7 @@ class EditarPerfilCorpo extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -502,17 +539,14 @@ class EditarPerfilCorpo extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
           SizedBox(
             height: 15.h,
           ),
-          TextFormField(
-            textInputAction: TextInputAction.none,
-            controller: ufController,
-            keyboardType: TextInputType.text,
+          DropdownButtonFormField(
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(
                 top: 20.r,
@@ -521,15 +555,30 @@ class EditarPerfilCorpo extends State {
                 right: 15.r,
               ),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide(color: Colors.yellow)),
-              labelText: "UF",
-              labelStyle: TextStyle(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              filled: true,
+              hintStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
+              hintText: "UF",
             ),
+            value: uf,
+            onChanged: (String Value) {
+              setState(() {
+                uf = Value;
+              });
+            },
+            items: ufs
+                .map(
+                  (ufs) => DropdownMenuItem(
+                    value: ufs,
+                    child: Text("$ufs"),
+                  ),
+                )
+                .toList(),
           ),
           SizedBox(
             height: 50.h,
@@ -541,9 +590,6 @@ class EditarPerfilCorpo extends State {
               }
               if (cepController.text.length != 9) {
                 cepController.text = usuario.cep;
-              }
-              if (ufController.text.length != 2) {
-                ufController.text = usuario.uf;
               }
               if (cidadeController.text == '') {
                 cidadeController.text = usuario.cidade;
@@ -570,7 +616,7 @@ class EditarPerfilCorpo extends State {
                   numeroController.text,
                   complementoController.text,
                   cidadeController.text,
-                  ufController.text,
+                  uf,
                   urlPhoto);
 
               Navigator.pop(context);
@@ -585,7 +631,7 @@ class EditarPerfilCorpo extends State {
             child: Text(
               'Salvar',
               style: TextStyle(
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.white,
               ),
             ),

@@ -34,82 +34,83 @@ class MenuInferior extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _telas[_indiceAtual],
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black,
+      body: _telas[_indiceAtual],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: _indiceAtual,
+          onTap: mudarTela,
+          type: BottomNavigationBarType.fixed,
+          iconSize: 40,
+          selectedItemColor: Colors.deepPurple[600],
+          unselectedItemColor: Colors.black.withOpacity(.90),
+          selectedFontSize: 15,
+          unselectedFontSize: 15,
+          showUnselectedLabels: true,
+          showSelectedLabels: true,
+          elevation: 5,
+          items: [
+            BottomNavigationBarItem(
+              icon: (_indiceAtual == 0)
+                  ? Image.asset(
+                      'assets/images/icons/homeroxo.png',
+                      height: 32.h,
+                      width: 32.w,
+                    )
+                  : Image.asset(
+                      'assets/images/icons/home.png',
+                      height: 32.h,
+                      width: 32.w,
+                    ),
+              label: 'Inicio',
+            ),
+            BottomNavigationBarItem(
+              icon: (_indiceAtual == 1)
+                  ? Image.asset(
+                      'assets/images/icons/acervoroxo.png',
+                      height: 32.h,
+                      width: 32.w,
+                    )
+                  : Image.asset(
+                      'assets/images/icons/acervo.png',
+                      height: 32.h,
+                      width: 32.w,
+                    ),
+              //import_contacts_sharp
+              label: 'Acervo',
+            ),
+            BottomNavigationBarItem(
+              icon: (_indiceAtual == 2)
+                  ? Image.asset(
+                      'assets/images/icons/chatroxo.png',
+                      height: 32.h,
+                      width: 32.w,
+                    )
+                  : Image.asset(
+                      'assets/images/icons/chat.png',
+                      height: 32.h,
+                      width: 32.w,
+                    ),
+              label: 'Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: Image.asset(
+                'assets/images/icons/menu.png',
+                height: 32.h,
+                width: 32.w,
               ),
-            ],
-          ),
-          child: BottomNavigationBar(
-            currentIndex: _indiceAtual,
-            onTap: mudarTela,
-            type: BottomNavigationBarType.fixed,
-            iconSize: 40,
-            selectedItemColor: Colors.deepPurple[600],
-            unselectedItemColor: Colors.black.withOpacity(.90),
-            selectedFontSize: 15,
-            unselectedFontSize: 15,
-            showUnselectedLabels: true,
-            showSelectedLabels: true,
-            elevation: 5,
-            items: [
-              BottomNavigationBarItem(
-                icon: (_indiceAtual == 0)
-                    ? Image.asset(
-                        'assets/images/icons/homeroxo.png',
-                        height: 32.h,
-                        width: 32.w,
-                      )
-                    : Image.asset(
-                        'assets/images/icons/home.png',
-                        height: 32.h,
-                        width: 32.w,
-                      ),
-                label: 'Inicio',
-              ),
-              BottomNavigationBarItem(
-                icon: (_indiceAtual == 1)
-                    ? Image.asset(
-                        'assets/images/icons/acervoroxo.png',
-                        height: 32.h,
-                        width: 32.w,
-                      )
-                    : Image.asset(
-                        'assets/images/icons/acervo.png',
-                        height: 32.h,
-                        width: 32.w,
-                      ),
-                //import_contacts_sharp
-                label: 'Acervo',
-              ),
-              BottomNavigationBarItem(
-                icon: (_indiceAtual == 2)
-                    ? Image.asset(
-                        'assets/images/icons/chatroxo.png',
-                        height: 32.h,
-                        width: 32.w,
-                      )
-                    : Image.asset(
-                        'assets/images/icons/chat.png',
-                        height: 32.h,
-                        width: 32.w,
-                      ),
-                label: 'Chat',
-              ),
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  'assets/images/icons/menu.png',
-                  height: 32.h,
-                  width: 32.w,
-                ),
-                label: 'Menu',
-              ),
-            ],
-          ),
-        ));
+              label: 'Menu',
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

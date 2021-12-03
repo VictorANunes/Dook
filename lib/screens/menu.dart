@@ -1,7 +1,9 @@
 import 'package:dook/models/user_models.dart';
 import 'package:dook/screens/anuncio/criar_anuncio_1.dart';
+import 'package:dook/screens/configuracoes/configuracoes.dart';
 import 'package:dook/screens/menu_inferior.dart';
 import 'package:dook/screens/meus_anuncios.dart';
+import 'package:dook/screens/meus_interesses/meus_interesses1.dart';
 import 'package:dook/screens/perfil/meuperfil.dart';
 import 'package:dook/services/firestore_service.dart';
 import 'package:flutter/material.dart';
@@ -15,35 +17,32 @@ class MenuScreen extends StatefulWidget {
 class Menu extends State {
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: Size(432, 816),
-      builder: () => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          //CORPO DA TELA
-          body: Container(
-            child: ListView(
-              children: <Widget>[
-                MenuPerfil(),
-                MenuLista(),
-                SizedBox(
-                  height: 205.h,
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                  indent: 0,
-                  endIndent: 0,
-                ),
-                MenuSair(),
-              ],
+    return Scaffold(
+      //CORPO DA TELA
+      body: Container(
+        child: ListView(
+          children: <Widget>[
+            MenuPerfil(),
+            MenuLista(),
+            SizedBox(
+              height: 210.h,
             ),
-          ),
+            Divider(
+              height: 0,
+              thickness: 2,
+              indent: 0,
+              endIndent: 0,
+            ),
+            MenuSair(),
+          ],
         ),
       ),
     );
   }
 }
+
+List<String> generos2 = [];
+List<String> livros2 = [];
 
 class MenuPerfil extends StatelessWidget {
   @override
@@ -62,6 +61,7 @@ class MenuPerfil extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               IconButton(
@@ -84,16 +84,17 @@ class MenuPerfil extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 35.sp,
+                  fontSize: 35.ssp,
                 ),
               ),
               IconButton(
                 color: Colors.white,
                 onPressed: () {
-                  /*Navigator.push(
+                  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Configuracoes()),
-                  );*/
+                    MaterialPageRoute(
+                        builder: (context) => ConfiguracoesScreen()),
+                  );
                 },
                 icon: Image.asset(
                   'assets/images/icons/settingsbranco.png',
@@ -104,7 +105,7 @@ class MenuPerfil extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(15.0.r),
+            padding: EdgeInsets.all(15.r),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,6 +119,8 @@ class MenuPerfil extends StatelessWidget {
                       return new Center(child: new CircularProgressIndicator());
                     }
                     if (snapshot.hasData) {
+                      generos2 = snapshot.data.generos;
+                      livros2 = snapshot.data.livros;
                       return Container(
                         width: 170.w,
                         height: 170.h,
@@ -185,7 +188,7 @@ class MenuPerfil extends StatelessWidget {
                     'Ver Perfil',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18.sp,
+                      fontSize: 18.ssp,
                       decoration: TextDecoration.underline,
                     ),
                   )),
@@ -229,7 +232,7 @@ class MenuLista extends StatelessWidget {
                 'Meus Anúncios',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 30.sp,
+                  fontSize: 30.ssp,
                   color: Colors.black,
                 ),
               ),
@@ -252,7 +255,7 @@ class MenuLista extends StatelessWidget {
                 'Criar Anúncio',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 30.sp,
+                  fontSize: 30.ssp,
                   color: Colors.black,
                 ),
               ),
@@ -265,17 +268,18 @@ class MenuLista extends StatelessWidget {
                 alignment: Alignment.centerLeft,
               ),
               onPressed: () {
-                /*Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CriarAnuncio1Screen()),
-                );*/
+                      builder: (context) => MeusInteresses1Screen(
+                          generos2: generos2, livros2: livros2)),
+                );
               },
               child: Text(
                 'Meus Interesses',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 30.sp,
+                  fontSize: 30.ssp,
                   color: Colors.black,
                 ),
               ),
@@ -325,7 +329,7 @@ class MenuSair extends StatelessWidget {
               child: Text(
                 'Sair',
                 style: TextStyle(
-                  fontSize: 30.sp,
+                  fontSize: 30.ssp,
                   color: Colors.red,
                 ),
               ),

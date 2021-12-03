@@ -29,7 +29,7 @@ class Book {
       autor: autores,
       edicao: jsonBook['items'][0]['volumeInfo']['edition'],
       dataPubli: jsonBook['items'][0]['volumeInfo']['publishedDate'],
-      categoria: null,
+      categoria: [],
     );
   }
 

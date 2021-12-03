@@ -91,7 +91,7 @@ class PerfilCabecalho extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 35.sp,
+                    fontSize: 35.ssp,
                   ),
                 ),
               ),
@@ -118,7 +118,7 @@ class PerfilCabecalho extends StatelessWidget {
                       //Verifica se tem data
                       return Container(
                         //Mostrar foto de perfil redonda
-                        margin: EdgeInsets.symmetric(vertical: 100.0.r),
+                        margin: EdgeInsets.symmetric(vertical: 100.0.h),
                         width: 170.w,
                         height: 170.h,
                         decoration: BoxDecoration(
@@ -171,7 +171,7 @@ class PerfilCabecalho extends StatelessWidget {
           ),
           Container(
             //Resgata e mostra dados do usuário como nome e cidade
-            margin: EdgeInsets.only(top: 270.0),
+            margin: EdgeInsets.only(top: 270.0.r),
             width: 431.w,
             height: 120.h,
             //color: Colors.yellow,
@@ -215,14 +215,14 @@ class PerfilCabecalho extends StatelessWidget {
                             children: <Widget>[
                               Text(nome3, //Mostra o nome
                                   style: TextStyle(
-                                      fontSize: 35.sp,
+                                      fontSize: 35.ssp,
                                       fontWeight: FontWeight.bold)),
                               Text(
                                   usuario.data.cidade +
                                       ", " +
                                       usuario.data.uf, //Mostra cidade e estado
                                   style: TextStyle(
-                                    fontSize: 18.sp,
+                                    fontSize: 18.ssp,
                                   )),
                               Container(
                                   //Mostra a avaliação da pessoa em estrelas
@@ -234,7 +234,7 @@ class PerfilCabecalho extends StatelessWidget {
                                       color: Colors.deepPurple[600],
                                     ),
                                     itemCount: 5,
-                                    itemSize: 27.0.sp,
+                                    itemSize: 27.0.ssp,
                                     direction: Axis.horizontal,
                                   )),
                             ],
@@ -272,7 +272,7 @@ class PerfilLivrosDoados extends StatelessWidget {
         children: <Widget>[
           Text(
             'Livros Doados',
-            style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 25.ssp, fontWeight: FontWeight.w500),
             textAlign: TextAlign.left,
           ),
           SizedBox(
@@ -328,7 +328,7 @@ class PerfilLivrosDoados extends StatelessWidget {
                                                 child: Text(
                                                   obra.data.titulo,
                                                   style: TextStyle(
-                                                      fontSize: 17.sp,
+                                                      fontSize: 17.ssp,
                                                       fontWeight:
                                                           FontWeight.w500),
                                                   textAlign: TextAlign.center,
@@ -377,7 +377,7 @@ class PerfilLivrosRecebidos extends StatelessWidget {
         children: <Widget>[
           Text(
             'Livros Recebidos',
-            style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 25.ssp, fontWeight: FontWeight.w500),
             textAlign: TextAlign.left,
           ),
           SizedBox(
@@ -429,7 +429,7 @@ class PerfilLivrosRecebidos extends StatelessWidget {
                                                 child: Text(
                                                   obra.data.titulo,
                                                   style: TextStyle(
-                                                      fontSize: 17.sp,
+                                                      fontSize: 17.ssp,
                                                       fontWeight:
                                                           FontWeight.w500),
                                                   textAlign: TextAlign.center,

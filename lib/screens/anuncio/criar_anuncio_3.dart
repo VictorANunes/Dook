@@ -34,7 +34,7 @@ class CriarAnuncio3 extends State {
               child: Text(
                 'De acordo com a condição do seu livro, responda as afirmações em uma escala de 1 a 5. Sendo 1 discordo totalmente e 5 concordo totalmente.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18.sp),
+                style: TextStyle(fontSize: 18.ssp),
               ),
             ),
             SizedBox(
@@ -70,7 +70,7 @@ class Superior extends StatelessWidget {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
-            fontSize: 33.sp,
+            fontSize: 33.ssp,
           ),
         ),
         Padding(
@@ -120,7 +120,7 @@ class FormCondicaoState extends State<FormCondicao> {
               child: Text(
                 'O livro está em excelente estado geral',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18.sp),
+                style: TextStyle(fontSize: 18.ssp),
               ),
             ),
             Slider(
@@ -145,7 +145,7 @@ class FormCondicaoState extends State<FormCondicao> {
               child: Text(
                 'O livro não possui nenhum sinal de uso',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18.sp),
+                style: TextStyle(fontSize: 18.ssp),
               ),
             ),
             Slider(
@@ -170,7 +170,7 @@ class FormCondicaoState extends State<FormCondicao> {
               child: Text(
                 'O livro não possui nenhuma rasura',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18.sp),
+                style: TextStyle(fontSize: 18.ssp),
               ),
             ),
             Slider(
@@ -195,7 +195,7 @@ class FormCondicaoState extends State<FormCondicao> {
               child: Text(
                 'O livro não possui nenhuma página rasgada ou faltando',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18.sp),
+                style: TextStyle(fontSize: 18.ssp),
               ),
             ),
             Slider(
@@ -218,9 +218,9 @@ class FormCondicaoState extends State<FormCondicao> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: Text(
-                'O livro não possui marcas de desgate do tempo',
+                'O livro não possui marcas de desgate do tempo.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18.sp),
+                style: TextStyle(fontSize: 18.ssp),
               ),
             ),
             Slider(
@@ -258,7 +258,7 @@ class FormCondicaoState extends State<FormCondicao> {
               },
               child: Text(
                 'Próximo',
-                style: TextStyle(fontSize: 18.sp),
+                style: TextStyle(fontSize: 18.ssp),
               ),
             ),
           ],

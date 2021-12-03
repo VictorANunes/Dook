@@ -33,7 +33,7 @@ class Cadastro2 extends State {
       body: Container(
         color: Colors.white,
         padding: EdgeInsets.only(
-          top: 40.r,
+          top: 35.r,
           left: 25.r,
           right: 25.r,
         ),
@@ -60,7 +60,7 @@ class Cadastro2 extends State {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 38.sp,
+                      fontSize: 38.ssp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     )),
@@ -78,7 +78,7 @@ class Cadastro2 extends State {
             'CPF *',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18.sp,
+              fontSize: 18.ssp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
@@ -107,7 +107,7 @@ class Cadastro2 extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -118,7 +118,7 @@ class Cadastro2 extends State {
             'Data de Nascimento *',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18.sp,
+              fontSize: 18.ssp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
@@ -147,7 +147,7 @@ class Cadastro2 extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -158,7 +158,7 @@ class Cadastro2 extends State {
             'Sexo',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18.sp,
+              fontSize: 18.ssp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
@@ -167,7 +167,7 @@ class Cadastro2 extends State {
             height: 5.h,
           ),
           ToggleSwitch(
-            minWidth: 189.w,
+            minWidth: 187.w,
             minHeight: 55.h,
             initialLabelIndex: 0,
             cornerRadius: 20.0,
@@ -179,13 +179,13 @@ class Cadastro2 extends State {
             customTextStyles: [
               TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.black,
                 fontWeight: FontWeight.w400,
               ),
               TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.black,
                 fontWeight: FontWeight.w400,
               )
@@ -211,7 +211,7 @@ class Cadastro2 extends State {
             'Outro:',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18.sp,
+              fontSize: 18.ssp,
               color: Colors.black,
               fontWeight: FontWeight.w400,
             ),
@@ -236,7 +236,7 @@ class Cadastro2 extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -257,7 +257,7 @@ class Cadastro2 extends State {
                 'Prefiro não informar.',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 17.sp,
+                  fontSize: 17.ssp,
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                 ),
@@ -271,7 +271,7 @@ class Cadastro2 extends State {
             'Telefone *',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18.sp,
+              fontSize: 18.ssp,
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
@@ -300,7 +300,7 @@ class Cadastro2 extends State {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -311,7 +311,7 @@ class Cadastro2 extends State {
             '$aviso',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18.sp,
+              fontSize: 18.ssp,
               color: Colors.red,
               fontWeight: FontWeight.w500,
             ),
@@ -376,7 +376,7 @@ class Cadastro2 extends State {
             child: Text(
               'Próximo',
               style: TextStyle(
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
                 color: Colors.white,
               ),
             ),

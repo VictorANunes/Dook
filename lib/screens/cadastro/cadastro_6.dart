@@ -25,7 +25,10 @@ class Cadastro6 extends State {
   Widget build(BuildContext context) {
     final ImagePicker imagePicker = ImagePicker();
     Future getImageGallery() async {
-      var image = await imagePicker.pickImage(source: ImageSource.gallery);
+      var image = await imagePicker.pickImage(
+        imageQuality: 70,
+        source: ImageSource.gallery,
+      );
 
       setState(() {
         _image = File(image.path);
@@ -33,7 +36,10 @@ class Cadastro6 extends State {
     }
 
     Future getImageCamera() async {
-      var image = await imagePicker.pickImage(source: ImageSource.camera);
+      var image = await imagePicker.pickImage(
+        imageQuality: 70,
+        source: ImageSource.camera,
+      );
 
       setState(() {
         _image = File(image.path);
@@ -74,7 +80,7 @@ class Cadastro6 extends State {
       body: Container(
         color: Colors.white,
         padding: EdgeInsets.only(
-          top: 40.r,
+          top: 35.r,
           left: 25.r,
           right: 25.r,
         ),
@@ -104,7 +110,7 @@ class Cadastro6 extends State {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 38.sp,
+                        fontSize: 38.ssp,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -134,7 +140,7 @@ class Cadastro6 extends State {
                     shape: BoxShape.circle,
                     color: Colors.white,
                     image: DecorationImage(
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitHeight,
                       image: (_image != null)
                           ? FileImage(_image)
                           : NetworkImage(_url),
@@ -151,7 +157,7 @@ class Cadastro6 extends State {
                 'Adicionar Foto',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 17.sp,
+                  fontSize: 17.ssp,
                   color: Color.fromRGBO(47, 128, 237, 1.0),
                   fontWeight: FontWeight.w500,
                 ),
@@ -199,7 +205,7 @@ class Cadastro6 extends State {
               child: Text(
                 'Próximo',
                 style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 18.ssp,
                   color: Colors.white,
                 ),
               ),
@@ -209,7 +215,7 @@ class Cadastro6 extends State {
                 'Adicionar Depois',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 17.sp,
+                  fontSize: 17.ssp,
                   color: Color.fromRGBO(47, 128, 237, 1.0),
                   fontWeight: FontWeight.w500,
                 ),

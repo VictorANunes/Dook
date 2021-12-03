@@ -45,7 +45,7 @@ class CriarAnuncio2 extends State {
             SizedBox(
               height: 20.h,
             ),
-            FormLivro(book: book, isbn: isbn),
+            FormLivroState(book: book, isbn: isbn),
           ],
         ),
       ),
@@ -75,7 +75,7 @@ class Superior extends StatelessWidget {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
-            fontSize: 33.sp,
+            fontSize: 33.ssp,
           ),
         ),
         Padding(
@@ -88,21 +88,35 @@ class Superior extends StatelessWidget {
   }
 }
 
-class FormLivro extends StatelessWidget {
+class FormLivroState extends StatefulWidget {
   Book book;
   String isbn;
-  FormLivro({this.book, this.isbn});
+  FormLivroState({this.book, this.isbn});
+  FormLivro createState() => FormLivro(book: book, isbn: isbn);
+}
 
-  final TextEditingController controladorISBN = TextEditingController();
-  final TextEditingController controladorTitulo = TextEditingController();
-  final TextEditingController controladorAutor = TextEditingController();
-  final TextEditingController controladorEditora = TextEditingController();
-  final TextEditingController controladorEdicao = TextEditingController();
-  final TextEditingController controladorDtPub = TextEditingController();
-  final TextEditingController controladorCategoria = TextEditingController();
+final TextEditingController controladorISBN = TextEditingController();
+final TextEditingController controladorTitulo = TextEditingController();
+final TextEditingController controladorAutor = TextEditingController();
+final TextEditingController controladorEditora = TextEditingController();
+final TextEditingController controladorEdicao = TextEditingController();
+final TextEditingController controladorDtPub = TextEditingController();
+final TextEditingController controladorCategoria = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
+class FormLivro extends State {
+  Book book;
+  String isbn;
+  void addGenero2(String cat) {
+    setState(() {
+      if (!generosLivro.contains(cat)) {
+        generosLivro.add(cat);
+      }
+    });
+  }
+
+  List<String> generosLivro = [];
+
+  FormLivro({this.book, this.isbn}) {
     if (isbn != null) {
       controladorISBN.text = isbn;
     } else {
@@ -134,12 +148,72 @@ class FormLivro extends StatelessWidget {
       controladorDtPub.text = '';
     }
     if (book.categoria != null) {
-      controladorCategoria.text =
-          book.categoria.toString().replaceAll('[', '').replaceAll(']', '');
-    } else {
-      controladorCategoria.text = '';
+      for (var i in book.categoria) {
+        if (!generosLivro.contains(i)) {
+          generosLivro.add(i);
+        }
+      }
     }
-    return Column(
+  }
+
+  List<String> generos = [
+    'Ação',
+    'Aventura',
+    'Terror',
+    'Infantil',
+    'Educação',
+    'Material Acadêmico',
+    'Infanto-Juvenil',
+    'Romance',
+    'Romance Biográfico',
+    'Romance Epistolar',
+    'Romance Histórico',
+    'Romance Psicólogo',
+    'Novela',
+    'Conto',
+    'Crônica',
+    'Ensaio',
+    'Poesia',
+    'Carta',
+    'Biografia',
+    'Memórias',
+    'Drama',
+    'Graphic Novel',
+    'História em Quadrinhos (HQ)',
+    'Lad-Lit',
+    'Literatura fantástica',
+    'Literatura Infantil',
+    'Literatura Infanto-juvenil',
+    'New Adult',
+    'Realismo Mágico',
+    'Thriller ou suspense',
+    'Conspiração',
+    'Época',
+    'Jurídico',
+    'Médico',
+    'Policial',
+    'Psicológico',
+    'Romântico',
+    'Suspense',
+    'Ficção',
+    'Juvenil'
+  ];
+  int qtdGen = 0;
+  String valuee;
+  String dropDownValue;
+  @override
+  Widget build(BuildContext context) {
+    void addGenero() {
+      setState(() {
+        if (!generosLivro.contains(dropDownValue)) {
+          generosLivro.add(dropDownValue);
+        }
+      });
+    }
+
+    return ListView(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -165,7 +239,7 @@ class FormLivro extends StatelessWidget {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -194,7 +268,7 @@ class FormLivro extends StatelessWidget {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -223,7 +297,7 @@ class FormLivro extends StatelessWidget {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -252,7 +326,7 @@ class FormLivro extends StatelessWidget {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -281,7 +355,7 @@ class FormLivro extends StatelessWidget {
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
@@ -306,54 +380,96 @@ class FormLivro extends StatelessWidget {
                 left: 15.r,
                 right: 15.r,
               ),
-              labelText: "Data de Publicação",
+              labelText: "Ano de Publicação",
               labelStyle: TextStyle(
                 color: Colors.black38,
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18.ssp,
               ),
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: TextFormField(
-            controller: controladorCategoria,
-            keyboardType: TextInputType.text,
+          child: DropdownButtonFormField(
             decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-                borderSide: BorderSide(color: Colors.deepPurple[600]),
-              ),
               contentPadding: EdgeInsets.only(
                 top: 20.r,
                 bottom: 20.r,
                 left: 15.r,
                 right: 15.r,
               ),
-              labelText: "Categoria",
-              labelStyle: TextStyle(
-                color: Colors.black38,
-                fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
+              filled: true,
+              hintStyle: TextStyle(color: Colors.grey[800]),
+              hintText: "Selecione os gêneros",
             ),
-          ),
-        ),
-        Text(
-          'Separe as categorias por vírgula',
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w500,
+            value: dropDownValue,
+            onChanged: (String Value) {
+              setState(() {
+                dropDownValue = Value;
+                addGenero();
+              });
+            },
+            items: generos
+                .map((generos) =>
+                    DropdownMenuItem(value: generos, child: Text("$generos")))
+                .toList(),
           ),
         ),
         SizedBox(
-          height: 48.h,
+          height: 10.h,
+        ),
+        Container(
+          child: Column(children: [
+            //Parte que percorre a lista e cria Widgets Dinamicamente
+            (generosLivro != null)
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: generosLivro.length,
+                    itemBuilder: (context, index) {
+                      final item = generosLivro[index];
+                      return Container(
+                        child: Row(children: <Widget>[
+                          Container(
+                            width: 310.w,
+                            child: Text(
+                              '${item}',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 19.ssp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 2.r),
+                            child: IconButton(
+                                alignment: Alignment.centerRight,
+                                icon: Image.asset(
+                                  'assets/images/icons/lixeira verm.png',
+                                  height: 23.h,
+                                  width: 23.w,
+                                ),
+                                color: Colors.red,
+                                onPressed: () {
+                                  setState(() {
+                                    generosLivro.removeAt(index);
+                                  });
+                                }),
+                          ),
+                        ]),
+                      );
+                    },
+                  )
+                : Text(""),
+          ]),
+        ),
+        SizedBox(
+          height: 30.h,
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -370,8 +486,8 @@ class FormLivro extends StatelessWidget {
                 controladorEditora.text != '' &&
                 controladorEdicao.text != '' &&
                 controladorDtPub.text != '' &&
-                controladorCategoria.text != '' &&
-                controladorAutor.text != '') {
+                controladorAutor.text != '' &&
+                !generosLivro.isEmpty) {
               ObraProvider obra = new ObraProvider();
               obra.changeIsbn(controladorISBN.text);
               obra.changeTitulo(controladorTitulo.text);
@@ -379,10 +495,7 @@ class FormLivro extends StatelessWidget {
               obra.changeEdicao(controladorEdicao.text);
               obra.changeDataPubli(controladorDtPub.text);
               obra.changeAutor(controladorAutor.text);
-
-              List<String> categoria =
-                  controladorCategoria.text.replaceAll(' ', '').split(',');
-              obra.changeCategoria(categoria);
+              obra.changeCategoria(generosLivro);
 
               obra.saveObra();
 
@@ -400,9 +513,12 @@ class FormLivro extends StatelessWidget {
           },
           child: Text(
             'Próximo',
-            style: TextStyle(fontSize: 18.sp),
+            style: TextStyle(fontSize: 18.ssp),
           ),
         ),
+        SizedBox(
+          height: 20.h,
+        )
       ],
     );
   }
