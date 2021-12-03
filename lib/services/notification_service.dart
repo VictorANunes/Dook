@@ -25,8 +25,6 @@ class NotificationService {
 
       print(fcmToken);
 
-      
-
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'key=$fcmKey',
